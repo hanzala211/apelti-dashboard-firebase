@@ -17,7 +17,7 @@ export const SignupPage: React.FC = () => {
     console.log(e)
   }
 
-  return <div className="w-[25rem] lg:w-[35rem] mx-auto h-screen flex flex-col gap-3 justify-center">
+  return <div className="w-[22rem] lg:w-[35rem] mx-auto h-screen flex flex-col gap-3 justify-center">
     <h1 className="text-[25px] font-semibold">Sign Up</h1>
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
       <div className="flex gap-5">

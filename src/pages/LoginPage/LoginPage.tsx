@@ -15,7 +15,7 @@ export const LoginPage: React.FC = () => {
     console.log(e)
   }
 
-  return <div className="lg:w-[30rem] w-[25rem] mx-auto h-screen flex flex-col gap-3 justify-center">
+  return <div className="lg:w-[30rem] w-[22rem] mx-auto h-screen flex flex-col gap-3 justify-center">
     <h1 className="text-[25px] font-semibold">Sign In</h1>
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
       <Input type="email" label="Email" error={errors["email"]?.message} register={register("email")} />
