@@ -96,7 +96,7 @@ export const InvoiceRightPanelForm: React.FC = () => {
                       format="DD/MM/YYYY"
                       placeholder="DD/MM/YYYY"
                       className="bg-white w-full py-[9px] px-3 focus-within:outline-none border-basicBlack border-[1px]"
-                      onChange={(date, dateString) => field.onChange(dateString)}
+                      onChange={(_, dateString) => field.onChange(dateString)}
                       value={field.value ? dayjs(field.value, "DD/MM/YYYY") : null}
                     />
                     {error && <p className="text-basicRed text-sm">{error.message}</p>}

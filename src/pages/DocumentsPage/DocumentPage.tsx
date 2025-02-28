@@ -33,7 +33,7 @@ export const DocumentPage: React.FC = () => {
     setSearchData(foundSearches);
   };
 
-  const handleChange: DatePickerProps["onChange"] = (date, dateString) => {
+  const handleChange: DatePickerProps["onChange"] = (_, dateString) => {
     const formattedDate = Array.isArray(dateString) ? dateString[0] : dateString;
     setSearchDate(formattedDate);
   };
