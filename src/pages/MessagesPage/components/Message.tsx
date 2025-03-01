@@ -1,4 +1,4 @@
-import { CheckInput } from "./CheckInput";
+import { CheckInput } from "@components";
 import { useMessage } from "@context";
 import { IMessage } from "@types";
 import { useNavigate } from "react-router-dom";

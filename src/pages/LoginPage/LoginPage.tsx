@@ -1,4 +1,4 @@
-import { AuthButton, Input, Select } from "@components"
+import { AuthButton, CheckInput, Input, Select } from "@components"
 import { ROUTES } from "@constants"
 import { useAuth } from "@context"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -37,7 +37,7 @@ export const LoginPage: React.FC = () => {
 
       <div className="flex justify-between">
         <div className="flex gap-2 items-center">
-          <input type="checkbox" id="remember" onChange={(e) => setIsRemember(e.target.checked)} className="accent-basicBlack scale-110" />
+          <CheckInput label="remember" handleOnChange={(e) => setIsRemember(e.target.checked)} />
           <label htmlFor="remember" className="text-grayTxt text-[14px]">Remember me</label>
         </div>
         <button type="button" className="text-basicBlack underline font-medium text-[14px]">Forgot Password</button>

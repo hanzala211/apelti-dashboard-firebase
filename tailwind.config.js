@@ -27,6 +27,19 @@ module.exports = {
 			fontFamily: {
 				poppins: ['Poppins', 'system-ui', 'sans-serif'],
 			},
+			keyframes: {
+				slide: {
+					'0%, 100%': {
+						transform: 'translateX(0)',
+					},
+					'50%': {
+						transform: 'translateX(100%)',
+					},
+				},
+			},
+			animation: {
+				slide: 'slide 2s ease-in-out infinite',
+			},
 		},
 	},
 	plugins: [require('tailwindcss-animate')],

@@ -311,7 +311,10 @@ export const CHART_DATA: ChartState = {
     chart: {
       height: 350,
       type: 'line',
-      zoom: { enabled: false }
+      zoom: { enabled: false },
+      toolbar: {
+        show: false
+      }
     },
     colors: [COLORS.basicGreen],
     dataLabels: {

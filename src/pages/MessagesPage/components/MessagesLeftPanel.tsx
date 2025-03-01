@@ -1,5 +1,5 @@
 import { Message } from "./Message"
-import { CheckInput } from "./CheckInput"
+import { CheckInput } from "@components"
 import { MESSAGES_DATA } from "@constants";
 import { useMessage } from "@context";
 import { useEffect, useState } from "react";
