@@ -15,7 +15,8 @@
 			"@context": ["./src/context/context.ts"],
 			"@layouts": ["./src/layouts/layouts.ts"],
 			"@services": ["./src/services/services.ts"],
-			"@helpers": ["./src/helpers/helpers.ts"]
+			"@helpers": ["./src/helpers/helpers.ts"],
+			"@hooks": ["./src/hooks/hooks.ts"]
 		},
 
 		/* Bundler mode */

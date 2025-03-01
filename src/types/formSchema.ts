@@ -16,7 +16,8 @@ export type InvoiceFormSchema = z.infer<typeof invoiceForm>
 
 export const loginForm = z.object({
   email: z.string().email("Invalid Email Address"),
-  password: z.string().min(8, "Password must be at least 8 characters long.")
+  password: z.string().min(8, "Password must be at least 8 characters long."),
+  role: z.string()
 })
 
 export type LoginFormSchema = z.infer<typeof loginForm>
@@ -27,8 +28,9 @@ export const signupForm = z.object({
   email: z.string().email("Invalid Email Address"),
   password: z.string().min(8, "Password must be at least 8 characters long."),
   companyName: z.string().min(1, "Company Name is Required"),
-  noOfEmployes: z.number().min(1, "Number of Employes is Required"),
-  companySize: z.string()
+  numberOfEmployees: z.number().min(1, "Number of Employes is Required"),
+  businessType: z.string(),
+  phone: z.string().min(1, "Phone Number is Required")
 })
 
 export type SignupFormSchema = z.infer<typeof signupForm>

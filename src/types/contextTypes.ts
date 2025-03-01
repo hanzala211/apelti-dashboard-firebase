@@ -1,4 +1,4 @@
-import { IMessage } from "@types";
+import { IMessage, IUser } from "@types";
 import { RefObject } from "react";
 
 export interface MessageContextTypes {
@@ -14,4 +14,16 @@ export interface InvoiceContextTypes {
   fileInputRef: RefObject<HTMLInputElement | null>,
   isInvoiceModelOpen: boolean,
   setIsInvoiceModelOpen: React.Dispatch<React.SetStateAction<boolean>>,
+}
+
+export interface AuthContextTypes {
+  userData: IUser | null,
+  setUserData: React.Dispatch<React.SetStateAction<IUser | null>>,
+  isRemember: boolean,
+  setIsRemember: React.Dispatch<React.SetStateAction<boolean>>,
+  signup: (sendData: unknown) => void,
+  login: (sendData: unknown) => void,
+  isMainLoading: boolean,
+  setIsMainLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  errorMessage: string
 }

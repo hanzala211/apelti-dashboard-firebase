@@ -14,7 +14,8 @@
 			"@context": ["context/context.ts"],
 			"@layouts": ["layouts/layouts.ts"],
 			"@services": ["services/services.ts"],
-			"@helpers": ["helpers/helpers.ts"]
+			"@helpers": ["helpers/helpers.ts"],
+			"@hooks": ["hooks/hooks.ts"]
 		}
 	}
 }

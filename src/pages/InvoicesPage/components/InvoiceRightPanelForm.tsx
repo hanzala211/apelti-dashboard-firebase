@@ -1,7 +1,7 @@
 import { invoiceForm, InvoiceFormSchema } from "@types";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@components";
+import { Input, Select } from "@components";
 import { useInvoice } from "@context";
 import { ReactSVG } from "react-svg";
 import { iconsPath } from "@constants";
@@ -19,7 +19,12 @@ export const InvoiceRightPanelForm: React.FC = () => {
 
   const onSubmit: SubmitHandler<InvoiceFormSchema> = (data) => {
     console.log(data);
-  };
+  }
+
+  const termOfPaymentData = [
+    { label: "NET 30", value: "net-30" },
+    { label: "NET 50", value: "net-50" },
+  ]
 
   return (
     <section className="bg-basicWhite mt-[1px] w-full h-full max-h-[calc(100dvh-6rem)] overflow-y-auto">
@@ -60,28 +65,7 @@ export const InvoiceRightPanelForm: React.FC = () => {
             <Input register={register("poNumber")} error={errors["poNumber"]?.message} type="text" label="PO no." />
           </div>
           <div className="grid xl:grid-cols-3 grid-cols-1 xl:gap-10 gap-4 w-full">
-            <div className="flex flex-col gap-2 w-full">
-              <label className="text-neutralGray" htmlFor="termOfPayment">
-                Terms of Payment
-              </label>
-              <Controller
-                name="termOfPayment"
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <>
-                    <select
-                      id="termOfPayment"
-                      {...field}
-                      className="w-full rounded-md focus:outline-none focus:border-blue-500 hover:border-blue-500 transition-all duration-200 bg-white py-2 px-3 focus-within:outline-none border-basicBlack border-[1px]"
-                    >
-                      <option value="net-30">Net 30</option>
-                      <option value="net-50">Net 50</option>
-                    </select>
-                    {error && <p className="text-basicRed text-sm">{error.message}</p>}
-                  </>
-                )}
-              />
-            </div>
+            <Select<InvoiceFormSchema> control={control} name="termOfPayment" label="Terms of Payment" data={termOfPaymentData} />
             <div className="flex flex-col gap-2 w-full">
               <label className="text-neutralGray" htmlFor="invoiceDate">
                 Invoice date

@@ -16,6 +16,7 @@ export default defineConfig({
       '@layouts': path.resolve(__dirname, 'src/layouts/layouts.ts'),
       '@services': path.resolve(__dirname, 'src/services/services.ts'),
       '@helpers': path.resolve(__dirname, 'src/helpers/helpers.ts'),
+      '@hooks': path.resolve(__dirname, 'src/hooks/hooks.ts'),
     }
   }
 })

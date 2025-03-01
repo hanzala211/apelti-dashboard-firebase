@@ -1,9 +1,18 @@
+import { useAuth } from "@context"
 import { Nav } from "./Nav"
 import { Sidebar } from "./Sidebar"
-import { Outlet } from "react-router-dom"
+import { Navigate, Outlet } from "react-router-dom"
+import { ROUTES } from "@constants"
+import Loader from "./Loader"
 
 export const AppLayout: React.FC = () => {
-  return <div className="flex h-screen">
+  const { userData, isMainLoading } = useAuth()
+
+  if (isMainLoading) {
+    return <Loader />
+  }
+
+  return userData ? <div className="flex h-screen">
     <Sidebar />
     <div className="flex-1 flex flex-col">
       <Nav />
@@ -12,7 +21,7 @@ export const AppLayout: React.FC = () => {
         <Outlet />
       </div>
     </div>
-  </div>
+  </div> : <Navigate to={`${ROUTES.auth}/${ROUTES.login}`} />
 }
 
 export default AppLayout
