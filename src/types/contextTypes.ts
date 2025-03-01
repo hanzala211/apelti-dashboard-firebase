@@ -25,5 +25,6 @@ export interface AuthContextTypes {
   login: (sendData: unknown) => void,
   isMainLoading: boolean,
   setIsMainLoading: React.Dispatch<React.SetStateAction<boolean>>,
-  errorMessage: string
+  errorMessage: string,
+  isAuthLoading: boolean
 }

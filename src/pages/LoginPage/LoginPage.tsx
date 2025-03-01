@@ -1,4 +1,4 @@
-import { Input, Select } from "@components"
+import { AuthButton, Input, Select } from "@components"
 import { ROUTES } from "@constants"
 import { useAuth } from "@context"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -44,7 +44,7 @@ export const LoginPage: React.FC = () => {
       </div>
 
       {errorMessage.length > 0 && <p className="text-basicRed">{errorMessage}</p>}
-      <button type="submit" className="bg-basicBlack text-basicWhite rounded-full py-2 transition-all duration-200 hover:bg-opacity-80">Sign In</button>
+      <AuthButton text="Sign In" />
       <div>
         <p className="text-[13px] text-grayTxt">Here to receive a payment from a Apelti customer?</p>
         <Link to={`${ROUTES.auth}/${ROUTES.signup}`} className="text-[14px] underline font-medium">Sign up for Apelti. It's free!</Link>

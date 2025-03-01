@@ -1,3 +1,4 @@
+import { errorConverter } from "@helpers";
 import { authService } from "@services";
 import { AuthContextTypes, IUser } from "@types";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
@@ -10,6 +11,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isRemember, setIsRemember] = useState<boolean>(false)
   const [isMainLoading, setIsMainLoading] = useState<boolean>(true)
   const [errorMessage, setErrorMessage] = useState<string>("")
+  const [isAuthLoading, setIsAuthLoading] = useState<boolean>(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -23,6 +25,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const signup = async (sendData: unknown) => {
     try {
+      setIsAuthLoading(true)
       const response = await authService.signup(sendData)
       console.log(response)
       if (response.status === 200) {
@@ -34,11 +37,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       console.log(error)
     } finally {
       setIsMainLoading(false)
+      setIsAuthLoading(false)
     }
   }
 
   const login = async (sendData: unknown) => {
     try {
+      setIsAuthLoading(true)
       const response = await authService.login(sendData)
       console.log(response)
       if (response.status === 200) {
@@ -50,14 +55,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     } catch (error) {
       console.error(error)
-      setErrorMessage(error.data)
+      setErrorMessage(errorConverter(error));
     } finally {
       setIsMainLoading(false)
+      setIsAuthLoading(false)
     }
   }
 
   const me = async () => {
     try {
+      setIsAuthLoading(true)
       const response = await authService.me()
       console.log(response)
       if (response.status === 200) {
@@ -67,10 +74,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       console.log(error)
     } finally {
       setIsMainLoading(false)
+      setIsAuthLoading(false)
     }
   }
 
-  return <AuthContext.Provider value={{ userData, setUserData, isRemember, setIsRemember, signup, login, isMainLoading, setIsMainLoading, errorMessage }}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ userData, setUserData, isRemember, setIsRemember, signup, login, isMainLoading, setIsMainLoading, errorMessage, isAuthLoading }}>{children}</AuthContext.Provider>
 }
 
 export const useAuth = (): AuthContextTypes => {

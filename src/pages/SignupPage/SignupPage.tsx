@@ -1,4 +1,4 @@
-import { Input, PhoneNumberInput } from "@components"
+import { AuthButton, Input, PhoneNumberInput } from "@components"
 import { ROUTES } from "@constants"
 import { useAuth } from "@context"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -7,7 +7,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
 
 export const SignupPage: React.FC = () => {
-  const { signup } = useAuth()
+  const { signup, errorMessage } = useAuth()
   const { register, handleSubmit, formState: { errors }, control } = useForm<SignupFormSchema>({
     resolver: zodResolver(signupForm),
     defaultValues: {
@@ -49,7 +49,8 @@ export const SignupPage: React.FC = () => {
           <label htmlFor="firm" className="text-grayTxt text-[14px]">Accounting Firm</label>
         </div>
       </div>
-      <button type="submit" className="bg-basicBlack text-basicWhite rounded-full py-2 transition-all duration-200 hover:bg-opacity-80">Sign Up</button>
+      {errorMessage.length > 0 && <p className="text-basicRed">{errorMessage}</p>}
+      <AuthButton text="Sign Up" />
       <div className="flex gap-3 items-center">
         <p className="text-[13px] text-grayTxt">Already have an account</p>
         <Link to={`${ROUTES.auth}/${ROUTES.login}`} className="text-[14px] underline font-medium">Login</Link>
