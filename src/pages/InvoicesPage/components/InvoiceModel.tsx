@@ -10,7 +10,7 @@ export const InvoiceModel: React.FC = () => {
 
   return (
     <div
-      className={`fixed inset-0 flex flex-col ${isInvoiceModelOpen ? "opacity-100 z-50" : "opacity-0 pointer-events-none"
+      className={`fixed inset-0 flex flex-col transition-opacity duration-300 z-50 ${isInvoiceModelOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
     >
       <InvoiceModelHeader />

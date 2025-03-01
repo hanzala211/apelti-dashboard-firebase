@@ -1,4 +1,3 @@
-import { errorConverter } from "@helpers";
 import { authService } from "@services";
 import { AuthContextTypes, IUser } from "@types";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
@@ -35,6 +34,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     } catch (error) {
       console.log(error)
+      setErrorMessage((error as Error).message)
     } finally {
       setIsMainLoading(false)
       setIsAuthLoading(false)
@@ -55,7 +55,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     } catch (error) {
       console.error(error)
-      setErrorMessage(errorConverter(error));
+      setErrorMessage((error as Error).message)
     } finally {
       setIsMainLoading(false)
       setIsAuthLoading(false)
@@ -72,6 +72,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     } catch (error) {
       console.log(error)
+      setErrorMessage((error as Error).message)
     } finally {
       setIsMainLoading(false)
       setIsAuthLoading(false)
