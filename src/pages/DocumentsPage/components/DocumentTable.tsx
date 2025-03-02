@@ -4,7 +4,7 @@ import { ReactSVG } from "react-svg"
 
 export const DocumentTable: React.FC<{ searchData: IDocument[] }> = ({ searchData }) => {
 
-  return <table className="min-w-full sm:text-[16px] text-[13px] text-left">
+  return <table className="min-w-full sm:text-[16px] text-[11px] text-left">
     <thead className={`border-b sticky top-0 bg-mistGray`}>
       <tr>
         <th className="px-4 py-2 font-bold">Name</th>

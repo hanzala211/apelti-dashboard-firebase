@@ -5,6 +5,6 @@ export const MessagesRightPanel: React.FC = () => {
   return <img
     src={selectedMessage?.imgPath}
     alt="Preview"
-    className="absolute inset-0 w-full h-full object-contain"
+    className="absolute inset-0 w-[90%] mx-auto h-full object-contain"
   />
 }

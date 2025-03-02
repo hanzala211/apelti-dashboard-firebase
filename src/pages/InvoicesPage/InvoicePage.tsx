@@ -82,7 +82,7 @@ export const InvoicePage: React.FC = () => {
       </div>
 
       <div className="flex mt-5 justify-between items-center md:px-14 px-2">
-        <button className="text-accentBlue rounded-md transition-all duration-200 flex gap-1 hover:bg-softBlue px-2 py-1 items-center text-[18px]">
+        <button className="text-accentBlue rounded-md  transition-all duration-200 flex gap-1 hover:bg-softBlue px-2 py-1 items-center md:text-[18px] text-[15px]">
           <iconsPath.plusIcon size={24} /> Add Filters
         </button>
         <Button btnText="Add Invoice" handleClick={handleClick} />

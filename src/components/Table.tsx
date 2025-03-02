@@ -8,7 +8,7 @@ interface TableProps<T> {
 
 export const Table = <T,>({ headings, data, keys }: TableProps<T>) => {
   return (
-    <div className="w-full mt-5 md:max-h-[calc(100vh-280px)] max-h-[calc(100vh-260px)] overflow-x-auto overflow-y-auto">
+    <div className="w-full mt-5 sm:max-h-[calc(100vh-280px)] max-h-[calc(100dvh-260px)] overflow-x-auto overflow-y-auto">
       <table className="w-full text-center border-separate border-spacing-0">
         <thead className="sticky top-0 z-10 bg-gray-100">
           <tr>

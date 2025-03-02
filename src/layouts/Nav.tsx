@@ -34,23 +34,23 @@ export const Nav: React.FC = () => {
       type: 'divider',
     },
     {
-      label: <button onClick={handleLogout}>Log out</button>,
+      label: <button className="w-full text-left" onClick={handleLogout}>Log out</button>,
       key: '3',
     },
   ];
 
-  return <nav className={`border-b w-full bg-mistGray flex fixed md:relative items-center md:justify-between justify-around gap-2 sm:px-14 px-5 py-4 z-10`}>
+  return <nav className={`border-b w-full bg-mistGray flex fixed md:relative items-center md:justify-between justify-around gap-2 sm:px-14 px-8 py-4 z-10`}>
     <div className="relative">
       <input
         type="text"
-        className={`lg:w-[30rem] w-[15rem] bg-paleGray outline-none border border-gray-300 py-2 pr-8 pl-3 placeholder:underline rounded-md`}
+        className={`lg:w-[30rem] md:w-[17rem] w-[14.5rem] bg-paleGray outline-none border border-gray-300 py-2 pr-8 pl-3 placeholder:underline rounded-md`}
         placeholder="Search"
       />
       <iconsPath.searchIcon className={`absolute right-3 top-1/2 -translate-y-1/2 w-5 text-basicZinc`} />
     </div>
 
-    <div className="flex items-center sm:space-x-6 space-x-3">
-      <div className="flex gap-3 items-center">
+    <div className="flex items-center sm:space-x-6 space-x-2">
+      <div className="flex md:gap-3 gap-1 items-center">
         <div className="relative">
           <div className={`w-8 h-8 rounded-full bg-grayTxt flex items-center justify-center font-bold text-basicWhite`}>
             {userData?.firstName[0]}{userData?.lastName[0]}

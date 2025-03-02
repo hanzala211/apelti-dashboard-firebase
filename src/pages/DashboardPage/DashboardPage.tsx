@@ -8,7 +8,7 @@ import { useState } from "react";
 export const DashboardPage: React.FC = () => {
   const [state] = useState<ChartState>(CHART_DATA);
 
-  return <section className="md:p-9 md:pt-4 px-2 py-20 md:max-h-[calc(100dvh-50px)] w-full flex gap-5 flex-col sm:max-w-[98%] max-w-full mx-auto overflow-y-auto h-[100dvh]">
+  return <section className="md:p-9 md:pt-4 px-2 pt-20 md:max-h-[calc(100dvh-50px)] w-full flex gap-5 flex-col sm:max-w-[98%] max-w-full mx-auto overflow-y-auto h-[100dvh]">
     <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 xl:gap-16 gap-2">
       <InvoiceWidget label="Total Invoice" amount={182} />
       <InvoiceWidget label="Total Invoice" amount={182} />

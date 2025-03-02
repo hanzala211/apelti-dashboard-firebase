@@ -3,7 +3,7 @@ import { CheckInput } from "@components"
 import { MESSAGES_DATA } from "@constants";
 import { useMessage } from "@context";
 import { useEffect, useState } from "react";
-import { IoIosArrowDown } from "react-icons/io"
+import { iconsPath } from "@constants";
 
 export const MessagesLeftPanel: React.FC = () => {
   const { setSelectedMessage, selectedMessage } = useMessage()
@@ -28,17 +28,17 @@ export const MessagesLeftPanel: React.FC = () => {
     const updatedMessages = [...messagesBoolean];
     updatedMessages[index] = value;
     setMessagesBoolean(updatedMessages);
-  };
+  }
 
 
   return <div className={`md:block ${selectedMessage === null ? "block" : "hidden"}`}>
     <div className="flex justify-end w-full">
       <span className="px-4 py-2 flex gap-2 items-center cursor-pointer">
-        Newest <IoIosArrowDown />
+        Newest <iconsPath.arrowDown />
       </span>
     </div>
-    <div className="md:px-10 mt-4 w-full">
-      <div className="space-x-2">
+    <div className="md:px-10 px-2 mt-4 w-full">
+      <div className="flex gap-2">
         <CheckInput checkValue={selectAll} handleOnChange={handleSelectAll} label="select" />
         <label htmlFor="select" className="font-semibold">
           Select All

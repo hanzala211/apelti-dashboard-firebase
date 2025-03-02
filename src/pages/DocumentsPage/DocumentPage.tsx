@@ -45,7 +45,7 @@ export const DocumentPage: React.FC = () => {
         <div className="flex justify-between flex-wrap gap-5 md:gap-0 items-center">
           <div className="flex gap-7 flex-wrap">
             <div className="flex gap-2 items-center">
-              <label htmlFor="name">Name</label>
+              <label htmlFor="name" className="text-[14px] md:text-[16px]">Name</label>
               <input
                 type="text"
                 id="name"
@@ -55,7 +55,7 @@ export const DocumentPage: React.FC = () => {
               />
             </div>
             <div className="flex gap-2 items-center">
-              <label htmlFor="date">Added</label>
+              <label htmlFor="date" className="text-[14px] md:text-[16px]">Added</label>
               <DatePicker
                 format="DD/MM/YYYY"
                 placeholder="DD/MM/YYYY"

@@ -22,14 +22,14 @@ export const MessagesPage: React.FC = () => {
 
   return (
     <section className="pt-20 md:pt-0 h-screen w-full">
-      <div className="md:px-14 px-5 flex justify-between items-center border-b py-8">
+      <div className="md:px-14 px-2 flex justify-between items-center border-b py-8">
         <PageHeading label="Messages" />
         <Button btnText="Add Invoice" />
       </div>
 
       <div className="w-full h-[calc(100vh-8rem)]">
         <ResizableSlider Left={MessagesLeftPanel} Right={<div className={`relative md:w-2/3 ${selectedMessage === null ? "w-0" : "w-full"}`}>
-          <button onClick={handleClick} className={`text-basicGreen text-[30px] absolute left-2 top-3 z-50 md:hidden ${selectedMessage === null ? "hidden" : "block"}`}><iconsPath.leftArrow /></button>
+          <button onClick={handleClick} className={`text-basicGreen text-[30px] absolute left-2 top-3 z-20 md:hidden ${selectedMessage === null ? "hidden" : "block"}`}><iconsPath.leftArrow /></button>
           <MessagesRightPanel />
         </div>} />
       </div>
