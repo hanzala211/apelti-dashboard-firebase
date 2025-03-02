@@ -11,15 +11,9 @@ interface ResizableSliderProps {
   minRightWidth?: number;
 }
 
-export const ResizableSlider: React.FC<ResizableSliderProps> = ({
-  Left,
-  Right,
-  initialLeftWidth = window.innerWidth > 1024 ? 900 : 500,
-  minLeftWidth = 600,
-  minRightWidth = 200,
-}) => {
+export const ResizableSlider: React.FC<ResizableSliderProps> = ({ Left, Right, initialLeftWidth = window.innerWidth > 1024 ? 900 : 500, minLeftWidth = 600, minRightWidth = 200, }) => {
   const { selectedMessage } = useMessage()
-  const [leftWidth, setLeftWidth] = useState(initialLeftWidth);
+  const [leftWidth, setLeftWidth] = useState<number>(initialLeftWidth);
   const containerRef = useRef<HTMLDivElement>(null);
   const startXRef = useRef(0);
   const initialWidthRef = useRef(0);
