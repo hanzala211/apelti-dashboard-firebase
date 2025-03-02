@@ -31,7 +31,7 @@ export const MessagesLeftPanel: React.FC = () => {
   }
 
 
-  return <div className={`md:block ${selectedMessage === null ? "block" : "hidden"}`}>
+  return <div className={`md:block w-full h-full ${selectedMessage === null ? "block" : "hidden"}`}>
     <div className="flex justify-end w-full">
       <span className="px-4 py-2 flex gap-2 items-center cursor-pointer">
         Newest <iconsPath.arrowDown />
@@ -44,7 +44,7 @@ export const MessagesLeftPanel: React.FC = () => {
           Select All
         </label>
       </div>
-      <div className="flex flex-col gap-3 h-[70dvh] overflow-y-auto mt-2 w-full">
+      <div className="flex flex-col gap-3 h-[100dvh] max-h-[calc(100dvh-300px)] overflow-y-auto mt-2 w-full">
         {MESSAGES_DATA.map((item, index) => (
           <Message
             key={index}
