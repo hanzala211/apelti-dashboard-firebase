@@ -1,6 +1,7 @@
 import { Bell, Search } from "lucide-react";
 import { FaArrowCircleLeft } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
+import { IoIosArrowDown } from "react-icons/io";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
 export const iconsPath = {
@@ -24,5 +25,6 @@ export const iconsPath = {
   add_invoice: "/assets/icons/add-invoice.svg",
   leftArrowSlider: MdKeyboardArrowLeft,
   rightArrowSlider: MdKeyboardArrowRight,
-  loginImage: "/assets/images/login.svg"
+  loginImage: "/assets/images/login.svg",
+  arrowDown: IoIosArrowDown
 }

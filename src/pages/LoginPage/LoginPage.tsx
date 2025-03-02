@@ -5,9 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { loginForm, LoginFormSchema } from "@types"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
+import { MoonLoader } from "react-spinners"
 
 export const LoginPage: React.FC = () => {
-  const { setIsRemember, login, errorMessage } = useAuth()
+  const { setIsRemember, login, errorMessage, isAuthLoading } = useAuth()
   const { register, control, handleSubmit, formState: { errors } } = useForm<LoginFormSchema>({
     resolver: zodResolver(loginForm),
     defaultValues: {
@@ -28,7 +29,8 @@ export const LoginPage: React.FC = () => {
     { label: "Accountant", value: "accountant" },
   ]
 
-  return <div className="lg:w-[30rem] w-[22rem] mx-auto h-screen flex flex-col gap-3 justify-center">
+  return <div className={`lg:w-[30rem] w-[22rem] relative mx-auto h-screen flex flex-col gap-3 ${isAuthLoading ? "opacity-70" : ""} justify-center`}>
+    {isAuthLoading && <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"><MoonLoader /></div>}
     <h1 className="text-[25px] font-semibold">Sign In</h1>
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
       <Input type="email" label="Email" error={errors["email"]?.message} register={register("email")} />

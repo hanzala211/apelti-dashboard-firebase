@@ -5,9 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { signupForm, SignupFormSchema } from "@types"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
+import { MoonLoader } from "react-spinners"
 
 export const SignupPage: React.FC = () => {
-  const { signup, errorMessage } = useAuth()
+  const { signup, errorMessage, isAuthLoading } = useAuth()
   const { register, handleSubmit, formState: { errors }, control } = useForm<SignupFormSchema>({
     resolver: zodResolver(signupForm),
     defaultValues: {
@@ -20,7 +21,8 @@ export const SignupPage: React.FC = () => {
     signup(e)
   }
 
-  return <div className="w-[22rem] lg:w-[35rem] mx-auto h-screen flex flex-col gap-3 justify-center">
+  return <div className={`w-[22rem] lg:w-[35rem] mx-auto h-screen flex flex-col gap-3 justify-center ${isAuthLoading ? "opacity-70" : ""} `}>
+    {isAuthLoading && <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"><MoonLoader /></div>}
     <h1 className="text-[25px] font-semibold">Sign Up</h1>
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
       <div className="flex gap-5">
