@@ -3,6 +3,7 @@ import { FaArrowCircleLeft } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import { TbLogout } from "react-icons/tb";
 
 export const iconsPath = {
   documentSVG: "/assets/icons/document.svg",
@@ -26,5 +27,6 @@ export const iconsPath = {
   leftArrowSlider: MdKeyboardArrowLeft,
   rightArrowSlider: MdKeyboardArrowRight,
   loginImage: "/assets/images/login.svg",
-  arrowDown: IoIosArrowDown
+  arrowDown: IoIosArrowDown,
+  logout: TbLogout
 }

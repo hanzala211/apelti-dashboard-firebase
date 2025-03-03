@@ -1,4 +1,4 @@
-import { Button, PageHeading } from "@components";
+import { PageHeading } from "@components";
 import { DocumentTable } from "./components/DocumentTable";
 import { DOCUMENTS_DATA } from "@constants";
 import { IDocument } from "@types";
@@ -65,7 +65,6 @@ export const DocumentPage: React.FC = () => {
               />
             </div>
           </div>
-          <Button btnText="Add Invoice" />
         </div>
         <div className="h-[55dvh] sm:h-[70dvh] lg:h-[73dvh] overflow-y-auto md:mt-4">
           <DocumentTable searchData={searchData} />

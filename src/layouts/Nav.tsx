@@ -1,43 +1,8 @@
-import { iconsPath, ROUTES } from "@constants"
+import { iconsPath } from "@constants"
 import { useAuth } from "@context"
-import { Dropdown, MenuProps } from "antd"
-import { Link, useNavigate } from "react-router-dom"
 
 export const Nav: React.FC = () => {
-  const { userData, setUserData } = useAuth()
-  const navigate = useNavigate()
-
-  const handleLogout = () => {
-    navigate(`${ROUTES.auth}/${ROUTES.login}`)
-    setUserData(null)
-    localStorage.removeItem("token")
-  }
-
-  const items: MenuProps['items'] = [
-    {
-      label: (
-        <Link to="#">
-          1st menu item
-        </Link>
-      ),
-      key: '0',
-    },
-    {
-      label: (
-        <Link to="#">
-          2nd menu item
-        </Link>
-      ),
-      key: '1',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <button className="w-full text-left" onClick={handleLogout}>Log out</button>,
-      key: '3',
-    },
-  ];
+  const { userData } = useAuth()
 
   return <nav className={`border-b w-full bg-mistGray flex fixed md:relative items-center md:justify-between justify-around gap-2 sm:px-14 px-8 py-4 z-10`}>
     <div className="relative">
@@ -56,12 +21,7 @@ export const Nav: React.FC = () => {
             {userData?.firstName[0]}{userData?.lastName[0]}
           </div>
         </div>
-        <Dropdown menu={{ items }} trigger={['click']} className="flex items-center cursor-pointer gap-1">
-          <a onClick={(e) => e.preventDefault()}>
-            <span className="font-medium sm:inline hidden text-gray-700">{userData?.firstName} {userData?.lastName}</span>
-            <iconsPath.arrowDown />
-          </a>
-        </Dropdown>
+        <span className="font-medium sm:inline hidden text-gray-700">{userData?.firstName} {userData?.lastName}</span>
       </div>
 
       <div className="relative">

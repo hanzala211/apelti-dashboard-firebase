@@ -22,7 +22,7 @@ export const MessagesLeftPanel: React.FC = () => {
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newState = e.target.checked;
     setMessagesBoolean(messagesBoolean.map(() => newState));
-  };
+  }
 
   const handleIndividualChange = (index: number, value: boolean) => {
     const updatedMessages = [...messagesBoolean];

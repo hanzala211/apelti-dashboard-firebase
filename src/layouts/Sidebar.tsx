@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { SidebarItem } from "@components";
 import { Menu } from "lucide-react";
 import { iconsPath, ROUTES } from "@constants";
+import { useAuth } from "@context";
 
 export const Sidebar: React.FC = () => {
+  const { setUserData, setIsMainLoading } = useAuth()
   const [isOpen, setIsOpen] = useState(false);
   const sideBarRef = useRef<HTMLDivElement>(null)
   const sideBarButtonRef = useRef<HTMLButtonElement>(null)
@@ -21,21 +23,25 @@ export const Sidebar: React.FC = () => {
     }
   }
 
+  const handleLogout = () => {
+    setIsMainLoading(true)
+    setUserData(null)
+    localStorage.removeItem("token")
+    setTimeout(() => {
+      setIsMainLoading(false)
+    }, 500)
+  }
+
   return (
     <>
-      <button
-        ref={sideBarButtonRef}
-        className={`md:hidden fixed top-4 sm:left-0 -left-1 p-3 h-fit bg-transparent rounded-md z-50 transition-all duration-300 ${isOpen ? "opacity-0 pointer-events-none" : ""}`}
-        onClick={() => setIsOpen(!isOpen)}
-      >
+      <button ref={sideBarButtonRef} className={`md:hidden fixed top-4 sm:left-0 -left-1 p-3 h-fit bg-transparent rounded-md z-50 transition-all duration-300 ${isOpen ? "opacity-0 pointer-events-none" : ""}`} onClick={() => setIsOpen(!isOpen)}>
         <Menu size={20} />
       </button>
 
       <aside
         ref={sideBarRef}
         className={`fixed md:relative h-[100dvh] z-50 bg-basicWhite w-64 p-5 flex flex-col border-r shadow-lg transition-transform duration-300
-          ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:flex`}
-      >
+          ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:flex`}>
         <div className="flex items-center mb-3">
           <img src={iconsPath.logoSVG} alt="Logo Image" className="w-20" />
           <span className="text-[22px] font-bold">Apelti</span>
@@ -56,11 +62,13 @@ export const Sidebar: React.FC = () => {
             <SidebarItem link={ROUTES.payment} icon={iconsPath.paymentSVG} label="Payment" />
             <SidebarItem link={ROUTES.approval} icon={iconsPath.approvalSVG} label="Approval" />
           </div>
-          <SidebarItem link={ROUTES.posting} icon={iconsPath.postingSVG} label="Posting" />
-          <SidebarItem link={ROUTES.reports} icon={iconsPath.reportSVG} label="Reports" />
-          <SidebarItem link={ROUTES.team} icon={iconsPath.teamSVG} label="Team" />
-          <SidebarItem link={ROUTES.settings} icon={iconsPath.settingSVG} label="Settings" />
-
+          <div className="space-y-2 border-b-[1px] py-2">
+            <SidebarItem link={ROUTES.posting} icon={iconsPath.postingSVG} label="Posting" />
+            <SidebarItem link={ROUTES.reports} icon={iconsPath.reportSVG} label="Reports" />
+            <SidebarItem link={ROUTES.team} icon={iconsPath.teamSVG} label="Team" />
+            <SidebarItem link={ROUTES.settings} icon={iconsPath.settingSVG} label="Settings" />
+          </div>
+          <SidebarItem link={`${ROUTES.auth}/${ROUTES.login}`} icon={iconsPath.logout} label="Logout" onClick={handleLogout} isIconType={true} />
         </nav>
       </aside>
     </>

@@ -1,8 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button, FilterBtn, PageHeading, Table } from "@components";
-import { iconsPath, INVOICES_DATA, ROUTES } from "@constants";
+import { iconsPath, INVOICES_DATA } from "@constants";
 import { InvoiceItem } from "@types";
-import { useEffect } from "react";
 import { useInvoice } from "@context";
 import InvoiceModel from "./components/InvoiceModel";
 
@@ -11,17 +10,8 @@ export const InvoicePage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (location.pathname.includes(`${ROUTES.invoices}/${ROUTES.add_invoice}`)) {
-      setIsInvoiceModelOpen(true)
-    } else {
-      setIsInvoiceModelOpen(false)
-    }
-  }, [location])
-
   const handleClick = () => {
     setIsInvoiceModelOpen(true)
-    navigate(`${ROUTES.invoices}/${ROUTES.add_invoice}`)
   }
 
   const filteredInvoices = location.search.includes("unpaid") ? INVOICES_DATA.filter((item) => item.status === "Unpaid") : location.search.includes("return") ? INVOICES_DATA.filter((item) => item.status === "Return") : location.search.includes("draft") ? INVOICES_DATA.filter((item) => item.status === "Draft") : INVOICES_DATA;
@@ -54,8 +44,9 @@ export const InvoicePage: React.FC = () => {
 
   return (
     <section className="md:py-9 py-20 w-screen md:max-w-[calc(100vw-256px)]">
-      <div className="md:px-14 px-2">
+      <div className="md:px-14 px-2 flex justify-between items-center">
         <PageHeading label="Invoices" />
+        <Button btnText="Add Invoice" handleClick={handleClick} />
       </div>
 
       <div className="mt-5 md:px-14 px-2 flex md:gap-14 gap-4 w-fit">
@@ -85,7 +76,6 @@ export const InvoicePage: React.FC = () => {
         <button className="text-accentBlue rounded-md  transition-all duration-200 flex gap-1 hover:bg-softBlue px-2 py-1 items-center md:text-[18px] text-[15px]">
           <iconsPath.plusIcon size={24} /> Add Filters
         </button>
-        <Button btnText="Add Invoice" handleClick={handleClick} />
       </div>
 
       <Table keys={keys} headings={headings} data={filteredInvoices} />

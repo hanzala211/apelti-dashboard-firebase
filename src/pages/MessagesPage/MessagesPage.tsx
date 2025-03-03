@@ -1,4 +1,4 @@
-import { Button, PageHeading, ResizableSlider } from "@components";
+import { PageHeading, ResizableSlider } from "@components";
 import { MessagesLeftPanel } from "./components/MessagesLeftPanel"
 import { MessagesRightPanel } from "./components/MessagesRightPanel"
 import { iconsPath, MESSAGES_DATA } from "@constants";
@@ -24,7 +24,6 @@ export const MessagesPage: React.FC = () => {
     <section className="pt-20 md:pt-0 h-screen w-full">
       <div className="md:px-14 px-2 flex justify-between items-center border-b py-8">
         <PageHeading label="Messages" />
-        <Button btnText="Add Invoice" />
       </div>
 
       <div className="w-full h-[calc(100vh-8rem)]">

@@ -1,8 +1,8 @@
 import { ResizableSlider } from "@components"
 import { InvoiceLeftPanel } from "./InvoiceLeftPanel"
-import { Outlet } from "react-router-dom"
 import InvoiceModelHeader from "./InvoiceModelHeader"
 import { useInvoice } from "@context"
+import InvoiceRightPanelForm from "./InvoiceRightPanelForm"
 
 
 export const InvoiceModel: React.FC = () => {
@@ -19,7 +19,7 @@ export const InvoiceModel: React.FC = () => {
           minLeftWidth={window.innerWidth > 1280 ? 650 : 300}
           minRightWidth={window.innerWidth > 1280 ? 500 : 400}
           Left={InvoiceLeftPanel}
-          Right={<Outlet />}
+          Right={<InvoiceRightPanelForm />}
           initialLeftWidth={window.innerWidth > 1280 ? 700 : 300}
         />
       </div>
