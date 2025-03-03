@@ -1,4 +1,4 @@
-import { AuthButton, CheckInput, Input, Select } from "@components"
+import { AuthButton, CheckInput, Input } from "@components"
 import { ROUTES } from "@constants"
 import { useAuth } from "@context"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -9,11 +9,8 @@ import { MoonLoader } from "react-spinners"
 
 export const LoginPage: React.FC = () => {
   const { setIsRemember, login, errorMessage, isAuthLoading } = useAuth()
-  const { register, control, handleSubmit, formState: { errors } } = useForm<LoginFormSchema>({
-    resolver: zodResolver(loginForm),
-    defaultValues: {
-      role: "admin"
-    }
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormSchema>({
+    resolver: zodResolver(loginForm)
   })
 
   const onSubmit: SubmitHandler<LoginFormSchema> = (e) => {
@@ -21,21 +18,12 @@ export const LoginPage: React.FC = () => {
     login(e)
   }
 
-  const loginSelect = [
-    { label: "Admin", value: "admin" },
-    { label: "Clerk", value: "clerk" },
-    { label: "Payer", value: "payer" },
-    { label: "Amount", value: "amount" },
-    { label: "Accountant", value: "accountant" },
-  ]
-
   return <div className={`lg:w-[30rem] w-[22rem] relative mx-auto h-screen flex flex-col gap-3 ${isAuthLoading ? "opacity-70" : ""} justify-center`}>
     {isAuthLoading && <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"><MoonLoader /></div>}
     <h1 className="text-[25px] font-semibold">Sign In</h1>
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
       <Input type="email" label="Email" error={errors["email"]?.message} register={register("email")} />
       <Input type="password" label="Password" error={errors["password"]?.message} register={register("password")} />
-      <Select<LoginFormSchema> name="role" label="Role" control={control} data={loginSelect} />
 
       <div className="flex justify-between">
         <div className="flex gap-2 items-center">

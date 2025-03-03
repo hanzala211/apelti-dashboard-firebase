@@ -1,20 +1,81 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import { Button, FilterBtn, PageHeading, Table } from "@components";
-import { iconsPath, INVOICES_DATA } from "@constants";
-import { InvoiceItem } from "@types";
+import { useEffect, useState } from "react";
 import { useInvoice } from "@context";
+import { FilterTypes, InvoiceItem } from "@types";
+import { iconsPath, INVOICES_DATA } from "@constants";
 import InvoiceModel from "./components/InvoiceModel";
+import InvoiceFilter from "./components/InvoiceFilter";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Button, DraggableModal, FilterBtn, PageHeading, Table } from "@components";
+import dayjs from "dayjs";
 
 export const InvoicePage: React.FC = () => {
   const { setIsInvoiceModelOpen } = useInvoice()
+  const [filters, setFilters] = useState<FilterTypes[]>([{ id: 1, field: "", condition: "", value: "" }]);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [filteredInvoices, setFilteredInvoices] = useState<InvoiceItem[]>([])
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setFilteredInvoices(location.search.includes("unpaid") ? INVOICES_DATA.filter((item) => item.status === "Unpaid") : location.search.includes("return") ? INVOICES_DATA.filter((item) => item.status === "Return") : location.search.includes("draft") ? INVOICES_DATA.filter((item) => item.status === "Draft") : INVOICES_DATA)
+  }, [location.search])
 
   const handleClick = () => {
     setIsInvoiceModelOpen(true)
   }
 
-  const filteredInvoices = location.search.includes("unpaid") ? INVOICES_DATA.filter((item) => item.status === "Unpaid") : location.search.includes("return") ? INVOICES_DATA.filter((item) => item.status === "Return") : location.search.includes("draft") ? INVOICES_DATA.filter((item) => item.status === "Draft") : INVOICES_DATA;
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleFilters = () => {
+    let filteredValues = INVOICES_DATA;
+
+    filteredValues = filteredValues.filter((invoice) => {
+      for (const filter of filters) {
+        if (!filter.field || !filter.condition || !filter.value) continue;
+
+        switch (filter.field) {
+          case "supplier":
+          case "accountPlan":
+            if (filter.condition === "contains" && !invoice[filter.field].includes(filter.value)) return false;
+            if (filter.condition === "equals" && invoice[filter.field] !== filter.value) return false;
+            if (filter.condition === "startsWith" && !invoice[filter.field].startsWith(filter.value)) return false;
+            break;
+
+          case "dateOfCreation":
+          case "paymentTerm": {
+            const filterDate = filter.value ? dayjs(filter.value, "DD/MM/YYYY") : null
+            const invoiceDate = invoice[filter.field] ? dayjs(invoice[filter.field], "DD/MM/YYYY") : null
+
+            if (filterDate && invoiceDate && filterDate.isValid() && invoiceDate.isValid()) {
+              if (filter.condition === "before" && !invoiceDate.isBefore(filterDate)) return false;
+              if (filter.condition === "after" && !invoiceDate.isAfter(filterDate)) return false;
+              if (filter.condition === "on" && !invoiceDate.isSame(filterDate, "day")) return false;
+            } else {
+              return false;
+            }
+            break;
+          }
+          case "invoiceNumber":
+          case "poNumber":
+          case "amount": {
+            const filterAmount = parseInt(filter.value)
+            const invoiceAmount = parseInt(invoice[filter.field])
+            if (filter.condition === "equal" && invoiceAmount !== filterAmount) return false;
+            if (filter.condition === "greater" && invoiceAmount <= filterAmount) return false;
+            if (filter.condition === "lesser" && invoiceAmount >= filterAmount) return false;
+            break;
+          }
+          default:
+            break;
+        }
+      }
+      return true;
+    })
+
+    setFilteredInvoices(filteredValues)
+  }
 
   const headings = [
     "Invoice number",
@@ -73,9 +134,15 @@ export const InvoicePage: React.FC = () => {
       </div>
 
       <div className="flex mt-5 justify-between items-center md:px-14 px-2">
-        <button className="text-accentBlue rounded-md  transition-all duration-200 flex gap-1 hover:bg-softBlue px-2 py-1 items-center md:text-[18px] text-[15px]">
-          <iconsPath.plusIcon size={24} /> Add Filters
-        </button>
+        <div className="flex gap-2 items-center">
+          <button onClick={showModal} className="text-accentBlue rounded-md transition-all duration-200 flex gap-1 hover:bg-softBlue px-2 py-1 items-center md:text-[18px] text-[15px]">
+            <iconsPath.plusIcon size={24} /> Add Filters
+          </button>
+          {filters.map((item, index) => (
+            item.field !== "" && item.value !== "" && <div className="text-basicWhite bg-basicGreen p-1.5 text-[14px] rounded-lg" key={index}>{item.field.toUpperCase()}</div>
+          ))}
+        </div>
+        <DraggableModal handleOk={handleFilters} heading="In this view show records" modalItems={<InvoiceFilter filters={filters} setFilters={setFilters} />} setOpen={setIsModalOpen} open={isModalOpen} />
       </div>
 
       <Table keys={keys} headings={headings} data={filteredInvoices} />

@@ -3,16 +3,18 @@ import { Control, Controller, FieldValues, Path } from "react-hook-form";
 interface SelectProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
-  label: string,
+  label?: string,
   data: { label: string, value: string }[]
 }
 
 export const Select = <T extends FieldValues>({ control, name, label, data }: SelectProps<T>) => {
   return (
     <div className="flex flex-col gap-2 w-full">
-      <label htmlFor={label} className="text-neutralGray">
-        {label}
-      </label>
+      {label &&
+        <label htmlFor={label} className="text-neutralGray">
+          {label}
+        </label>
+      }
       <Controller
         name={name}
         control={control}

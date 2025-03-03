@@ -11,3 +11,9 @@ export interface InvoiceItem {
   status: string;
 }
 
+export interface FilterTypes {
+  id: number,
+  field: string,
+  value: string,
+  condition: string
+}
