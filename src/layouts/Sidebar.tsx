@@ -1,53 +1,62 @@
 import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom"
 import { SidebarItem } from "@components";
 import { Menu } from "lucide-react";
 import { iconsPath, ROUTES } from "@constants";
 import { useAuth } from "@context";
 
 export const Sidebar: React.FC = () => {
-  const { setUserData, setIsMainLoading } = useAuth()
+  const { setUserData, setIsMainLoading } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const sideBarRef = useRef<HTMLDivElement>(null)
-  const sideBarButtonRef = useRef<HTMLButtonElement>(null)
+  const sideBarRef = useRef<HTMLDivElement>(null);
+  const sideBarButtonRef = useRef<HTMLButtonElement>(null);
+  const location = useLocation()
 
   useEffect(() => {
-    window.addEventListener("click", handleClick)
-
-    return () => window.removeEventListener("click", handleClick)
-  }, [])
-
-
-  const handleClick = (e: MouseEvent) => {
-    if (sideBarRef.current && !sideBarRef.current.contains(e.target as Node) && sideBarButtonRef.current && !sideBarButtonRef.current.contains(e.target as Node)) {
-      setIsOpen(false)
+    const handleClick = (e: MouseEvent) => {
+      if (sideBarRef.current && !sideBarRef.current.contains(e.target as Node) && sideBarButtonRef.current && !sideBarButtonRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
     }
-  }
+
+    window.addEventListener("click", handleClick);
+    return () => window.removeEventListener("click", handleClick);
+  }, []);
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location]);
 
   const handleLogout = () => {
-    setIsMainLoading(true)
-    setUserData(null)
-    localStorage.removeItem("token")
+    setIsMainLoading(true);
+    setUserData(null);
+    localStorage.removeItem("token");
     setTimeout(() => {
-      setIsMainLoading(false)
-    }, 500)
-  }
+      setIsMainLoading(false);
+    }, 500);
+  };
 
   return (
     <>
-      <button ref={sideBarButtonRef} className={`md:hidden fixed top-4 sm:left-0 -left-1 p-3 h-fit bg-transparent rounded-md z-50 transition-all duration-300 ${isOpen ? "opacity-0 pointer-events-none" : ""}`} onClick={() => setIsOpen(!isOpen)}>
+      <button
+        ref={sideBarButtonRef}
+        className={`md:hidden fixed top-4 sm:left-0 -left-1 p-3 h-fit bg-transparent rounded-md z-50 transition-all duration-300 ${isOpen ? "opacity-0 pointer-events-none" : ""}`}
+        onClick={() => setIsOpen(!isOpen)}
+      >
         <Menu size={20} />
       </button>
 
       <aside
         ref={sideBarRef}
         className={`fixed md:relative h-[100dvh] z-50 bg-basicWhite w-64 p-5 flex flex-col border-r shadow-lg transition-transform duration-300
-          ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:flex`}>
+          ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:flex`}
+      >
         <div className="flex items-center mb-3">
           <img src={iconsPath.logoSVG} alt="Logo Image" className="w-20" />
           <span className="text-[22px] font-bold">Apelti</span>
         </div>
 
-        <p className={`text-slateGrey text-[15px] mb-5`}>MENU</p>
+        <p className="text-slateGrey text-[15px] mb-5">MENU</p>
 
         <nav className="flex flex-col space-y-2 overflow-auto">
           <div className="py-2 border-b-[1px] space-y-2">
@@ -74,6 +83,5 @@ export const Sidebar: React.FC = () => {
     </>
   );
 };
-
 
 export default Sidebar;

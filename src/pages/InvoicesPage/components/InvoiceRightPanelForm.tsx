@@ -9,13 +9,13 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 
 export const InvoiceRightPanelForm: React.FC = () => {
+  const { selectedImage, handleChange, handleFile, setSelectedImage, fileInputRef } = useInvoice();
   const { register, handleSubmit, control, formState: { errors } } = useForm<InvoiceFormSchema>({
     resolver: zodResolver(invoiceForm),
     defaultValues: {
       rarityInvoice: "Once"
     }
   });
-  const { selectedImage, handleChange, handleFile, setSelectedImage, fileInputRef } = useInvoice();
 
   const onSubmit: SubmitHandler<InvoiceFormSchema> = (data) => {
     console.log(data);
