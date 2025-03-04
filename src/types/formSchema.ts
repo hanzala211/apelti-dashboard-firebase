@@ -34,11 +34,5 @@ export const signupForm = z.object({
 })
 export type SignupFormSchema = z.infer<typeof signupForm>
 
-export const addMemberForm = signupForm.pick({ firstName: true, lastName: true, email: true, password: true, phone: true, }).extend({ role: RoleEnum })
+export const addMemberForm = signupForm.pick({ firstName: true, lastName: true, email: true, phone: true, }).extend({ role: RoleEnum, password: z.string().min(8, "Password must be at least 8 characters long.").optional() })
 export type AddMemberFormSchema = z.infer<typeof addMemberForm>
-
-export const teamFormSchema = z.object({
-  invites: z.array(addMemberForm),
-});
-
-export type TeamFormSchemaType = z.infer<typeof teamFormSchema>;

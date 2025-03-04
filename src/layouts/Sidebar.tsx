@@ -6,7 +6,7 @@ import { iconsPath, ROUTES } from "@constants";
 import { useAuth } from "@context";
 
 export const Sidebar: React.FC = () => {
-  const { setUserData, setIsMainLoading } = useAuth();
+  const { setUserData, setIsMainLoading, userData } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const sideBarRef = useRef<HTMLDivElement>(null);
   const sideBarButtonRef = useRef<HTMLButtonElement>(null);
@@ -60,16 +60,30 @@ export const Sidebar: React.FC = () => {
 
         <nav className="flex flex-col space-y-2 overflow-auto">
           <div className="py-2 border-b-[1px] space-y-2">
-            <SidebarItem link="/" icon={iconsPath.dashboardSVG} label="Dashboard" />
+            {userData?.role === "admin" &&
+              <SidebarItem link="/" icon={iconsPath.dashboardSVG} label="Dashboard" />
+            }
             <SidebarItem link={ROUTES.messages} icon={iconsPath.messageSVG} label="Messages" />
-            <SidebarItem link={ROUTES.documents} icon={iconsPath.documentSVG} label="Documents" />
-            <SidebarItem link={ROUTES.customer_review} icon={iconsPath.documentSVG} label="Customer Review" />
+            {["admin", "accountant"].includes(userData?.role || "") &&
+              <SidebarItem link={ROUTES.documents} icon={iconsPath.documentSVG} label="Documents" />
+            }
+            {userData?.role === "admin" &&
+              <SidebarItem link={ROUTES.customer_review} icon={iconsPath.documentSVG} label="Customer Review" />
+            }
           </div>
           <div className="space-y-2 border-b-[1px] py-2">
-            <SidebarItem link={`${ROUTES.invoices}?all=true`} icon={iconsPath.invoiceSVG} isIconType={true} label="Invoices" />
-            <SidebarItem link={ROUTES.suppliers} icon={iconsPath.supplierSVG} label="Suppliers" />
-            <SidebarItem link={ROUTES.payment} icon={iconsPath.paymentSVG} label="Payment" />
-            <SidebarItem link={ROUTES.approval} icon={iconsPath.approvalSVG} label="Approval" />
+            {["admin", "clerk", "accountant"].includes(userData?.role || "") &&
+              <SidebarItem link={`${ROUTES.invoices}?all=true`} icon={iconsPath.invoiceSVG} isIconType={true} label="Invoices" />
+            }
+            {["admin", "clerk"].includes(userData?.role || "") &&
+              <SidebarItem link={ROUTES.suppliers} icon={iconsPath.supplierSVG} label="Suppliers" />
+            }
+            {["admin", "accountant", "clerk"].includes(userData?.role || "") &&
+              <SidebarItem link={ROUTES.payment} icon={iconsPath.paymentSVG} label="Payment" />
+            }
+            {["admin", "approver", "clerk"].includes(userData?.role || "") &&
+              <SidebarItem link={ROUTES.approval} icon={iconsPath.approvalSVG} label="Approval" />
+            }
           </div>
           <div className="space-y-2 border-b-[1px] py-2">
             <SidebarItem link={ROUTES.posting} icon={iconsPath.postingSVG} label="Posting" />

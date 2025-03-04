@@ -72,6 +72,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     } catch (error) {
       console.log(error)
+      localStorage.removeItem("token")
       setErrorMessage(typeof error === "object" ? (error as Error).message : String(error))
     } finally {
       setIsMainLoading(false)
@@ -79,7 +80,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }
 
-  return <AuthContext.Provider value={{ userData, setUserData, isRemember, setIsRemember, signup, login, isMainLoading, setIsMainLoading, errorMessage, isAuthLoading }}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ userData, setUserData, isRemember, setIsRemember, signup, login, isMainLoading, setIsMainLoading, errorMessage, isAuthLoading, setErrorMessage }}>{children}</AuthContext.Provider>
 }
 
 export const useAuth = (): AuthContextTypes => {

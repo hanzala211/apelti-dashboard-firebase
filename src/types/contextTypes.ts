@@ -26,5 +26,18 @@ export interface AuthContextTypes {
   isMainLoading: boolean,
   setIsMainLoading: React.Dispatch<React.SetStateAction<boolean>>,
   errorMessage: string,
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
   isAuthLoading: boolean
+}
+
+export interface TeamContextTypes {
+  teamMembers: IUser[],
+  setTeamMembers: React.Dispatch<React.SetStateAction<IUser[]>>,
+  addMember: (sendData: unknown) => void,
+  isAddingMember: boolean,
+  isTeamLoading: boolean,
+  deleteMember: (userId: string) => void,
+  editingUser: IUser | null,
+  setEditingUser: React.Dispatch<React.SetStateAction<IUser | null>>,
+  updateUser: (userId: string, data: unknown) => void
 }

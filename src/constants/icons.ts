@@ -1,8 +1,8 @@
 import { Bell, Search } from "lucide-react";
-import { FaArrowCircleLeft } from "react-icons/fa";
+import { FaArrowCircleLeft, FaUserEdit } from "react-icons/fa";
 import { FiPlus, FiUsers } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import { MdDeleteOutline, MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { TbLogout, TbReportSearch } from "react-icons/tb";
 import { HiOutlineDocumentCurrencyDollar } from "react-icons/hi2";
 
@@ -30,5 +30,7 @@ export const iconsPath = {
   rightArrowSlider: MdKeyboardArrowRight,
   loginImage: "/assets/images/login.svg",
   arrowDown: IoIosArrowDown,
-  logout: TbLogout
+  logout: TbLogout,
+  delete: MdDeleteOutline,
+  edit: FaUserEdit
 }

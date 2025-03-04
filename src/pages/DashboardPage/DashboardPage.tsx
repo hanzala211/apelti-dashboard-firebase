@@ -38,7 +38,7 @@ export const DashboardPage: React.FC = () => {
       <h1 className="font-semibold w-fit text-[20px]">Workflow</h1>
     </div>
 
-    <div className="grid lg:grid-cols-3 grid-cols-1 gap-4">
+    <div className="grid xl:grid-cols-3 grid-cols-1 gap-4">
       <div className="bg-basicWhite border-[1px] p-3 w-full rounded-lg">
         <h1 className="font-semibold w-fit text-[20px]">Best Suppliers</h1>
         <ApexChart state={state} />

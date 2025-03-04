@@ -1,19 +1,18 @@
 import { Input, PhoneNumberInput, Select } from "@components"
-import { iconsPath } from "@constants"
-import { TeamFormSchemaType } from "@types"
-import { Control, FieldArrayWithId, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister } from "react-hook-form"
+import { useAuth, useTeam } from "@context"
+import { AddMemberFormSchema } from "@types"
+import { Control, FieldErrors, UseFormRegister } from "react-hook-form"
 
 interface TeamFormProps {
-  fields: FieldArrayWithId<TeamFormSchemaType>[],
-  remove: UseFieldArrayRemove,
-  register: UseFormRegister<TeamFormSchemaType>,
-  control: Control<TeamFormSchemaType>,
-  errors: FieldErrors<TeamFormSchemaType>,
+  register: UseFormRegister<AddMemberFormSchema>,
+  control: Control<AddMemberFormSchema>,
+  errors: FieldErrors<AddMemberFormSchema>,
   onSubmit: () => void,
-  append: UseFieldArrayAppend<TeamFormSchemaType>
 }
 
-export const TeamForm: React.FC<TeamFormProps> = ({ fields, remove, register, control, errors, onSubmit, append }) => {
+export const TeamForm: React.FC<TeamFormProps> = ({ register, control, errors, onSubmit }) => {
+  const { errorMessage } = useAuth()
+  const { isAddingMember, editingUser, setEditingUser } = useTeam()
 
   const roles = [
     { label: "Clerk", value: "clerk" },
@@ -22,46 +21,33 @@ export const TeamForm: React.FC<TeamFormProps> = ({ fields, remove, register, co
     { label: "Approver", value: "approver" },
   ]
 
-  return <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-    <h2 className="text-lg font-semibold mb-4">Invite Team Members</h2>
+  return <div className="bg-basicWhite rounded-lg shadow-md border border-mistGray p-6">
+    <div className="flex justify-between items-center">
+      <h2 className="text-lg font-semibold mb-4">{editingUser === null ? "Add Team Members" : `Editing ${editingUser?.firstName} ${editingUser?.lastName}`}</h2>
+      {editingUser !== null &&
+        <button className="border-silverGray border-2 px-2 py-1 text-silverGray hover:bg-silverGray transition-all duration-200 hover:text-basicWhite  rounded-lg" onClick={() => setEditingUser(null)}>Cancel</button>
+      }
+    </div>
     <form onSubmit={onSubmit} className="space-y-6">
-      {fields.map((item, index, arr) => (
-        <div key={item.id} className="relative space-y-4 pb-6 border-b border-gray-300 last:border-0 last:pb-0">
-          {arr.length > 1 && (
-            <button type="button" onClick={() => remove(index)} className="absolute top-0 right-0 text-basicRed hover:text-red-700 focus:outline-none" title="Remove Member">Remove</button>
-          )}
-          <div className="grid md:grid-cols-2 gap-4">
-            <Input register={register(`invites.${index}.firstName`)} label="First Name" type="string" error={errors.invites?.[index]?.firstName?.message} />
-            <Input register={register(`invites.${index}.lastName`)} label="Last Name" type="string" error={errors.invites?.[index]?.lastName?.message} />
-          </div>
-          <div className="grid md:grid-cols-2 gap-4">
-            <Input register={register(`invites.${index}.email`)} label="Email" type="string" error={errors.invites?.[index]?.email?.message} />
-            <PhoneNumberInput label="Phone" name={`invites.${index}.phone`} control={control} />
-          </div>
-          <div className="grid md:grid-cols-2 gap-4">
-            <Input register={register(`invites.${index}.password`)} label="Password" type="password" error={errors.invites?.[index]?.password?.message} />
-            <Select control={control} name={`invites.${index}.role`} label="Role" data={roles} />
-          </div>
+      <div className="relative space-y-4 pb-6 border-b border-gray-300 last:border-0 last:pb-0">
+        <div className="grid md:grid-cols-2 gap-4">
+          <Input register={register("firstName")} label="First Name" type="string" error={errors["firstName"]?.message} />
+          <Input register={register("lastName")} label="Last Name" type="string" error={errors["lastName"]?.message} />
         </div>
-      ))}
-      <div className="flex items-center gap-3">
-        <button type="button"
-          onClick={() =>
-            append({
-              firstName: "",
-              lastName: "",
-              email: "",
-              password: "",
-              phone: "",
-              role: "clerk",
-            })
+        <div className="grid md:grid-cols-2 gap-4">
+          <Input register={register("email")} label="Email" type="email" error={errors["email"]?.message} />
+          <PhoneNumberInput label="Phone" name={"phone"} control={control} />
+        </div>
+        <div className={`grid ${editingUser ? "" : "md:grid-cols-2"}  gap-4`}>
+          {editingUser == null &&
+            <Input register={register("password")} label="Password" type="password" error={errors["password"]?.message} />
           }
-          className="flex items-center gap-2 text-sm font-medium text-basicGreen hover:text-graphGreen focus:outline-none">
-          <iconsPath.plusIcon /> Add Member
-        </button>
+          <Select control={control} name={"role"} label="Role" data={roles} />
+        </div>
       </div>
-      <button type="submit" className="w-full py-3 px-4 bg-basicGreen hover:bg-graphGreen text-white font-medium rounded-md shadow hover:opacity-90 transition-all duration-200">
-        Add Users
+      {errorMessage.length > 0 && <p className="text-basicRed text-sm">{errorMessage}</p>}
+      <button type="submit" disabled={isAddingMember} className={`w-full ${!isAddingMember ? "hover:bg-graphGreen hover:opacity-90" : "cursor-not-allowed opacity-50"} py-3 px-4 bg-basicGreen text-white font-medium rounded-md shadow  transition-all duration-200`}>
+        {editingUser === null ? "Add User" : "Edit User"}
       </button>
     </form>
   </div>

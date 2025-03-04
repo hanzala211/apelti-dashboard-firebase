@@ -13,4 +13,5 @@ export const ROUTES = {
   reports: "/reports",
   team: "/team",
   settings: "/settings",
+  not_available: "/not-available"
 }
