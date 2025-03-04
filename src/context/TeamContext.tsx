@@ -1,4 +1,3 @@
-import { useAuth } from "@context";
 import { teamServices } from "@services";
 import { IUser, TeamContextTypes } from "@types";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
