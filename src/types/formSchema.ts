@@ -1,4 +1,5 @@
 import { z } from "zod"
+export const RoleEnum = z.enum(["admin", "clerk", "payer", "accountant", "approver"])
 
 export const invoiceForm = z.object({
   supplierName: z.string().min(1, "Supplier Name is Required"),
@@ -31,5 +32,13 @@ export const signupForm = z.object({
   businessType: z.string(),
   phone: z.string().min(1, "Phone Number is Required")
 })
-
 export type SignupFormSchema = z.infer<typeof signupForm>
+
+export const addMemberForm = signupForm.pick({ firstName: true, lastName: true, email: true, password: true, phone: true, }).extend({ role: RoleEnum })
+export type AddMemberFormSchema = z.infer<typeof addMemberForm>
+
+export const teamFormSchema = z.object({
+  invites: z.array(addMemberForm),
+});
+
+export type TeamFormSchemaType = z.infer<typeof teamFormSchema>;

@@ -13,5 +13,4 @@ export const ROUTES = {
   reports: "/reports",
   team: "/team",
   settings: "/settings",
-  add_invoice: "add",
 }

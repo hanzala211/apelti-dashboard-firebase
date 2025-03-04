@@ -34,7 +34,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     } catch (error) {
       console.log(error)
-      setErrorMessage((error as Error).message)
+      setErrorMessage(typeof error === "object" ? (error as Error).message : String(error))
     } finally {
       setIsMainLoading(false)
       setIsAuthLoading(false)
@@ -55,7 +55,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     } catch (error) {
       console.error(error)
-      setErrorMessage((error as Error).message)
+      setErrorMessage(typeof error === "object" ? (error as Error).message : String(error))
     } finally {
       setIsMainLoading(false)
       setIsAuthLoading(false)
@@ -72,7 +72,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     } catch (error) {
       console.log(error)
-      setErrorMessage((error as Error).message)
+      setErrorMessage(typeof error === "object" ? (error as Error).message : String(error))
     } finally {
       setIsMainLoading(false)
       setIsAuthLoading(false)
@@ -85,7 +85,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 export const useAuth = (): AuthContextTypes => {
   const context = useContext(AuthContext)
   if (!context) {
-    throw new Error("use useAuth inside Message Provider")
+    throw new Error("use useAuth inside Auth Provider")
   }
   return context
 }

@@ -66,15 +66,15 @@ export const Sidebar: React.FC = () => {
             <SidebarItem link={ROUTES.customer_review} icon={iconsPath.documentSVG} label="Customer Review" />
           </div>
           <div className="space-y-2 border-b-[1px] py-2">
-            <SidebarItem link={`${ROUTES.invoices}?all=true`} icon={iconsPath.invoiceSVG} label="Invoices" />
+            <SidebarItem link={`${ROUTES.invoices}?all=true`} icon={iconsPath.invoiceSVG} isIconType={true} label="Invoices" />
             <SidebarItem link={ROUTES.suppliers} icon={iconsPath.supplierSVG} label="Suppliers" />
             <SidebarItem link={ROUTES.payment} icon={iconsPath.paymentSVG} label="Payment" />
             <SidebarItem link={ROUTES.approval} icon={iconsPath.approvalSVG} label="Approval" />
           </div>
           <div className="space-y-2 border-b-[1px] py-2">
             <SidebarItem link={ROUTES.posting} icon={iconsPath.postingSVG} label="Posting" />
-            <SidebarItem link={ROUTES.reports} icon={iconsPath.reportSVG} label="Reports" />
-            <SidebarItem link={ROUTES.team} icon={iconsPath.teamSVG} label="Team" />
+            <SidebarItem link={ROUTES.reports} icon={iconsPath.reportSVG} label="Reports" isIconType={true} />
+            <SidebarItem link={ROUTES.team} icon={iconsPath.teamSVG} label="Team" isIconType={true} />
             <SidebarItem link={ROUTES.settings} icon={iconsPath.settingSVG} label="Settings" />
           </div>
           <SidebarItem link={`${ROUTES.auth}/${ROUTES.login}`} icon={iconsPath.logout} label="Logout" onClick={handleLogout} isIconType={true} />

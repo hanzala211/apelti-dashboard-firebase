@@ -24,7 +24,7 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({ children })
 export const useInvoice = (): InvoiceContextTypes => {
   const context = useContext(InvoiceContext)
   if (!context) {
-    throw new Error("use useInvoice inside Message Provider")
+    throw new Error("use useInvoice inside Invoice Provider")
   }
   return context
 }

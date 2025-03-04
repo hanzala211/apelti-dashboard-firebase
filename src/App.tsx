@@ -1,9 +1,8 @@
 import { ROUTES } from "@constants"
 import { AuthProvider, InvoiceProvider, MessageProvider } from "@context"
 import { AppLayout, AuthLayout } from "@layouts"
-import { DashboardPage, DocumentPage, InvoicePage, LoginPage, MessagesPage, SignupPage } from "@pages"
+import { DashboardPage, DocumentPage, InvoicePage, LoginPage, MessagesPage, SignupPage, TeamPage } from "@pages"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import InvoiceRightPanelForm from "./pages/InvoicesPage/components/InvoiceRightPanelForm"
 
 const App: React.FC = () => {
 
@@ -24,9 +23,8 @@ const App: React.FC = () => {
                 <Route index element={<DashboardPage />} />
                 <Route path={ROUTES.documents} element={<DocumentPage />} />
                 <Route path={ROUTES.messages} element={<MessagesPage />} />
-                <Route path={ROUTES.invoices} element={<InvoicePage />}>
-                  <Route path={ROUTES.add_invoice} element={<InvoiceRightPanelForm />} />
-                </Route>
+                <Route path={ROUTES.invoices} element={<InvoicePage />} />
+                <Route path={ROUTES.team} element={<TeamPage />} />
               </Route>
 
             </Routes>

@@ -36,10 +36,10 @@ export const DocumentPage: React.FC = () => {
   const handleChange: DatePickerProps["onChange"] = (_, dateString) => {
     const formattedDate = Array.isArray(dateString) ? dateString[0] : dateString;
     setSearchDate(formattedDate);
-  };
+  }
 
   return (
-    <section className="md:px-14 md:py-9 px-2 py-20">
+    <section className="md:px-14 md:py-9 px-2 pt-20">
       <PageHeading label="Documents" />
       <div className="mt-8 w-full xl:max-w-[70%] max-w-full">
         <div className="flex justify-between flex-wrap gap-5 md:gap-0 items-center">

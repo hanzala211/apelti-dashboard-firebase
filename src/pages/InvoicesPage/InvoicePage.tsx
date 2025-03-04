@@ -10,11 +10,11 @@ import dayjs from "dayjs";
 
 export const InvoicePage: React.FC = () => {
   const { setIsInvoiceModelOpen } = useInvoice()
-  const [filters, setFilters] = useState<FilterTypes[]>([{ id: 1, field: "", condition: "", value: "" }]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [filteredInvoices, setFilteredInvoices] = useState<InvoiceItem[]>([])
-  const location = useLocation();
-  const navigate = useNavigate();
+  const [filters, setFilters] = useState<FilterTypes[]>([{ id: 1, field: "", condition: "", value: "" }]);
+  const location = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     setFilteredInvoices(location.search.includes("unpaid") ? INVOICES_DATA.filter((item) => item.status === "Unpaid") : location.search.includes("return") ? INVOICES_DATA.filter((item) => item.status === "Return") : location.search.includes("draft") ? INVOICES_DATA.filter((item) => item.status === "Draft") : INVOICES_DATA)
@@ -26,7 +26,7 @@ export const InvoicePage: React.FC = () => {
 
   const showModal = () => {
     setIsModalOpen(true);
-  };
+  }
 
   const handleFilters = () => {
     let filteredValues = INVOICES_DATA;
@@ -62,6 +62,7 @@ export const InvoicePage: React.FC = () => {
           case "amount": {
             const filterAmount = parseInt(filter.value)
             const invoiceAmount = parseInt(invoice[filter.field])
+
             if (filter.condition === "equal" && invoiceAmount !== filterAmount) return false;
             if (filter.condition === "greater" && invoiceAmount <= filterAmount) return false;
             if (filter.condition === "lesser" && invoiceAmount >= filterAmount) return false;
@@ -104,7 +105,7 @@ export const InvoicePage: React.FC = () => {
   ]
 
   return (
-    <section className="md:py-9 py-20 w-screen md:max-w-[calc(100vw-256px)]">
+    <section className="md:py-9 pt-20 w-screen md:max-w-[calc(100vw-256px)]">
       <div className="md:px-14 px-2 flex justify-between items-center">
         <PageHeading label="Invoices" />
         <Button btnText="Add Invoice" handleClick={handleClick} />
@@ -138,9 +139,6 @@ export const InvoicePage: React.FC = () => {
           <button onClick={showModal} className="text-accentBlue rounded-md transition-all duration-200 flex gap-1 hover:bg-softBlue px-2 py-1 items-center md:text-[18px] text-[15px]">
             <iconsPath.plusIcon size={24} /> Add Filters
           </button>
-          {filters.map((item, index) => (
-            item.field !== "" && item.value !== "" && <div className="text-basicWhite bg-basicGreen p-1.5 text-[14px] rounded-lg" key={index}>{item.field.toUpperCase()}</div>
-          ))}
         </div>
         <DraggableModal handleOk={handleFilters} heading="In this view show records" modalItems={<InvoiceFilter filters={filters} setFilters={setFilters} />} setOpen={setIsModalOpen} open={isModalOpen} />
       </div>

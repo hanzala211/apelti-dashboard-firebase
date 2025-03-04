@@ -12,7 +12,8 @@ interface InvoiceFilterProps {
 const InvoiceFilter: React.FC<InvoiceFilterProps> = ({ filters, setFilters }) => {
 
   const addFilter = () => {
-    setFilters([...filters, { id: filters.length + 1, field: "", condition: "", value: "" }]);
+    if (filters.length < filterOptions.length)
+      setFilters([...filters, { id: filters.length + 1, field: "", condition: "", value: "" }]);
   }
 
   const removeFilter = (id: number) => {
