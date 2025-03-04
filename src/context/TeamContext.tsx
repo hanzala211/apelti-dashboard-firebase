@@ -6,11 +6,11 @@ import { createContext, ReactNode, useContext, useEffect, useState } from "react
 const TeamContext = createContext<TeamContextTypes | undefined>(undefined)
 
 export const TeamProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { setErrorMessage } = useAuth()
   const [teamMembers, setTeamMembers] = useState<IUser[]>([])
   const [isAddingMember, setIsAddingMember] = useState<boolean>(false)
   const [isTeamLoading, setIsTeamLoading] = useState<boolean>(true)
   const [editingUser, setEditingUser] = useState<IUser | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string>("")
 
   useEffect(() => {
     if (teamMembers.length === 0) {
@@ -77,7 +77,7 @@ export const TeamProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }
 
-  return <TeamContext.Provider value={{ teamMembers, setTeamMembers, addMember, isAddingMember, isTeamLoading, deleteMember, editingUser, setEditingUser, updateUser }}>{children}</TeamContext.Provider>
+  return <TeamContext.Provider value={{ teamMembers, setTeamMembers, addMember, isAddingMember, isTeamLoading, deleteMember, editingUser, setEditingUser, updateUser, errorMessage }}>{children}</TeamContext.Provider>
 }
 
 export const useTeam = (): TeamContextTypes => {

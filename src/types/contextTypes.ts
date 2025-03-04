@@ -39,5 +39,6 @@ export interface TeamContextTypes {
   deleteMember: (userId: string) => void,
   editingUser: IUser | null,
   setEditingUser: React.Dispatch<React.SetStateAction<IUser | null>>,
-  updateUser: (userId: string, data: unknown) => void
+  updateUser: (userId: string, data: unknown) => void,
+  errorMessage: string
 }

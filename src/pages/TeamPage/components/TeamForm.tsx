@@ -1,5 +1,5 @@
 import { Input, PhoneNumberInput, Select } from "@components"
-import { useAuth, useTeam } from "@context"
+import { useTeam } from "@context"
 import { AddMemberFormSchema } from "@types"
 import { Control, FieldErrors, UseFormRegister } from "react-hook-form"
 
@@ -11,8 +11,7 @@ interface TeamFormProps {
 }
 
 export const TeamForm: React.FC<TeamFormProps> = ({ register, control, errors, onSubmit }) => {
-  const { errorMessage } = useAuth()
-  const { isAddingMember, editingUser, setEditingUser } = useTeam()
+  const { isAddingMember, editingUser, setEditingUser, errorMessage } = useTeam()
 
   const roles = [
     { label: "Clerk", value: "clerk" },
