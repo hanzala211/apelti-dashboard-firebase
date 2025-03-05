@@ -62,7 +62,7 @@ export const TeamProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setIsAddingMember(true)
       const response = await teamServices.updateMember(userId, data)
       if (response.status === 200) {
-        setTeamMembers((prev) => [...prev.filter((item) => item._id !== userId), response.data.data])
+        setTeamMembers((prev) => [...prev.filter((item) => item._idnpm !== userId), response.data.data])
       }
     } catch (error) {
       console.log(error)
