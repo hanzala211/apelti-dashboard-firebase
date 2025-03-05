@@ -5,10 +5,12 @@ import { IoIosArrowDown } from "react-icons/io";
 import { MdDeleteOutline, MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { TbLogout, TbReportSearch } from "react-icons/tb";
 import { HiOutlineDocumentCurrencyDollar } from "react-icons/hi2";
+import { CgFileDocument } from "react-icons/cg";
+import { IoSettingsOutline } from "react-icons/io5";
 
 
 export const iconsPath = {
-  documentSVG: "/assets/icons/document.svg",
+  documentSVG: CgFileDocument,
   dashboardSVG: "/assets/icons/dashboard.svg",
   approvalSVG: "/assets/icons/approval.svg",
   invoiceSVG: HiOutlineDocumentCurrencyDollar,
@@ -17,7 +19,7 @@ export const iconsPath = {
   paymentSVG: "/assets/icons/payment.svg",
   postingSVG: "/assets/icons/posting.svg",
   reportSVG: TbReportSearch,
-  settingSVG: "/assets/icons/settings.svg",
+  settingSVG: IoSettingsOutline,
   supplierSVG: "/assets/icons/supplier.svg",
   teamSVG: FiUsers,
   plusIcon: FiPlus,

@@ -10,7 +10,7 @@ import { useEffect } from "react";
 
 export const TeamPage: React.FC = () => {
   const { userData } = useAuth()
-  const { teamMembers, addMember, isTeamLoading, deleteMember, setEditingUser, editingUser, updateUser } = useTeam()
+  const { teamMembers, addMember, isTeamLoading, deleteMember, setEditingUser, editingUser, updateUser, getMembers } = useTeam()
   const { register, control, handleSubmit, formState: { errors }, reset } = useForm<AddMemberFormSchema>({
     resolver: zodResolver(addMemberForm),
     defaultValues: {
@@ -39,6 +39,12 @@ export const TeamPage: React.FC = () => {
     }
   }, [editingUser, reset])
 
+  useEffect(() => {
+    if (teamMembers.length === 0) {
+      getMembers()
+    }
+  }, [])
+
   const onSubmit: SubmitHandler<AddMemberFormSchema> = (data) => {
     console.log("Form Data:", data);
     if (editingUser === null) {
@@ -65,8 +71,10 @@ export const TeamPage: React.FC = () => {
               <th className="px-4 py-2 text-sm font-semibold text-neutralGray">Email</th>
               <th className="px-4 py-2 text-sm font-semibold text-neutralGray">Phone</th>
               <th className="px-4 py-2 text-sm font-semibold text-neutralGray">Role</th>
-              <th className="px-4 py-2 text-sm font-semibold text-neutralGray">Edit</th>
-              <th className="px-4 py-2 text-sm font-semibold text-neutralGray">Delete</th>
+              {userData?.role === "admin" && <>
+                <th className="px-4 py-2 text-sm font-semibold text-neutralGray">Edit</th>
+                <th className="px-4 py-2 text-sm font-semibold text-neutralGray">Delete</th>
+              </>}
             </tr>
           </thead>
 
@@ -88,8 +96,11 @@ export const TeamPage: React.FC = () => {
                   <td className="px-4 py-2 text-sm text-neutralGray">{item.email}</td>
                   <td className="px-4 py-2 text-sm text-neutralGray">{item.phone}</td>
                   <td className="px-4 py-2 text-sm text-neutralGray">{item.role[0].toUpperCase()}{item.role.slice(1)}</td>
-                  <td className="px-4 py-2 text-sm text-basicGreen cursor-pointer" onClick={() => setEditingUser(item)}><iconsPath.edit size={24} /></td>
-                  <td className="px-4 py-2 text-sm text-basicRed cursor-pointer" onClick={() => deleteMember(item._id)}><iconsPath.delete size={24} /></td>
+                  {userData?.role === "admin" && <>
+                    <td className="px-4 py-2 text-sm text-basicGreen cursor-pointer" onClick={() => setEditingUser(item)}><iconsPath.edit size={24} /></td>
+                    <td className="px-4 py-2 text-sm text-basicRed cursor-pointer" onClick={() => deleteMember(item._id)}><iconsPath.delete size={24} /></td>
+                  </>
+                  }
                 </tr>
               ))}
           </tbody>

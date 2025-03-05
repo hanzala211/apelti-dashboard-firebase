@@ -1,21 +1,17 @@
+import { useAuth } from "@context";
 import { teamServices } from "@services";
 import { IUser, TeamContextTypes } from "@types";
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 const TeamContext = createContext<TeamContextTypes | undefined>(undefined)
 
 export const TeamProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const { userData } = useAuth()
   const [teamMembers, setTeamMembers] = useState<IUser[]>([])
   const [isAddingMember, setIsAddingMember] = useState<boolean>(false)
   const [isTeamLoading, setIsTeamLoading] = useState<boolean>(true)
   const [editingUser, setEditingUser] = useState<IUser | null>(null)
   const [errorMessage, setErrorMessage] = useState<string>("")
-
-  useEffect(() => {
-    if (teamMembers.length === 0) {
-      getMembers()
-    }
-  }, [])
 
   const addMember = async (sendData: unknown) => {
     try {
@@ -38,7 +34,7 @@ export const TeamProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setIsTeamLoading(true)
       const response = await teamServices.getMember()
       if (response.status === 200) {
-        setTeamMembers(response.data.data)
+        setTeamMembers(response.data.data.users.filter((item: IUser, index: number, self: IUser[]) => item._id !== userData?._id && self.findIndex(u => u._id === item._id) === index));
       }
     } catch (error) {
       console.log(error)
@@ -76,7 +72,7 @@ export const TeamProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }
 
-  return <TeamContext.Provider value={{ teamMembers, setTeamMembers, addMember, isAddingMember, isTeamLoading, deleteMember, editingUser, setEditingUser, updateUser, errorMessage }}>{children}</TeamContext.Provider>
+  return <TeamContext.Provider value={{ teamMembers, setTeamMembers, addMember, isAddingMember, isTeamLoading, deleteMember, editingUser, setEditingUser, updateUser, errorMessage, getMembers }}>{children}</TeamContext.Provider>
 }
 
 export const useTeam = (): TeamContextTypes => {

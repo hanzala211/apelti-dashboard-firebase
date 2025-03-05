@@ -1,3 +1,4 @@
+import { ROUTES } from "@constants";
 import { authService } from "@services";
 import { AuthContextTypes, IUser } from "@types";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
@@ -30,7 +31,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       if (response.status === 200) {
         setUserData(response.data.data.user)
         localStorage.setItem("token", response.data.data.token)
-        navigate("/")
+        if (response.data.data.user.role === "admin") {
+          navigate("/")
+        } else if (["approver", "clerk", "accountant", "payer"].includes(response.data.data.user.role)) {
+          navigate(`${ROUTES.messages}`)
+        }
       }
     } catch (error) {
       console.log(error)
@@ -51,7 +56,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         if (isRemember) {
           localStorage.setItem("token", response.data.data.token)
         }
-        navigate("/")
+        if (response.data.data.user.role === "admin") {
+          navigate("/")
+        } else if (["approver", "clerk", "accountant", "payer"].includes(response.data.data.user.role)) {
+          navigate(`${ROUTES.messages}`)
+        }
       }
     } catch (error) {
       console.error(error)
