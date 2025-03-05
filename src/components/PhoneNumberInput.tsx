@@ -42,7 +42,7 @@ export const PhoneNumberInput = <T extends FieldValues>({
               specialLabel=""
             />
 
-            {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
+            {error && <p className="text-basicRed text-sm mt-1">{error.message}</p>}
           </>
         )}
       />
