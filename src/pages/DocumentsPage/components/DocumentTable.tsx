@@ -1,4 +1,4 @@
-import { DOCUMENTS_DATA, iconsPath } from "@constants"
+import { DOCUMENTS_DATA, ICONS } from "@constants"
 import { IDocument } from "@types"
 
 export const DocumentTable: React.FC<{ searchData: IDocument[] }> = ({ searchData }) => {
@@ -14,7 +14,7 @@ export const DocumentTable: React.FC<{ searchData: IDocument[] }> = ({ searchDat
     <tbody >
       {(searchData?.length !== 0 ? searchData : DOCUMENTS_DATA).map((item, index) => (
         <tr key={index}>
-          <td className="px-4 py-2 flex gap-2 items-center"><iconsPath.documentSVG /> {item.name}</td>
+          <td className="px-4 py-2 flex gap-2 items-center"><ICONS.documentSVG /> {item.name}</td>
           <td className="px-4 py-2">{item.section}</td>
           <td className="px-4 py-2">{item.added}</td>
         </tr>

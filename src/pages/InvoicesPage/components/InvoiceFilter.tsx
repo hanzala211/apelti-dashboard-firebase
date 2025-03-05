@@ -1,4 +1,4 @@
-import { iconsPath } from "@constants";
+import { ICONS } from "@constants";
 import { ReactSVG } from "react-svg";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
@@ -99,7 +99,7 @@ const InvoiceFilter: React.FC<InvoiceFilterProps> = ({ filters, setFilters }) =>
                 <DatePicker format="DD/MM/YYYY" placeholder="DD/MM/YYYY" className="bg-white rounded-md w-full py-1.5 px-3 border border-basicBlack focus:shadow-blue-300 focus-within:shadow-sm focus:outline-none focus:border-blue-500 hover:border-blue-500 transition-all duration-200" value={filter.value ? dayjs(filter.value, "DD/MM/YYYY") : null} onChange={(date, dateString) => onDateChange(date, dateString, filter.id)} />
               }
 
-              <ReactSVG src={iconsPath.close} className="cursor-pointer" onClick={() => removeFilter(filter.id)}
+              <ReactSVG src={ICONS.close} className="cursor-pointer" onClick={() => removeFilter(filter.id)}
                 beforeInjection={(svg) => {
                   svg.style.width = "20px";
                 }} />
@@ -108,7 +108,7 @@ const InvoiceFilter: React.FC<InvoiceFilterProps> = ({ filters, setFilters }) =>
         })}
       </div>
       <button onClick={addFilter} className="mt-2 flex gap-2 items-center text-neutralGray absolute top-full translate-y-1/2 text-sm">
-        <iconsPath.plusIcon /> Add Filter
+        <ICONS.plusIcon /> Add Filter
       </button>
     </div>
   );

@@ -9,7 +9,7 @@ import { CgFileDocument } from "react-icons/cg";
 import { IoSettingsOutline } from "react-icons/io5";
 
 
-export const iconsPath = {
+export const ICONS = {
   documentSVG: CgFileDocument,
   dashboardSVG: "/assets/icons/dashboard.svg",
   approvalSVG: "/assets/icons/approval.svg",

@@ -3,7 +3,7 @@ import { CheckInput } from "@components"
 import { MESSAGES_DATA } from "@constants";
 import { useMessage } from "@context";
 import { useEffect, useState } from "react";
-import { iconsPath } from "@constants";
+import { ICONS } from "@constants";
 
 export const MessagesLeftPanel: React.FC = () => {
   const { setSelectedMessage, selectedMessage } = useMessage()
@@ -34,7 +34,7 @@ export const MessagesLeftPanel: React.FC = () => {
   return <div className={`md:block w-full h-full ${selectedMessage === null ? "block" : "hidden"}`}>
     <div className="flex justify-end w-full">
       <span className="px-4 py-2 flex gap-2 items-center cursor-pointer">
-        Newest <iconsPath.arrowDown />
+        Newest <ICONS.arrowDown />
       </span>
     </div>
     <div className="md:px-10 px-2 mt-4 w-full">

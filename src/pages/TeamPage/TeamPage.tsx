@@ -5,8 +5,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { TeamForm } from "./components/TeamForm";
 import { useAuth, useTeam } from "@context";
 import { Skeleton } from "antd";
-import { iconsPath } from "@constants";
+import { APP_ACTIONS, ICONS, PERMISSIONS, ROUTES } from "@constants";
 import { useEffect } from "react";
+import { Navigate } from "react-router-dom";
 
 export const TeamPage: React.FC = () => {
   const { userData } = useAuth()
@@ -17,6 +18,7 @@ export const TeamPage: React.FC = () => {
       role: "clerk",
     },
   })
+  const userPermissions = PERMISSIONS[userData?.role as keyof typeof PERMISSIONS]
 
   useEffect(() => {
     if (editingUser !== null) {
@@ -54,13 +56,14 @@ export const TeamPage: React.FC = () => {
     }
   }
 
+  if (!userPermissions.includes(APP_ACTIONS.teamPage)) return <Navigate to={ROUTES.not_available} />
   return (
     <section className="md:py-9 md:px-14 px-4 pt-20 w-screen md:max-w-[calc(100vw-256px)] h-[100dvh] md:max-h-[calc(100dvh-50px)] max-h-[calc(100dvh-20px)] overflow-y-auto">
       <div className="pb-8 mb-8 border-b-[1px] border-neutralGray">
         <PageHeading label="Team" />
         <p className="text-neutralGray text-sm mt-1">Manage your team members and their account permissions here.</p>
       </div>
-      {userData?.role === "admin" &&
+      {userPermissions.includes(APP_ACTIONS.addTeam) &&
         <TeamForm register={register} errors={errors} control={control} onSubmit={handleSubmit(onSubmit)} />
       }
       <div className="overflow-x-auto overflow-y-hidden mt-8">
@@ -96,9 +99,9 @@ export const TeamPage: React.FC = () => {
                   <td className="px-4 py-2 text-sm text-neutralGray">{item.email}</td>
                   <td className="px-4 py-2 text-sm text-neutralGray">{item.phone}</td>
                   <td className="px-4 py-2 text-sm text-neutralGray">{item.role[0].toUpperCase()}{item.role.slice(1)}</td>
-                  {userData?.role === "admin" && <>
-                    <td className="px-4 py-2 text-sm text-basicGreen cursor-pointer" onClick={() => setEditingUser(item)}><iconsPath.edit size={24} /></td>
-                    <td className="px-4 py-2 text-sm text-basicRed cursor-pointer" onClick={() => deleteMember(item._id)}><iconsPath.delete size={24} /></td>
+                  {userPermissions.includes(APP_ACTIONS.addTeam) && <>
+                    <td className="px-4 py-2 text-sm text-basicGreen cursor-pointer" onClick={() => setEditingUser(item)}><ICONS.edit size={24} /></td>
+                    <td className="px-4 py-2 text-sm text-basicRed cursor-pointer" onClick={() => deleteMember(item._id)}><ICONS.delete size={24} /></td>
                   </>
                   }
                 </tr>

@@ -1,13 +1,19 @@
+import { useAuth } from "@context";
 import { ApexChart } from "./components/ApexChart";
 import { InvoiceWidget } from "./components/InvoiceWidget";
 import { PaymentItem } from "./components/PaymentItem";
-import { CHART_DATA } from "@constants";
+import { APP_ACTIONS, CHART_DATA, PERMISSIONS, ROUTES } from "@constants";
 import { ChartState } from "@types";
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
 
 export const DashboardPage: React.FC = () => {
+  const { userData } = useAuth()
   const [state] = useState<ChartState>(CHART_DATA);
+  const userPermissions = PERMISSIONS[userData?.role as keyof typeof PERMISSIONS]
 
+
+  if (!userPermissions.includes(APP_ACTIONS.dashboardPage)) return <Navigate to={ROUTES.not_available} />
   return <section className="md:p-9 md:pt-4 px-2 pt-20 md:max-h-[calc(100dvh-50px)] w-full flex gap-5 flex-col sm:max-w-[98%] max-w-full mx-auto overflow-y-auto h-[100dvh]">
     <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 xl:gap-16 gap-2">
       <InvoiceWidget label="Total Invoice" amount={182} />

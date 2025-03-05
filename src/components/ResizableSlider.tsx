@@ -1,5 +1,5 @@
 import { ComponentType, ReactElement, useRef, useState } from "react";
-import { COLORS, iconsPath } from "@constants";
+import { COLORS, ICONS } from "@constants";
 import { useMessage } from "@context";
 import { useLocation } from "react-router-dom";
 
@@ -53,8 +53,8 @@ export const ResizableSlider: React.FC<ResizableSliderProps> = ({ Left, Right, i
         onMouseDown={handleMouseDown}
       >
         <div className="absolute shadow-xl shadow-silverGray py-2 top-1/2 z-10 -translate-y-1/2 bg-basicWhite border-[2px] border-basicGreen left-1/2 -translate-x-1/2 flex">
-          <iconsPath.leftArrowSlider color={COLORS.basicGreen} />
-          <iconsPath.rightArrowSlider color={COLORS.basicGreen} />
+          <ICONS.leftArrowSlider color={COLORS.basicGreen} />
+          <ICONS.rightArrowSlider color={COLORS.basicGreen} />
         </div>
       </div>
       {Right}

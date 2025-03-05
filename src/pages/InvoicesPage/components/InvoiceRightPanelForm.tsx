@@ -2,7 +2,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { invoiceForm, InvoiceFormSchema } from "@types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input, Select } from "@components";
-import { iconsPath } from "@constants";
+import { ICONS } from "@constants";
 import { useInvoice } from "@context";
 import { ReactSVG } from "react-svg";
 import { DatePicker } from "antd";
@@ -48,7 +48,7 @@ export const InvoiceRightPanelForm: React.FC = () => {
         ) : (
           <div className="relative w-full border-b-[1px] flex justify-center">
             <button className="absolute right-2 top-2" onClick={() => setSelectedImage(null)}>
-              <ReactSVG src={iconsPath.close} />
+              <ReactSVG src={ICONS.close} />
             </button>
             <img src={selectedImage.value} alt={`${selectedImage.label} Image`} className="w-52 object-contain" />
           </div>

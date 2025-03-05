@@ -1,15 +1,19 @@
 import { PageHeading } from "@components";
 import { DocumentTable } from "./components/DocumentTable";
-import { DOCUMENTS_DATA } from "@constants";
+import { APP_ACTIONS, DOCUMENTS_DATA, PERMISSIONS, ROUTES } from "@constants";
 import { IDocument } from "@types";
 import { useEffect, useState } from "react";
 import { DatePicker, DatePickerProps } from "antd";
 import dayjs from "dayjs";
+import { useAuth } from "@context";
+import { Navigate } from "react-router-dom";
 
 export const DocumentPage: React.FC = () => {
+  const { userData } = useAuth()
   const [searchData, setSearchData] = useState<IDocument[]>([]);
   const [searchInput, setSearchInput] = useState<string>("");
   const [searchDate, setSearchDate] = useState<string>("");
+  const userPermissions = PERMISSIONS[userData?.role as keyof typeof PERMISSIONS]
 
   useEffect(() => {
     if (searchInput.length > 1 || searchDate) {
@@ -37,6 +41,8 @@ export const DocumentPage: React.FC = () => {
     const formattedDate = Array.isArray(dateString) ? dateString[0] : dateString;
     setSearchDate(formattedDate);
   }
+
+  if (!userPermissions.includes(APP_ACTIONS.documentPage)) return <Navigate to={ROUTES.not_available} />
 
   return (
     <section className="md:px-14 md:py-9 px-2 pt-20">

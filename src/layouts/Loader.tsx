@@ -1,4 +1,4 @@
-import { iconsPath } from "@constants";
+import { ICONS } from "@constants";
 
 const Loader: React.FC = () => {
   return (
@@ -6,7 +6,7 @@ const Loader: React.FC = () => {
       <div
         className={`w-52 h-52 bg-no-repeat bg-center bg-contain`}
         style={{
-          backgroundImage: `url(${iconsPath.logoSVG})`,
+          backgroundImage: `url(${ICONS.logoSVG})`,
         }}
       />
       <div className="relative h-1 w-[10rem] bg-silverGray overflow-hidden rounded">

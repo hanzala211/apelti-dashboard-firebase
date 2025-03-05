@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom"
 import { SidebarItem } from "@components";
 import { Menu } from "lucide-react";
-import { iconsPath, ROUTES } from "@constants";
+import { APP_ACTIONS, ICONS, PERMISSIONS, ROUTES } from "@constants";
 import { useAuth } from "@context";
 
 export const Sidebar: React.FC = () => {
@@ -11,6 +11,7 @@ export const Sidebar: React.FC = () => {
   const sideBarRef = useRef<HTMLDivElement>(null);
   const sideBarButtonRef = useRef<HTMLButtonElement>(null);
   const location = useLocation()
+  const userPermissions = PERMISSIONS[userData?.role as keyof typeof PERMISSIONS]
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -52,7 +53,7 @@ export const Sidebar: React.FC = () => {
           ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:flex`}
       >
         <div className="flex items-center mb-3">
-          <img src={iconsPath.logoSVG} alt="Logo Image" className="w-20" />
+          <img src={ICONS.logoSVG} alt="Logo Image" className="w-20" />
           <span className="text-[22px] font-bold">Apelti</span>
         </div>
 
@@ -60,38 +61,38 @@ export const Sidebar: React.FC = () => {
 
         <nav className="flex flex-col space-y-2 overflow-auto">
           <div className="py-2 border-b-[1px] space-y-2">
-            {userData?.role === "admin" &&
-              <SidebarItem link="/" icon={iconsPath.dashboardSVG} label="Dashboard" />
+            {userPermissions.includes(APP_ACTIONS.dashboardPage) &&
+              <SidebarItem link="/" icon={ICONS.dashboardSVG} label="Dashboard" />
             }
-            <SidebarItem link={ROUTES.messages} icon={iconsPath.messageSVG} label="Messages" />
-            {["admin", "accountant"].includes(userData?.role || "") &&
-              <SidebarItem link={ROUTES.documents} icon={iconsPath.documentSVG} label="Documents" isIconType={true} />
+            <SidebarItem link={ROUTES.messages} icon={ICONS.messageSVG} label="Messages" />
+            {userPermissions.includes(APP_ACTIONS.documentPage) &&
+              <SidebarItem link={ROUTES.documents} icon={ICONS.documentSVG} label="Documents" isIconType={true} />
             }
-            {userData?.role === "admin" &&
-              <SidebarItem link={ROUTES.customer_review} icon={iconsPath.documentSVG} label="Customer Review" isIconType={true} />
-            }
-          </div>
-          <div className="space-y-2 border-b-[1px] py-2">
-            {["admin", "clerk", "accountant"].includes(userData?.role || "") &&
-              <SidebarItem link={`${ROUTES.invoices}?all=true`} icon={iconsPath.invoiceSVG} isIconType={true} label="Invoices" />
-            }
-            {["admin", "clerk"].includes(userData?.role || "") &&
-              <SidebarItem link={ROUTES.suppliers} icon={iconsPath.supplierSVG} label="Suppliers" />
-            }
-            {["admin", "accountant", "clerk"].includes(userData?.role || "") &&
-              <SidebarItem link={ROUTES.payment} icon={iconsPath.paymentSVG} label="Payment" />
-            }
-            {["admin", "approver", "clerk"].includes(userData?.role || "") &&
-              <SidebarItem link={ROUTES.approval} icon={iconsPath.approvalSVG} label="Approval" />
+            {userPermissions.includes(APP_ACTIONS.customerReviewPage) &&
+              <SidebarItem link={ROUTES.customer_review} icon={ICONS.documentSVG} label="Customer Review" isIconType={true} />
             }
           </div>
           <div className="space-y-2 border-b-[1px] py-2">
-            <SidebarItem link={ROUTES.posting} icon={iconsPath.postingSVG} label="Posting" />
-            <SidebarItem link={ROUTES.reports} icon={iconsPath.reportSVG} label="Reports" isIconType={true} />
-            <SidebarItem link={ROUTES.team} icon={iconsPath.teamSVG} label="Team" isIconType={true} />
-            <SidebarItem link={ROUTES.settings} icon={iconsPath.settingSVG} label="Settings" isIconType={true} />
+            {userPermissions.includes(APP_ACTIONS.invoicePage) &&
+              <SidebarItem link={`${ROUTES.invoices}?all=true`} icon={ICONS.invoiceSVG} isIconType={true} label="Invoices" />
+            }
+            {userPermissions.includes(APP_ACTIONS.supplierPage) &&
+              <SidebarItem link={ROUTES.suppliers} icon={ICONS.supplierSVG} label="Suppliers" />
+            }
+            {userPermissions.includes(APP_ACTIONS.payemntPage) &&
+              <SidebarItem link={ROUTES.payment} icon={ICONS.paymentSVG} label="Payment" />
+            }
+            {userPermissions.includes(APP_ACTIONS.approvalPage) &&
+              <SidebarItem link={ROUTES.approval} icon={ICONS.approvalSVG} label="Approval" />
+            }
           </div>
-          <SidebarItem link={`${ROUTES.auth}/${ROUTES.login}`} icon={iconsPath.logout} label="Logout" onClick={handleLogout} isIconType={true} />
+          <div className="space-y-2 border-b-[1px] py-2">
+            <SidebarItem link={ROUTES.posting} icon={ICONS.postingSVG} label="Posting" />
+            <SidebarItem link={ROUTES.reports} icon={ICONS.reportSVG} label="Reports" isIconType={true} />
+            <SidebarItem link={ROUTES.team} icon={ICONS.teamSVG} label="Team" isIconType={true} />
+            <SidebarItem link={ROUTES.settings} icon={ICONS.settingSVG} label="Settings" isIconType={true} />
+          </div>
+          <SidebarItem link={`${ROUTES.auth}/${ROUTES.login}`} icon={ICONS.logout} label="Logout" onClick={handleLogout} isIconType={true} />
         </nav>
       </aside>
     </>

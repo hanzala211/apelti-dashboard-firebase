@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
-import { useInvoice } from "@context";
+import { useAuth, useInvoice } from "@context";
 import { FilterTypes, InvoiceItem } from "@types";
-import { iconsPath, INVOICES_DATA } from "@constants";
+import { APP_ACTIONS, ICONS, INVOICES_DATA, PERMISSIONS, ROUTES } from "@constants";
 import InvoiceModel from "./components/InvoiceModel";
 import InvoiceFilter from "./components/InvoiceFilter";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { Button, DraggableModal, FilterBtn, PageHeading, Table } from "@components";
 import dayjs from "dayjs";
 
 export const InvoicePage: React.FC = () => {
+  const { userData } = useAuth()
   const { setIsInvoiceModelOpen } = useInvoice()
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [filteredInvoices, setFilteredInvoices] = useState<InvoiceItem[]>([])
   const [filters, setFilters] = useState<FilterTypes[]>([{ id: 1, field: "", condition: "", value: "" }]);
   const location = useLocation()
   const navigate = useNavigate()
+  const userPermissions = PERMISSIONS[userData?.role as keyof typeof PERMISSIONS]
+
 
   useEffect(() => {
     setFilteredInvoices(location.search.includes("unpaid") ? INVOICES_DATA.filter((item) => item.status === "Unpaid") : location.search.includes("return") ? INVOICES_DATA.filter((item) => item.status === "Return") : location.search.includes("draft") ? INVOICES_DATA.filter((item) => item.status === "Draft") : INVOICES_DATA)
@@ -104,6 +107,8 @@ export const InvoicePage: React.FC = () => {
     "status",
   ]
 
+  if (!userPermissions.includes(APP_ACTIONS.invoicePage)) return <Navigate to={ROUTES.not_available} />
+
   return (
     <section className="md:py-9 pt-20 w-screen md:max-w-[calc(100vw-256px)]">
       <div className="md:px-14 px-2 flex justify-between items-center">
@@ -137,7 +142,7 @@ export const InvoicePage: React.FC = () => {
       <div className="flex mt-5 justify-between items-center md:px-14 px-2">
         <div className="flex gap-2 items-center">
           <button onClick={showModal} className="text-accentBlue rounded-md transition-all duration-200 flex gap-1 hover:bg-softBlue px-2 py-1 items-center md:text-[18px] text-[15px]">
-            <iconsPath.plusIcon size={24} /> Add Filters
+            <ICONS.plusIcon size={24} /> Add Filters
           </button>
         </div>
         <DraggableModal handleOk={handleFilters} heading="In this view show records" modalItems={<InvoiceFilter filters={filters} setFilters={setFilters} />} setOpen={setIsModalOpen} open={isModalOpen} />

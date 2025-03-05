@@ -1,4 +1,4 @@
-import { iconsPath } from "@constants"
+import { ICONS } from "@constants"
 import { useInvoice } from "@context"
 import { ReactSVG } from "react-svg"
 
@@ -7,7 +7,7 @@ export const InvoiceLeftPanel: React.FC = () => {
 
   return selectedImage === null ?
     <div className="bg-mistGray h-full md:w-full w-0 hidden mt-0.5 md:flex flex-col items-center justify-center">
-      <ReactSVG src={iconsPath.add_invoice} beforeInjection={(svg) => {
+      <ReactSVG src={ICONS.add_invoice} beforeInjection={(svg) => {
         if (window.innerWidth < 1024) {
           svg.classList.add("w-44")
           svg.classList.add("h-44")
@@ -22,7 +22,7 @@ export const InvoiceLeftPanel: React.FC = () => {
       <div className="bg-basicWhite border-b flex justify-between border-basicSilver py-4 px-3 mt-0.5">
         <p>{selectedImage.label}</p>
         <button onClick={() => setSelectedImage(null)}>
-          <ReactSVG src={iconsPath.close} />
+          <ReactSVG src={ICONS.close} />
         </button>
       </div>
       <div className="w-full h-[82vh] flex items-center justify-center overflow-hidden">
