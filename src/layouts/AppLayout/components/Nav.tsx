@@ -1,8 +1,7 @@
+import { UserProfile } from "@components"
 import { ICONS } from "@constants"
-import { useAuth } from "@context"
 
 export const Nav: React.FC = () => {
-  const { userData } = useAuth()
 
   return <nav className={`border-b w-full bg-mistGray flex fixed md:relative items-center md:justify-between justify-around gap-2 sm:px-14 px-8 py-4 z-10`}>
     <div className="relative">
@@ -15,18 +14,11 @@ export const Nav: React.FC = () => {
     </div>
 
     <div className="flex items-center sm:space-x-6 space-x-2">
-      <div className="flex md:gap-3 gap-1 items-center">
-        <div className="relative">
-          <div className={`w-8 h-8 rounded-full bg-grayTxt flex items-center justify-center font-bold text-basicWhite`}>
-            {userData?.firstName[0]}{userData?.lastName[0]}
-          </div>
-        </div>
-        <span className="font-medium sm:inline hidden text-gray-700">{userData?.firstName} {userData?.lastName}</span>
-      </div>
+      <UserProfile className="font-medium sm:inline hidden" />
 
       <div className="relative">
         <ICONS.bellIcon className="w-5 h-5 text-gray-500" />
-        <span className={`absolute top-0 right-0 block w-2 h-2 bg-red-500 rounded-full ring-2 ring-basicWhite`}></span>
+        <span className={`absolute top-0 right-0 block w-2 h-2 bg-basicRed rounded-full ring-2 ring-basicWhite`}></span>
       </div>
 
     </div>

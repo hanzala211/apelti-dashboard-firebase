@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom"
 import { SidebarItem } from "@components";
-import { Menu } from "lucide-react";
 import { APP_ACTIONS, ICONS, PERMISSIONS, ROUTES } from "@constants";
 import { useAuth } from "@context";
 
@@ -44,7 +43,7 @@ export const Sidebar: React.FC = () => {
         className={`md:hidden fixed top-4 sm:left-0 -left-1 p-3 h-fit bg-transparent rounded-md z-50 transition-all duration-300 ${isOpen ? "opacity-0 pointer-events-none" : ""}`}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <Menu size={20} />
+        <ICONS.menu size={20} />
       </button>
 
       <aside
@@ -90,7 +89,7 @@ export const Sidebar: React.FC = () => {
             <SidebarItem link={ROUTES.posting} icon={ICONS.postingSVG} label="Posting" />
             <SidebarItem link={ROUTES.reports} icon={ICONS.reportSVG} label="Reports" isIconType={true} />
             <SidebarItem link={ROUTES.team} icon={ICONS.teamSVG} label="Team" isIconType={true} />
-            <SidebarItem link={ROUTES.settings} icon={ICONS.settingSVG} label="Settings" isIconType={true} />
+            <SidebarItem link={`${ROUTES.settings}/${ROUTES.profile}`} icon={ICONS.settingSVG} label="Settings" isIconType={true} />
           </div>
           <SidebarItem link={`${ROUTES.auth}/${ROUTES.login}`} icon={ICONS.logout} label="Logout" onClick={handleLogout} isIconType={true} />
         </nav>

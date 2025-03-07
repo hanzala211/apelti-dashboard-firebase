@@ -1,4 +1,4 @@
-import { Bell, Search } from "lucide-react";
+import { Bell, Menu, Search } from "lucide-react";
 import { FaArrowCircleLeft, FaUserEdit } from "react-icons/fa";
 import { FiPlus, FiUsers } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
@@ -7,6 +7,7 @@ import { TbLogout, TbReportSearch } from "react-icons/tb";
 import { HiOutlineDocumentCurrencyDollar } from "react-icons/hi2";
 import { CgFileDocument } from "react-icons/cg";
 import { IoSettingsOutline } from "react-icons/io5";
+import { RiEditLine } from "react-icons/ri";
 
 
 export const ICONS = {
@@ -34,5 +35,7 @@ export const ICONS = {
   arrowDown: IoIosArrowDown,
   logout: TbLogout,
   delete: MdDeleteOutline,
-  edit: FaUserEdit
+  userEdit: FaUserEdit,
+  menu: Menu,
+  edit: RiEditLine
 }

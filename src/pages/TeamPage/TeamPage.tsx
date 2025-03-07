@@ -100,7 +100,7 @@ export const TeamPage: React.FC = () => {
                   <td className="px-4 py-2 text-sm text-neutralGray">{item.phone}</td>
                   <td className="px-4 py-2 text-sm text-neutralGray">{item.role[0].toUpperCase()}{item.role.slice(1)}</td>
                   {userPermissions.includes(APP_ACTIONS.addTeam) && <>
-                    <td className="px-4 py-2 text-sm text-basicGreen cursor-pointer" onClick={() => setEditingUser(item)}><ICONS.edit size={24} /></td>
+                    <td className="px-4 py-2 text-sm text-basicGreen cursor-pointer" onClick={() => setEditingUser(item)}><ICONS.userEdit size={24} /></td>
                     <td className="px-4 py-2 text-sm text-basicRed cursor-pointer" onClick={() => deleteMember(item._id)}><ICONS.delete size={24} /></td>
                   </>
                   }

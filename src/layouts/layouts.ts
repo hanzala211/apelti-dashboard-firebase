@@ -1,3 +1,4 @@
-export * from "./app-layout"
-export * from "./auth-layout"
-export * from "./page-not-found"
+export * from "./AppLayout/app-layout"
+export * from "./AuthLayout/auth-layout"
+export * from "./PageNotFound/page-not-found"
+export * from "./SettingLayout/settings-layout"

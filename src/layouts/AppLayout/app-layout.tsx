@@ -1,9 +1,9 @@
 import { useAuth } from "@context"
-import { Nav } from "./Nav"
-import { Sidebar } from "./Sidebar"
+import { Nav } from "./components/Nav"
+import { Sidebar } from "./components/Sidebar"
 import { Navigate, Outlet } from "react-router-dom"
 import { ROUTES } from "@constants"
-import Loader from "./Loader"
+import Loader from "../Loader"
 
 export const AppLayout: React.FC = () => {
   const { userData, isMainLoading } = useAuth()
@@ -16,7 +16,6 @@ export const AppLayout: React.FC = () => {
     <Sidebar />
     <div className="flex-1 flex flex-col">
       <Nav />
-      {/* The scrolling container */}
       <div className="flex-1">
         <Outlet />
       </div>
