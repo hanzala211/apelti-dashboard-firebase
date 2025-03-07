@@ -23,7 +23,7 @@ export const Input: React.FC<InvoiceInputProps> = ({ register, type, label, erro
         {...register}
         className="bg-white rounded-md w-full py-1.5 px-3 border border-basicBlack focus:shadow-blue-300 focus-within:shadow-sm focus:outline-none focus:border-blue-500 hover:border-blue-500 transition-all duration-200" min={min} placeholder={placeholder}
       />
-      {error && <p className="text-basicRed text-sm]">{error}</p>}
+      {error && <p className="text-basicRed text-sm">{error}</p>}
     </div>
   );
 };

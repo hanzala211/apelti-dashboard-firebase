@@ -1,5 +1,6 @@
 import PhoneInput from 'react-phone-input-2';
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
+import 'react-phone-input-2/lib/style.css';
 
 interface PhoneNumberInputProps<T extends FieldValues> {
   control: Control<T>;
@@ -33,12 +34,10 @@ export const PhoneNumberInput = <T extends FieldValues>({
                 id: name,
                 placeholder: "",
               }}
-              autoFormat={false}
-              disableDropdown
+              autoFormat={true}
               countryCodeEditable={true}
-              inputClass="w-full rounded-md focus:outline-none focus:border-blue-500 hover:border-blue-500 transition-all duration-200 bg-white py-1.5 px-3 focus-within:outline-none border-basicBlack border-[1px]"
-              buttonClass="bg-transparent border-none outline-none focus:outline-none"
-              dropdownClass="rounded-md shadow-lg"
+              inputClass="!w-full rounded-md focus:outline-none focus:!border-blue-500 hover:!border-blue-500 transition-all duration-200 !bg-white !py-1.5 !pl-16 focus-within:!outline-none !border-basicBlack !border-[1px] !text-[15px] !font-medium"
+              buttonClass="bg-transparent border-none outline-none focus:outline-none rounded-md focus:outline-none focus:!border-blue-500 hover:!border-blue-500 transition-all duration-200 !bg-white !py-1.5 !px-2 focus-within:outline-none border-basicBlack border-[1px]"
               specialLabel=""
             />
 
