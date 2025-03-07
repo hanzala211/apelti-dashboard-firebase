@@ -43,3 +43,9 @@ export interface TeamContextTypes {
   errorMessage: string,
   getMembers: () => void
 }
+
+export interface SettingContextTypes {
+  changeEmailAndName: (data: unknown) => void,
+  errorMessage: string,
+  changeUserData: (data: unknown) => void
+}
