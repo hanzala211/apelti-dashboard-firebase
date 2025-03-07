@@ -85,7 +85,7 @@ export const SettingSidebar: React.FC = () => {
         <Link to="/" className="flex items-center gap-1 text-[24px]"><ICONS.leftArrowSlider size={32} /> Exit</Link>
       </div>
       <div>
-        <div className="py-5">
+        <div className="py-[18px]">
           <SettingSidebarItem data={sidebarItems[0]} />
         </div>
         <div>
