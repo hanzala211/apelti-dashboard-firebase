@@ -1,4 +1,4 @@
-import { SettingSidebarItem } from "@components"
+import { SettingSidebarItem } from "./SettingSidebarItem"
 import { ICONS, ROUTES } from "@constants"
 import { useEffect, useRef, useState } from "react"
 import { Link, useLocation } from "react-router-dom"

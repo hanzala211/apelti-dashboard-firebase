@@ -39,5 +39,6 @@ export const ICONS = {
   delete: MdDeleteOutline,
   userEdit: FaUserEdit,
   menu: Menu,
-  edit: RiEditLine
+  edit: RiEditLine,
+  question_mark: "/assets/icons/question-mark.svg"
 }

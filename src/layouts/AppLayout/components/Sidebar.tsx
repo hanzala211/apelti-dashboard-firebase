@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom"
-import { SidebarItem } from "@components";
+import { SidebarItem } from "./SidebarItem"
 import { APP_ACTIONS, ICONS, PERMISSIONS, ROUTES } from "@constants";
 import { useAuth } from "@context";
 

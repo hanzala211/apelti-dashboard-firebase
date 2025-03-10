@@ -16,5 +16,8 @@ export const COLORS = {
   softBlue: "#CCE1FB",
   darkBlue: "#0171FF",
   accentBlue: "#6467FF",
-  neutralGray: "#787878"
+  neutralGray: "#787878",
+  temporaryGreen: "#E9FBF1",
+  temporaryRed: "#FFF2F2"
 }
+
