@@ -1,4 +1,4 @@
-import { ICONS } from "@constants";
+import { DATE_FOMRAT, ICONS } from "@constants";
 import { ReactSVG } from "react-svg";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
@@ -96,7 +96,7 @@ const InvoiceFilter: React.FC<InvoiceFilterProps> = ({ filters, setFilters }) =>
                 <input type="text" placeholder="Enter value..." className="bg-white rounded-md w-full py-1.5 px-3 border border-basicBlack focus:shadow-blue-300 focus-within:shadow-sm focus:outline-none focus:border-blue-500 hover:border-blue-500 transition-all duration-200" value={filter.value} onChange={(e) => updateFilter(filter.id, "value", e.target.value)}
                 />
                 :
-                <DatePicker format="DD/MM/YYYY" placeholder="DD/MM/YYYY" className="bg-white rounded-md w-full py-1.5 px-3 border border-basicBlack focus:shadow-blue-300 focus-within:shadow-sm focus:outline-none focus:border-blue-500 hover:border-blue-500 transition-all duration-200" value={filter.value ? dayjs(filter.value, "DD/MM/YYYY") : null} onChange={(date, dateString) => onDateChange(date, dateString, filter.id)} />
+                <DatePicker format={DATE_FOMRAT} placeholder={DATE_FOMRAT} className="bg-white rounded-md w-full py-1.5 px-3 border border-basicBlack focus:shadow-blue-300 focus-within:shadow-sm focus:outline-none focus:border-blue-500 hover:border-blue-500 transition-all duration-200" value={filter.value ? dayjs(filter.value, DATE_FOMRAT) : null} onChange={(date, dateString) => onDateChange(date, dateString, filter.id)} />
               }
 
               <ReactSVG src={ICONS.close} className="cursor-pointer" onClick={() => removeFilter(filter.id)}

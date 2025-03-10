@@ -1,28 +1,30 @@
-import { Bell, Menu, Search } from "lucide-react";
+import { Bell, Menu, ScrollText, Search, UserRound } from "lucide-react";
 import { FaArrowCircleLeft, FaUserEdit } from "react-icons/fa";
-import { FiPlus, FiUsers } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
 import { MdDeleteOutline, MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { TbLogout, TbReportSearch } from "react-icons/tb";
-import { HiOutlineDocumentCurrencyDollar } from "react-icons/hi2";
+import { HiOutlineCreditCard, HiOutlineDocumentMinus } from "react-icons/hi2";
 import { CgFileDocument } from "react-icons/cg";
 import { IoSettingsOutline } from "react-icons/io5";
 import { RiEditLine } from "react-icons/ri";
+import { BiLogIn } from "react-icons/bi";
+import { FaRegPenToSquare } from "react-icons/fa6";
 
 
 export const ICONS = {
   documentSVG: CgFileDocument,
   dashboardSVG: "/assets/icons/dashboard.svg",
-  approvalSVG: "/assets/icons/approval.svg",
-  invoiceSVG: HiOutlineDocumentCurrencyDollar,
+  approvalSVG: BiLogIn,
+  invoiceSVG: ScrollText,
   logoSVG: "/assets/icons/logo.svg",
   messageSVG: "/assets/icons/messages.svg",
-  paymentSVG: "/assets/icons/payment.svg",
-  postingSVG: "/assets/icons/posting.svg",
+  paymentSVG: HiOutlineCreditCard,
+  postingSVG: FaRegPenToSquare,
   reportSVG: TbReportSearch,
   settingSVG: IoSettingsOutline,
-  supplierSVG: "/assets/icons/supplier.svg",
-  teamSVG: FiUsers,
+  supplierSVG: HiOutlineDocumentMinus,
+  teamSVG: UserRound,
   plusIcon: FiPlus,
   searchIcon: Search,
   bellIcon: Bell,

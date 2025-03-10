@@ -5,7 +5,6 @@ export const APP_ACTIONS = {
   messagesPage: "MessagesPage",
   teamPage: "TeamPage",
   addTeam: "AddTeam",
-  customerReviewPage: "CustomerReviewPage",
   supplierPage: "SupplierPage",
   payemntPage: "PaymentPage",
   approvalPage: "ApprovalPage"

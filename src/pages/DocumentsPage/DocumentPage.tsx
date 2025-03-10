@@ -1,6 +1,6 @@
 import { PageHeading } from "@components";
 import { DocumentTable } from "./components/DocumentTable";
-import { APP_ACTIONS, DOCUMENTS_DATA, PERMISSIONS, ROUTES } from "@constants";
+import { APP_ACTIONS, DATE_FOMRAT, DOCUMENTS_DATA, PERMISSIONS, ROUTES } from "@constants";
 import { IDocument } from "@types";
 import { useEffect, useState } from "react";
 import { DatePicker, DatePickerProps } from "antd";
@@ -55,7 +55,7 @@ export const DocumentPage: React.FC = () => {
               <input
                 type="text"
                 id="name"
-                className="focus:outline-none focus:border-blue-500 hover:border-blue-500 transition-all duration-200 rounded-md px-2 py-1 text-[14px] border-[1px] md:w-auto w-52"
+                className="focus:outline-none focus:border-blue-500 hover:border-blue-500 transition-all duration-200 rounded-full px-2 py-1 text-[14px] border-[1px] md:w-auto w-52"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
               />
@@ -63,10 +63,10 @@ export const DocumentPage: React.FC = () => {
             <div className="flex gap-2 items-center">
               <label htmlFor="date" className="text-[14px] md:text-[16px]">Added</label>
               <DatePicker
-                format="DD/MM/YYYY"
-                placeholder="DD/MM/YYYY"
-                className="px-2 py-1 text-[14px] border-[1px] md:w-auto w-52"
-                value={searchDate ? dayjs(searchDate, "DD/MM/YYYY") : null}
+                format={DATE_FOMRAT}
+                placeholder={DATE_FOMRAT}
+                className="px-2 py-1 text-[14px] border-[1px] !rounded-full md:w-auto w-52"
+                value={searchDate ? dayjs(searchDate, DATE_FOMRAT) : null}
                 onChange={handleChange}
               />
             </div>

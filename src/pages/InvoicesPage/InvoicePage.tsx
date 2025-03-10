@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth, useInvoice } from "@context";
 import { FilterTypes, InvoiceItem } from "@types";
-import { APP_ACTIONS, ICONS, INVOICES_DATA, PERMISSIONS, ROUTES } from "@constants";
+import { APP_ACTIONS, DATE_FOMRAT, ICONS, INVOICES_DATA, PERMISSIONS, ROUTES } from "@constants";
 import InvoiceModel from "./components/InvoiceModel";
 import InvoiceFilter from "./components/InvoiceFilter";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
@@ -48,8 +48,8 @@ export const InvoicePage: React.FC = () => {
 
           case "dateOfCreation":
           case "paymentTerm": {
-            const filterDate = filter.value ? dayjs(filter.value, "DD/MM/YYYY") : null
-            const invoiceDate = invoice[filter.field] ? dayjs(invoice[filter.field], "DD/MM/YYYY") : null
+            const filterDate = filter.value ? dayjs(filter.value, DATE_FOMRAT) : null
+            const invoiceDate = invoice[filter.field] ? dayjs(invoice[filter.field], DATE_FOMRAT) : null
 
             if (filterDate && invoiceDate && filterDate.isValid() && invoiceDate.isValid()) {
               if (filter.condition === "before" && !invoiceDate.isBefore(filterDate)) return false;

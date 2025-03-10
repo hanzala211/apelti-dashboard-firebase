@@ -59,7 +59,7 @@ export const Sidebar: React.FC = () => {
         <p className="text-slateGrey text-[15px] mb-5">MENU</p>
 
         <nav className="flex flex-col space-y-2 overflow-auto">
-          <div className="py-2 border-b-[1px] space-y-2">
+          <div className="py-2 border-b-[1px] flex flex-col gap-1">
             {userPermissions.includes(APP_ACTIONS.dashboardPage) &&
               <SidebarItem link="/" icon={ICONS.dashboardSVG} label="Dashboard" />
             }
@@ -67,26 +67,23 @@ export const Sidebar: React.FC = () => {
             {userPermissions.includes(APP_ACTIONS.documentPage) &&
               <SidebarItem link={ROUTES.documents} icon={ICONS.documentSVG} label="Documents" isIconType={true} />
             }
-            {userPermissions.includes(APP_ACTIONS.customerReviewPage) &&
-              <SidebarItem link={ROUTES.customer_review} icon={ICONS.documentSVG} label="Customer Review" isIconType={true} />
-            }
           </div>
-          <div className="space-y-2 border-b-[1px] py-2">
+          <div className="flex flex-col gap-1 border-b-[1px] py-2">
             {userPermissions.includes(APP_ACTIONS.invoicePage) &&
               <SidebarItem link={`${ROUTES.invoices}?all=true`} icon={ICONS.invoiceSVG} isIconType={true} label="Invoices" />
             }
             {userPermissions.includes(APP_ACTIONS.supplierPage) &&
-              <SidebarItem link={ROUTES.suppliers} icon={ICONS.supplierSVG} label="Suppliers" />
+              <SidebarItem link={ROUTES.suppliers} icon={ICONS.supplierSVG} label="Suppliers" isIconType={true} />
             }
             {userPermissions.includes(APP_ACTIONS.payemntPage) &&
-              <SidebarItem link={ROUTES.payment} icon={ICONS.paymentSVG} label="Payment" />
+              <SidebarItem link={ROUTES.payment} icon={ICONS.paymentSVG} label="Payment" isIconType={true} />
             }
             {userPermissions.includes(APP_ACTIONS.approvalPage) &&
-              <SidebarItem link={ROUTES.approval} icon={ICONS.approvalSVG} label="Approval" />
+              <SidebarItem link={ROUTES.approval} icon={ICONS.approvalSVG} label="Approval" isIconType={true} />
             }
           </div>
-          <div className="space-y-2 border-b-[1px] py-2">
-            <SidebarItem link={ROUTES.posting} icon={ICONS.postingSVG} label="Posting" />
+          <div className="flex flex-col gap-1 border-b-[1px] py-2">
+            <SidebarItem link={ROUTES.posting} icon={ICONS.postingSVG} label="Posting" isIconType={true} />
             <SidebarItem link={ROUTES.reports} icon={ICONS.reportSVG} label="Reports" isIconType={true} />
             <SidebarItem link={ROUTES.team} icon={ICONS.teamSVG} label="Team" isIconType={true} />
             <SidebarItem link={`${ROUTES.settings}/${ROUTES.profile}`} icon={ICONS.settingSVG} label="Settings" isIconType={true} />
