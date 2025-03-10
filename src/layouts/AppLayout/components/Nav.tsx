@@ -7,7 +7,7 @@ export const Nav: React.FC = () => {
     <div className="relative">
       <input
         type="text"
-        className={`lg:w-[30rem] md:w-[17rem] sm:w-[22rem] bg-paleGray outline-none border border-gray-300 py-2 pr-8 pl-3 placeholder:underline rounded-md`}
+        className={`lg:w-[30rem] md:w-[17rem] sm:w-[22rem] w-[16rem] bg-paleGray outline-none border border-gray-300 py-2 pr-8 pl-3 placeholder:underline rounded-md`}
         placeholder="Search"
       />
       <ICONS.searchIcon className={`absolute right-3 top-1/2 -translate-y-1/2 w-5 text-basicZinc`} />
