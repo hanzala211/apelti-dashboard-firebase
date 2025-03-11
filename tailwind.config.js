@@ -6,6 +6,9 @@ module.exports = {
 	content: ['./src/**/*.{js,jsx,ts,tsx}'],
 	theme: {
 		extend: {
+			backgroundImage: {
+				'profile-settings': "url('/assets/images/profile-settings.png')",
+			},
 			colors: COLORS,
 			fontFamily: {
 				poppins: ['Poppins', 'system-ui', 'sans-serif'],

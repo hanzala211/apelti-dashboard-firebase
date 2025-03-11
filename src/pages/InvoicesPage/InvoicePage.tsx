@@ -145,7 +145,7 @@ export const InvoicePage: React.FC = () => {
             <ICONS.plusIcon size={24} /> Add Filters
           </button>
         </div>
-        <DraggableModal handleOk={handleFilters} heading="In this view show records" modalItems={<InvoiceFilter filters={filters} setFilters={setFilters} />} setOpen={setIsModalOpen} open={isModalOpen} />
+        <DraggableModal okText="Add" handleOk={handleFilters} heading="In this view show records" modalItems={<InvoiceFilter filters={filters} setFilters={setFilters} />} setOpen={setIsModalOpen} open={isModalOpen} />
       </div>
 
       <Table keys={keys} headings={headings} data={filteredInvoices} />

@@ -9,7 +9,7 @@ interface TableProps<T> {
 export const Table = <T,>({ headings, data, keys }: TableProps<T>) => {
   return (
     <div className="w-full mt-5 sm:max-h-[calc(100vh-280px)] max-h-[calc(100dvh-260px)] overflow-auto">
-      <table className="w-full text-sm text-left text-gray-700">
+      <table className="w-full text-sm text-center text-gray-700">
         <thead className="sticky top-0 z-20 bg-paleGray border-b border-silverGray">
           <tr>
             {headings.map((heading, idx) => (

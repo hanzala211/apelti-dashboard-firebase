@@ -24,7 +24,7 @@ export const TeamForm: React.FC<TeamFormProps> = ({ register, control, errors, o
     <div className="flex justify-between items-center">
       <h2 className="text-lg font-semibold mb-4">{editingUser === null ? "Add Team Members" : `Editing ${editingUser?.firstName} ${editingUser?.lastName}`}</h2>
       {editingUser !== null &&
-        <button className="border-silverGray border-2 px-2 py-1 text-silverGray hover:bg-silverGray transition-all duration-200 hover:text-basicWhite  rounded-lg" onClick={() => setEditingUser(null)}>Cancel</button>
+        <button className="border-silverGray border-2 px-2 py-1 hover:text-silverGray hover:border-neutralGray transition-all duration-200 rounded-lg text-[13px]" onClick={() => setEditingUser(null)}>Cancel</button>
       }
     </div>
     <form onSubmit={onSubmit} className="space-y-6">

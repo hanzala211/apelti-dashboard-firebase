@@ -8,10 +8,11 @@ interface DraggableModalProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>,
   modalItems: ReactElement,
   heading: string,
-  handleOk: () => void
+  handleOk: () => void,
+  okText?: string,
 }
 
-export const DraggableModal: React.FC<DraggableModalProps> = ({ open, setOpen, modalItems: Compo, heading, handleOk: handleChange }) => {
+export const DraggableModal: React.FC<DraggableModalProps> = ({ open, setOpen, modalItems: Compo, heading, handleOk: handleChange, okText = "Ok" }) => {
   const [disabled, setDisabled] = useState(true);
   const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
   const draggleRef = useRef<HTMLDivElement>(null!)
@@ -56,6 +57,7 @@ export const DraggableModal: React.FC<DraggableModalProps> = ({ open, setOpen, m
           {heading}
         </div>}
         open={open}
+        okText={okText}
         onOk={handleOk}
         onCancel={handleCancel}
         okButtonProps={{ className: 'bg-basicGreen border-none hover:!bg-opacity-50 text-white hover:!bg-basicGreen active:!bg-basicGreen focus:!bg-basicGreen' }}
