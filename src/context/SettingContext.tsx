@@ -2,6 +2,7 @@ import { useAuth } from "@context";
 import { settingServices } from "@services";
 import { SettingContextTypes } from "@types";
 import { createContext, ReactNode, useContext, useState } from "react";
+import { toast } from "@helpers";
 
 const SettingContext = createContext<SettingContextTypes | undefined>(undefined)
 
@@ -9,11 +10,13 @@ export const SettingProvider: React.FC<{ children: ReactNode }> = ({ children })
   const { userData, setUserData } = useAuth()
   const [errorMessage, setErrorMessage] = useState<string>("")
 
-  const changeEmailAndName = async (data: unknown) => {
+  const changePassword = async (data: unknown) => {
     try {
       setErrorMessage("")
       const response = await settingServices.changePassword(data)
       console.log(response)
+      toast.success("Success", "Password Changed Successfully");
+      return response
     } catch (error) {
       console.log(error)
       setErrorMessage(typeof error === "object" ? (error as Error)?.message : String(error))
@@ -23,15 +26,16 @@ export const SettingProvider: React.FC<{ children: ReactNode }> = ({ children })
   const changeUserData = async (data: unknown) => {
     try {
       const response = await settingServices.changeUserData(data, userData?._id || "")
-      console.log(response)
       setUserData(response.data.data)
+      console.log("Checking the update")
+      toast.success("Success", "Data Updated Successfully");
     } catch (error) {
       console.log(error)
       setErrorMessage(typeof error === "object" ? (error as Error)?.message : String(error))
     }
   }
 
-  return <SettingContext.Provider value={{ changeEmailAndName, errorMessage, changeUserData }}>{children}</SettingContext.Provider>
+  return <SettingContext.Provider value={{ changePassword, errorMessage, changeUserData }}>{children}</SettingContext.Provider>
 }
 
 export const useSetting = (): SettingContextTypes => {

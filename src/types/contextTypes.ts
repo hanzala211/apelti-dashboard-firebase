@@ -45,7 +45,7 @@ export interface TeamContextTypes {
 }
 
 export interface SettingContextTypes {
-  changeEmailAndName: (data: unknown) => void,
+  changePassword: (data: unknown) => void,
   errorMessage: string,
   changeUserData: (data: unknown) => void
 }

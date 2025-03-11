@@ -13,7 +13,7 @@ import ProfileSettingNameEmailForm from "./components/ProfileSettingNameEmailFor
 
 export const ProfileSettingPage: React.FC = () => {
   const { userData } = useAuth();
-  const { changeEmailAndName, errorMessage, changeUserData } = useSetting()
+  const { changePassword, errorMessage, changeUserData } = useSetting()
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [isEditingPassword, setIsEditingPassword] = useState<boolean>(false);
   const [isEditingRole, setIsEditingRole] = useState<boolean>(false);
@@ -37,6 +37,7 @@ export const ProfileSettingPage: React.FC = () => {
   }, [clearErrors, setValue, userData, isEditingPassword, isEditingRole, isModalOpen]);
 
   const onSubmitName: SubmitHandler<ProfileFormValues> = (data) => {
+    setIsModalOpen(false)
     changeUserData({
       firstName: data.firstName,
       lastName: data.lastName,
@@ -48,7 +49,7 @@ export const ProfileSettingPage: React.FC = () => {
   const onSubmitPassword: SubmitHandler<ProfileFormValues> = (data) => {
     const { oldPassword, newPassword } = data;
     setIsEditingPassword(false);
-    changeEmailAndName({ currentPassword: oldPassword, newPassword })
+    changePassword({ currentPassword: oldPassword, newPassword })
     reset()
   };
 

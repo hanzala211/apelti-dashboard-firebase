@@ -3,6 +3,7 @@ import { AuthProvider, InvoiceProvider, MessageProvider, SettingProvider, TeamPr
 import { AppLayout, AuthLayout, PageNotFound, SettingsLayout } from "@layouts"
 import { DashboardPage, DocumentPage, InvoicePage, LoginPage, MessagesPage, ProfileSettingPage, SignupPage, TeamPage } from "@pages"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
+import 'antd/dist/reset.css';
 
 const App: React.FC = () => {
 

@@ -1,4 +1,5 @@
 import { useAuth } from "@context";
+import { toast } from "@helpers";
 import { teamServices } from "@services";
 import { IUser, TeamContextTypes } from "@types";
 import { createContext, ReactNode, useContext, useState } from "react";
@@ -19,6 +20,7 @@ export const TeamProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setIsAddingMember(true)
       const response = await teamServices.addMember(sendData)
       if (response.status === 200) {
+        toast.success("Success", "User Added Successfully");
         setTeamMembers((prev) => [...prev, response.data.data])
       }
     } catch (error) {
@@ -63,6 +65,7 @@ export const TeamProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const response = await teamServices.updateMember(userId, data)
       console.log(response)
       if (response.status === 200) {
+        toast.success("Success", "User Updated Successfully");
         setTeamMembers((prev) => [...prev.filter((item: IUser) => item._id !== userId), response.data.data as IUser])
       }
     } catch (error) {
