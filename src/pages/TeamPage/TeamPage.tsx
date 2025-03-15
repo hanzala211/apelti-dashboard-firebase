@@ -1,6 +1,6 @@
 import { PageHeading } from "@components";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addMemberForm, AddMemberFormSchema } from "@types";
+import { addMemberForm, AddMemberFormSchema, IUser } from "@types";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TeamForm } from "./components/TeamForm";
 import { useAuth, useTeam } from "@context";
@@ -8,16 +8,23 @@ import { Skeleton } from "antd";
 import { APP_ACTIONS, ICONS, PERMISSIONS, ROUTES } from "@constants";
 import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 export const TeamPage: React.FC = () => {
   const { userData } = useAuth()
-  const { teamMembers, addMember, isTeamLoading, deleteMember, setEditingUser, editingUser, updateUser, getMembers } = useTeam()
+  const { addMember, deleteMember, setEditingUser, editingUser, updateUser, getMembers } = useTeam()
   const { register, control, handleSubmit, formState: { errors }, reset } = useForm<AddMemberFormSchema>({
     resolver: zodResolver(addMemberForm),
     defaultValues: {
       role: "clerk",
     },
   })
+
+  const { data: teamMembers, isLoading: isTeamLoading } = useQuery<IUser[] | null>({
+    queryKey: ["teamMembers"],
+    queryFn: () => getMembers()
+  })
+
   const userPermissions = PERMISSIONS[userData?.role as keyof typeof PERMISSIONS]
 
   useEffect(() => {
@@ -40,12 +47,6 @@ export const TeamPage: React.FC = () => {
       })
     }
   }, [editingUser, reset])
-
-  useEffect(() => {
-    if (teamMembers.length === 0) {
-      getMembers()
-    }
-  }, [])
 
   const onSubmit: SubmitHandler<AddMemberFormSchema> = (data) => {
     console.log("Form Data:", data);
@@ -93,7 +94,7 @@ export const TeamPage: React.FC = () => {
                   <td className="px-4 py-2"><Skeleton.Button active size="small" /></td>
                 </tr>
               ))
-              : teamMembers.map((item, index) => (
+              : teamMembers && teamMembers.map((item, index) => (
                 <tr key={index} className="border-y border-silverGray even:bg-basicWhite odd:bg-paleGray">
                   <td className="px-4 py-2 text-sm text-neutralGray">{item.firstName} {item.lastName}</td>
                   <td className="px-4 py-2 text-sm text-neutralGray">{item.email}</td>
