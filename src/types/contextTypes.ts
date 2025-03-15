@@ -1,5 +1,6 @@
 import { IMessage, IUser } from "@types";
 import { RefObject } from "react";
+import { Socket } from "socket.io-client";
 
 export interface MessageContextTypes {
   selectedMessage: IMessage | null,
@@ -27,7 +28,8 @@ export interface AuthContextTypes {
   setIsMainLoading: React.Dispatch<React.SetStateAction<boolean>>,
   errorMessage: string,
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-  isAuthLoading: boolean
+  isAuthLoading: boolean,
+  socketClient: Socket | null
 }
 
 export interface TeamContextTypes {

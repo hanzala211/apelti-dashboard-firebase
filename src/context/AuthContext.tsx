@@ -3,6 +3,8 @@ import { authService } from "@services";
 import { AuthContextTypes, IUser } from "@types";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { socket } from "@helpers"
+import { Socket } from "socket.io-client";
 
 const AuthContext = createContext<AuthContextTypes | undefined>(undefined)
 
@@ -12,16 +14,33 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isMainLoading, setIsMainLoading] = useState<boolean>(true)
   const [errorMessage, setErrorMessage] = useState<string>("")
   const [isAuthLoading, setIsAuthLoading] = useState<boolean>(false)
+  const [socketClient, setSocketClient] = useState<Socket | null>(null)
   const navigate = useNavigate()
 
   useEffect(() => {
     const token = localStorage.getItem("token")
     if (token !== null && userData === null) {
       me()
+      const newSocket = socket(token);
+      newSocket.on("connect", () => {
+        console.log("Connected", newSocket.id);
+        setSocketClient(newSocket);
+      });
+      newSocket.on("receiveMessage", (data) => console.log(data))
     } else {
       setIsMainLoading(false)
     }
   }, [])
+
+  // useEffect(() => {
+  //   if (socketClient !== null) {
+  //     socketClient.emit("sendMessage", {
+  //       "receiverId": userData?._id,
+  //       "message": "ff fvvvrcccom H"
+  //     })
+  //     socketClient.on("receiveMessage", (data) => console.log(data))
+  //   }
+  // }, [socketClient])
 
   const signup = async (sendData: unknown) => {
     try {
@@ -89,7 +108,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }
 
-  return <AuthContext.Provider value={{ userData, setUserData, isRemember, setIsRemember, signup, login, isMainLoading, setIsMainLoading, errorMessage, isAuthLoading, setErrorMessage }}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ userData, setUserData, isRemember, setIsRemember, signup, login, isMainLoading, setIsMainLoading, errorMessage, isAuthLoading, setErrorMessage, socketClient }}>{children}</AuthContext.Provider>
 }
 
 export const useAuth = (): AuthContextTypes => {

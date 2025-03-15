@@ -127,7 +127,7 @@ export const ProfileSettingPage: React.FC = () => {
       <div className="w-full xl:max-w-[55%] max-w-[95%] bg-basicWhite mx-auto h-fit rounded-3xl md:p-8 p-5 flex mt-14 text-left flex-col">
         <form onSubmit={handleSubmit(onSubmitPassword)} className="flex flex-col gap-4">
           <div className="border-b-[1px] pt-4 pb-8 flex md:items-start items-end justify-between gap-2 w-full border-neutralGray">
-            <div className="grid xl:grid-cols-[0.5fr_2fr] grid-cols-1 gap-5 items-center">
+            <div className="grid xl:grid-cols-[0.5fr_2fr] grid-cols-1 gap-5">
               <SettingPageHeading label="Password" />
               <div className="flex gap-2 items-center">
                 {!isEditingPassword ? (
