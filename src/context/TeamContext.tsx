@@ -1,7 +1,6 @@
 import { useAuth } from "@context";
 import { toast } from "@helpers";
 import { teamServices } from "@services";
-import { useQueryClient } from "@tanstack/react-query";
 import { IUser, TeamContextTypes } from "@types";
 import { createContext, ReactNode, useContext, useState } from "react";
 
@@ -9,27 +8,21 @@ const TeamContext = createContext<TeamContextTypes | undefined>(undefined)
 
 export const TeamProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { userData } = useAuth()
-  const [isAddingMember, setIsAddingMember] = useState<boolean>(false)
   const [editingUser, setEditingUser] = useState<IUser | null>(null)
   const [errorMessage, setErrorMessage] = useState<string>("")
-  const queryClient = useQueryClient()
 
   const addMember = async (sendData: unknown) => {
     try {
       setErrorMessage("")
-      setIsAddingMember(true)
       const response = await teamServices.addMember(sendData)
       if (response.status === 200) {
         toast.success("Success", "User Added Successfully");
-        queryClient.invalidateQueries({
-          queryKey: ["teamMembers"]
-        });
+        return response.data.data
       }
+      return null
     } catch (error) {
       console.log(error)
       setErrorMessage(typeof error === "object" ? (error as Error).message : String(error))
-    } finally {
-      setIsAddingMember(false)
     }
   }
 
@@ -48,11 +41,8 @@ export const TeamProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const deleteMember = async (userId: string) => {
     try {
       const response = await teamServices.deleteMember(userId)
-      if (response.status === 200) {
-        queryClient.setQueryData<IUser[]>(["teamMembers"], (oldData) =>
-          oldData ? oldData.filter((item) => item._id !== userId) : []
-        );
-      }
+      console.log(response)
+      return null
     } catch (error) {
       console.log(error)
     }
@@ -60,28 +50,20 @@ export const TeamProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const updateUser = async (userId: string, data: unknown) => {
     try {
-      setIsAddingMember(true)
       const response = await teamServices.updateMember(userId, data)
       if (response.status === 200) {
         toast.success("Success", "User Updated Successfully");
-        queryClient.setQueryData<IUser[]>(["teamMembers"], (oldData) =>
-          oldData
-            ? [
-              ...oldData.filter((item) => item._id !== userId),
-              response.data.data as IUser,
-            ]
-            : [response.data.data as IUser]
-        );
+        return response.data.data
       }
+      return null
     } catch (error) {
       console.log(error)
     } finally {
-      setIsAddingMember(false)
       setEditingUser(null)
     }
   }
 
-  return <TeamContext.Provider value={{ addMember, isAddingMember, deleteMember, editingUser, setEditingUser, updateUser, errorMessage, getMembers }}>{children}</TeamContext.Provider>
+  return <TeamContext.Provider value={{ addMember, deleteMember, editingUser, setEditingUser, updateUser, errorMessage, getMembers }}>{children}</TeamContext.Provider>
 }
 
 export const useTeam = (): TeamContextTypes => {

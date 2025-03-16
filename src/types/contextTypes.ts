@@ -33,12 +33,11 @@ export interface AuthContextTypes {
 }
 
 export interface TeamContextTypes {
-  addMember: (sendData: unknown) => void,
-  isAddingMember: boolean,
-  deleteMember: (userId: string) => void,
+  addMember: (sendData: unknown) => Promise<IUser | null>,
+  deleteMember: (userId: string) => Promise<null | undefined>,
   editingUser: IUser | null,
   setEditingUser: React.Dispatch<React.SetStateAction<IUser | null>>,
-  updateUser: (userId: string, data: unknown) => void,
+  updateUser: (userId: string, data: unknown) => Promise<IUser | null>,
   errorMessage: string,
   getMembers: () => Promise<IUser[] | null>
 }

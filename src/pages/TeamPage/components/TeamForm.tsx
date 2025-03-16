@@ -8,10 +8,11 @@ interface TeamFormProps {
   control: Control<AddMemberFormSchema>,
   errors: FieldErrors<AddMemberFormSchema>,
   onSubmit: () => void,
+  isAddingMember: boolean
 }
 
-export const TeamForm: React.FC<TeamFormProps> = ({ register, control, errors, onSubmit }) => {
-  const { isAddingMember, editingUser, setEditingUser, errorMessage } = useTeam()
+export const TeamForm: React.FC<TeamFormProps> = ({ register, control, errors, onSubmit, isAddingMember }) => {
+  const { editingUser, setEditingUser, errorMessage } = useTeam()
 
   const roles = [
     { label: "Clerk", value: "clerk" },
