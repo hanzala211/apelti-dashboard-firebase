@@ -81,7 +81,7 @@ export const SettingSidebar: React.FC = () => {
       <ICONS.menu size={20} />
     </button>
     <aside ref={sideBarRef} className={`fixed md:relative h-[100dvh] z-50 bg-basicWhite w-64 flex flex-col transition-transform duration-300 md:translate-x-0 md:flex ${isOpen ? "translate-x-0" : "-translate-x-full"}`}>
-      <div className="p-[1.36rem] border-b-[1px]">
+      <div className="px-3 py-5 border-b-[1px]">
         <Link to="/" className="flex items-center gap-1 text-[24px]"><ICONS.leftArrowSlider size={32} /> Exit</Link>
       </div>
       <div>

@@ -22,7 +22,7 @@ export const SettingSidebarItem: React.FC<SettingSidebarItemProps> = ({ isOpen =
     </button>
     <div className={`grid transition-[grid-template-rows] duration-200 ${isDropdownOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
       }`}>
-      <div className="overflow-hidden flex flex-col gap-2 px-4">
+      <div className="overflow-hidden flex flex-col gap-2 px-4 pt-2">
         {data.links.map((item, index) => (
           <NavLink key={index} to={item.link} className={({ isActive }) => `${isActive ? "text-basicBlack" : "text-neutralGray"} transition-all duration-150 hover:text-basicBlack`}>{item.value}</NavLink>
         ))

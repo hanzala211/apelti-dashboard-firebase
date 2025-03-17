@@ -4,15 +4,15 @@ import { addMemberForm, AddMemberFormSchema, IUser } from "@types";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TeamForm } from "./components/TeamForm";
 import { useAuth, useTeam } from "@context";
-import { Skeleton } from "antd";
-import { APP_ACTIONS, ICONS, PERMISSIONS, ROUTES } from "@constants";
+import { APP_ACTIONS, PERMISSIONS, ROUTES } from "@constants";
 import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { TeamTable } from "./components/TeamTable";
 
 export const TeamPage: React.FC = () => {
   const { userData } = useAuth()
-  const { addMember, deleteMember, setEditingUser, editingUser, updateUser, getMembers } = useTeam()
+  const { addMember, deleteMember, editingUser, updateUser, getMembers } = useTeam()
   const queryClient = useQueryClient()
   const { register, control, handleSubmit, formState: { errors }, reset } = useForm<AddMemberFormSchema>({
     resolver: zodResolver(addMemberForm),
@@ -96,51 +96,7 @@ export const TeamPage: React.FC = () => {
       {userPermissions.includes(APP_ACTIONS.addTeam) &&
         <TeamForm register={register} errors={errors} control={control} onSubmit={handleSubmit(onSubmit)} isAddingMember={editingUser ? updateUserMutation.isPending : addUserMutation.isPending} />
       }
-      <div className="overflow-x-auto overflow-y-hidden mt-8">
-        <table className="w-full md:max-w-[calc(100dvw-256px)] text-left border-collapse">
-          <thead className="border border-silverGray">
-            <tr className="bg-mistGray">
-              <th className="px-4 py-2 text-sm font-semibold text-neutralGray">Full Name</th>
-              <th className="px-4 py-2 text-sm font-semibold text-neutralGray">Email</th>
-              <th className="px-4 py-2 text-sm font-semibold text-neutralGray">Phone</th>
-              <th className="px-4 py-2 text-sm font-semibold text-neutralGray">Role</th>
-              {userData?.role === "admin" && <>
-                <th className="px-4 py-2 text-sm font-semibold text-neutralGray">Edit</th>
-                <th className="px-4 py-2 text-sm font-semibold text-neutralGray">Delete</th>
-              </>}
-            </tr>
-          </thead>
-
-          <tbody className="border border-silverGray">
-            {isTeamLoading
-              ? Array.from({ length: 5 }).map((_, index) => (
-                <tr key={index} className="border-y border-silverGray even:bg-basicWhite odd:bg-paleGray">
-                  <td className="px-4 py-2"><Skeleton.Input active size="small" block /></td>
-                  <td className="px-4 py-2"><Skeleton.Input active size="small" block /></td>
-                  <td className="px-4 py-2"><Skeleton.Input active size="small" block /></td>
-                  <td className="px-4 py-2"><Skeleton.Input active size="small" block /></td>
-                  <td className="px-4 py-2"><Skeleton.Button active size="small" /></td>
-                  <td className="px-4 py-2"><Skeleton.Button active size="small" /></td>
-                </tr>
-              ))
-              : teamMembers && teamMembers.map((item, index) => (
-                <tr key={index} className="border-y border-silverGray even:bg-basicWhite odd:bg-paleGray">
-                  <td className="px-4 py-2 text-sm text-neutralGray">{item.firstName} {item.lastName}</td>
-                  <td className="px-4 py-2 text-sm text-neutralGray">{item.email}</td>
-                  <td className="px-4 py-2 text-sm text-neutralGray">{item.phone}</td>
-                  <td className="px-4 py-2 text-sm text-neutralGray">{item.role[0].toUpperCase()}{item.role.slice(1)}</td>
-                  {userPermissions.includes(APP_ACTIONS.addTeam) && <>
-                    <td className="px-4 py-2 text-sm text-basicGreen cursor-pointer" onClick={() => setEditingUser(item)}><ICONS.userEdit size={24} /></td>
-                    <button className={`${deleteUserMutation.isPending ? "cursor-not-allowed opacity-50" : ""}`} disabled={deleteUserMutation.isPending} onClick={() => deleteUserMutation.mutate({ userId: item._id })}>
-                      <td className="px-4 py-2 text-sm text-basicRed" ><ICONS.delete size={24} /></td>
-                    </button>
-                  </>
-                  }
-                </tr>
-              ))}
-          </tbody>
-        </table>
-      </div>
+      <TeamTable deleteUserMutation={deleteUserMutation} isTeamLoading={isTeamLoading} teamMembers={teamMembers} />
     </section>
   );
 };
