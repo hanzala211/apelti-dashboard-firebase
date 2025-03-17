@@ -23,7 +23,7 @@ export const Select = <T extends FieldValues>({ control, name, label, data }: Se
             <select
               id={label}
               {...field}
-              className="w-full rounded-md focus:outline-none focus:border-blue-500 hover:border-blue-500 transition-all duration-200 bg-white py-1.5 px-3 focus-within:outline-none border-basicBlack border-[1px]"
+              className="w-full rounded-md focus:outline-none focus:border-blue-500 hover:border-blue-500 transition-all duration-200 bg-white py-[3px] px-3 focus-within:outline-none border-basicBlack border-[1px]"
             >
               {data.map((item, index) => (
                 <option key={index} value={item.value}>{item.label}</option>
