@@ -18,7 +18,6 @@ export const InvoicePage: React.FC = () => {
   const navigate = useNavigate()
   const userPermissions = PERMISSIONS[userData?.role as keyof typeof PERMISSIONS]
 
-
   useEffect(() => {
     setFilteredInvoices(location.search.includes("unpaid") ? INVOICES_DATA.filter((item) => item.status === "Unpaid") : location.search.includes("return") ? INVOICES_DATA.filter((item) => item.status === "Return") : location.search.includes("draft") ? INVOICES_DATA.filter((item) => item.status === "Draft") : INVOICES_DATA)
   }, [location.search])

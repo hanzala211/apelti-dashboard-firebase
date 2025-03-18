@@ -45,6 +45,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const signup = async (sendData: unknown) => {
     try {
       setIsAuthLoading(true)
+      setErrorMessage("")
       const response = await authService.signup(sendData)
       console.log(response)
       if (response.status === 200) {
@@ -68,6 +69,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const login = async (sendData: unknown) => {
     try {
       setIsAuthLoading(true)
+      setErrorMessage("")
       const response = await authService.login(sendData)
       console.log(response)
       if (response.status === 200) {
@@ -92,6 +94,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const me = async () => {
     try {
+      setErrorMessage("")
       setIsAuthLoading(true)
       const response = await authService.me()
       console.log(response)

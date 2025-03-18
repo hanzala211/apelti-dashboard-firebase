@@ -8,7 +8,7 @@ import { Link } from "react-router-dom"
 import { MoonLoader } from "react-spinners"
 
 export const LoginPage: React.FC = () => {
-  const { setIsRemember, login, errorMessage, isAuthLoading } = useAuth()
+  const { setIsRemember, login, errorMessage, isAuthLoading, setErrorMessage } = useAuth()
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormSchema>({
     resolver: zodResolver(loginForm)
   })
@@ -37,7 +37,7 @@ export const LoginPage: React.FC = () => {
       <AuthButton text="Sign In" />
       <div>
         <p className="text-[13px] text-grayTxt">Here to receive a payment from a Apelti customer?</p>
-        <Link to={`${ROUTES.auth}/${ROUTES.signup}`} className="text-[14px] underline font-medium">Sign up for Apelti. It's free!</Link>
+        <Link to={`${ROUTES.auth}/${ROUTES.signup}`} onClick={() => setErrorMessage("")} className="text-[14px] underline font-medium">Sign up for Apelti. It's free!</Link>
       </div>
     </form>
   </div>

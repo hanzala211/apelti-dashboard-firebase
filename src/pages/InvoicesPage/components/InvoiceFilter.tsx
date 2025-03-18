@@ -51,7 +51,7 @@ const InvoiceFilter: React.FC<InvoiceFilterProps> = ({ filters, setFilters }) =>
 
           return (
             <div key={filter.id} className="flex items-center gap-2">
-              <p>Where</p>
+              <p className="mb-0">Where</p>
               <select className="w-full rounded-md focus:outline-none focus:border-blue-500 hover:border-blue-500 transition-all duration-200 bg-white py-1.5 px-3 border-basicBlack border-[1px]" value={filter.field} onChange={(e) => updateFilter(filter.id, "field", e.target.value)}>
                 <option value="">Filter</option>
                 {filterOptions

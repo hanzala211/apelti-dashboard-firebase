@@ -30,6 +30,7 @@ export const TeamPage: React.FC = () => {
       queryClient.invalidateQueries({
         queryKey: ["teamMembers"]
       });
+      reset()
     },
   })
   const updateUserMutation = useMutation({
@@ -43,6 +44,7 @@ export const TeamPage: React.FC = () => {
           ]
           : [updatedUser as IUser]
       );
+      reset()
     },
   })
   const deleteUserMutation = useMutation({
@@ -89,7 +91,7 @@ export const TeamPage: React.FC = () => {
   if (!userPermissions.includes(APP_ACTIONS.teamPage)) return <Navigate to={ROUTES.not_available} />
   return (
     <section className="md:py-9 md:px-14 px-4 pt-20 w-screen md:max-w-[calc(100vw-256px)] h-[100dvh] md:max-h-[calc(100dvh-50px)] max-h-[calc(100dvh-20px)] overflow-y-auto">
-      <div className="pb-8 mb-8 border-b-[1px] border-neutralGray">
+      <div className="pb-4 mb-8 border-b-[1px] border-neutralGray">
         <PageHeading label="Team" />
         <p className="text-neutralGray text-sm mt-1">Manage your team members and their account permissions here.</p>
       </div>
