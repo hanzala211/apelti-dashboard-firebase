@@ -76,6 +76,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setUserData(response.data.data.user)
         if (isRemember) {
           localStorage.setItem("token", response.data.data.token)
+        } else {
+          sessionStorage.setItem("token", response.data.data.token)
         }
         if (response.data.data.user.role === "admin") {
           navigate("/")
