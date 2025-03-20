@@ -12,8 +12,8 @@ export interface InvoiceItem {
 }
 
 export interface FilterTypes {
-  id: number,
-  field: string,
-  value: string,
-  condition: string
+  id: number;
+  field: string;
+  value: string;
+  condition: string;
 }

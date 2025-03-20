@@ -3,7 +3,8 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 export const sendRequest = async (
     configs: AxiosRequestConfig & { isAuthIncluded: boolean }
 ): Promise<AxiosResponse> => {
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token =
+        localStorage.getItem('token') || sessionStorage.getItem('token');
 
     const headers = { ...(configs.headers || {}) } as Record<string, string>;
 
@@ -26,7 +27,7 @@ export const sendRequest = async (
         return response;
     } catch (error) {
         if (axios.isAxiosError(error)) {
-            if (error.code === "ERR_CANCELED") {
+            if (error.code === 'ERR_CANCELED') {
                 return Promise.reject(error);
             }
             return Promise.reject(error.response?.data || error.message);

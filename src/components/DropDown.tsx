@@ -3,15 +3,13 @@ import type { MenuProps } from 'antd';
 import { Dropdown } from 'antd';
 
 interface DropDownProps {
-  items: MenuProps["items"],
-  label: ReactElement
+  items: MenuProps['items'];
+  label: ReactElement;
 }
 
 export const DropDown: React.FC<DropDownProps> = ({ items, label }) => (
   <Dropdown menu={{ items }} trigger={['click']}>
-    <a onClick={(e) => e.preventDefault()}>
-      {label}
-    </a>
+    <a onClick={(e) => e.preventDefault()}>{label}</a>
   </Dropdown>
 );
 

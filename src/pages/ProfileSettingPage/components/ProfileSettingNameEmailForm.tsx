@@ -1,21 +1,29 @@
-import { Input } from "@components"
-import { ProfileFormValues } from "@types"
-import { RefObject } from "react"
-import { UseFormRegister, FieldValues, FieldError, SubmitHandler, UseFormHandleSubmit } from "react-hook-form"
+import { Input } from '@components';
+import { ProfileFormValues } from '@types';
+import { RefObject } from 'react';
+import {
+  UseFormRegister,
+  FieldValues,
+  FieldError,
+  SubmitHandler,
+  UseFormHandleSubmit,
+} from 'react-hook-form';
 
 interface ProfileSettingNameEmailFormProps {
-  handleSubmit: UseFormHandleSubmit<ProfileFormValues>,
-  register: UseFormRegister<FieldValues>,
-  onSubmitName: SubmitHandler<ProfileFormValues>,
+  handleSubmit: UseFormHandleSubmit<ProfileFormValues>;
+  register: UseFormRegister<FieldValues>;
+  onSubmitName: SubmitHandler<ProfileFormValues>;
   errors: {
-    firstName?: FieldError,
-    lastName?: FieldError,
-    email?: FieldError
-  },
-  inputRef: RefObject<HTMLInputElement | null>
+    firstName?: FieldError;
+    lastName?: FieldError;
+    email?: FieldError;
+  };
+  inputRef: RefObject<HTMLInputElement | null>;
 }
 
-export const ProfileSettingNameEmailForm: React.FC<ProfileSettingNameEmailFormProps> = ({ handleSubmit, onSubmitName, register, errors, inputRef }) => {
+export const ProfileSettingNameEmailForm: React.FC<
+  ProfileSettingNameEmailFormProps
+> = ({ handleSubmit, onSubmitName, register, errors, inputRef }) => {
   return (
     <form onSubmit={handleSubmit(onSubmitName)} className="flex flex-col gap-4">
       <div className="py-4 gap-2 w-full">
@@ -23,19 +31,19 @@ export const ProfileSettingNameEmailForm: React.FC<ProfileSettingNameEmailFormPr
           <div className="flex flex-col gap-4 w-full">
             <Input
               type="text"
-              register={register("firstName")}
+              register={register('firstName')}
               error={errors.firstName?.message}
               label="FirstName"
             />
             <Input
               type="text"
-              register={register("lastName")}
+              register={register('lastName')}
               error={errors.lastName?.message}
               label="LastName"
             />
             <Input
               type="email"
-              register={register("email")}
+              register={register('email')}
               error={errors.email?.message}
               label="Email"
             />
@@ -45,6 +53,6 @@ export const ProfileSettingNameEmailForm: React.FC<ProfileSettingNameEmailFormPr
       </div>
     </form>
   );
-}
+};
 
 export default ProfileSettingNameEmailForm;

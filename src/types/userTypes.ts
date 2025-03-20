@@ -1,4 +1,4 @@
-export type Role = "admin" | "clerk" | "approver" | "accountant" | "payer";
+export type Role = 'admin' | 'clerk' | 'approver' | 'accountant' | 'payer';
 
 export interface IUser {
   firstName: string;

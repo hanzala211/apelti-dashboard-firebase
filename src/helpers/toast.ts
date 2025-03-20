@@ -6,7 +6,7 @@ export const toast = {
       message: messageText,
       description: description,
       pauseOnHover: true,
-      showProgress: true
+      showProgress: true,
     });
   },
   error: (messageText: string, description?: string) => {
@@ -14,7 +14,7 @@ export const toast = {
       message: messageText,
       description: description,
       pauseOnHover: true,
-      showProgress: true
+      showProgress: true,
     });
   },
   info: (messageText: string, description?: string) => {
@@ -22,7 +22,7 @@ export const toast = {
       message: messageText,
       description: description,
       pauseOnHover: true,
-      showProgress: true
+      showProgress: true,
     });
   },
   warning: (messageText: string, description?: string) => {
@@ -30,7 +30,7 @@ export const toast = {
       message: messageText,
       description: description,
       pauseOnHover: true,
-      showProgress: true
+      showProgress: true,
     });
   },
 };

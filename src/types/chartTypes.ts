@@ -1,4 +1,4 @@
-import { ApexOptions } from "apexcharts";
+import { ApexOptions } from 'apexcharts';
 
 export interface ChartState {
   series: {

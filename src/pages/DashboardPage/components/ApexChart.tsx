@@ -1,17 +1,20 @@
-import { ChartState } from "@types";
-import ReactApexChart from "react-apexcharts";
+import { ChartState } from '@types';
+import ReactApexChart from 'react-apexcharts';
 
 export const ApexChart: React.FC<{ state: ChartState }> = ({ state }) => {
-
   return (
     <div className="w-full">
       <div>
-        <ReactApexChart options={state.options} series={state.series} type="area" height={350} />
+        <ReactApexChart
+          options={state.options}
+          series={state.series}
+          type="area"
+          height={350}
+        />
       </div>
       <div></div>
     </div>
   );
-}
+};
 
-
-export default ApexChart
+export default ApexChart;

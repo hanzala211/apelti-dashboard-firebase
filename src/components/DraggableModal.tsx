@@ -4,29 +4,41 @@ import type { DraggableData, DraggableEvent } from 'react-draggable';
 import Draggable from 'react-draggable';
 
 interface DraggableModalProps {
-  open: boolean,
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>,
-  modalItems: ReactElement,
-  heading: string,
-  handleOk: () => void,
-  okText?: string,
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  modalItems: ReactElement;
+  heading: string;
+  handleOk: () => void;
+  okText?: string;
 }
 
-export const DraggableModal: React.FC<DraggableModalProps> = ({ open, setOpen, modalItems: Compo, heading, handleOk: handleChange, okText = "Ok" }) => {
+export const DraggableModal: React.FC<DraggableModalProps> = ({
+  open,
+  setOpen,
+  modalItems: Compo,
+  heading,
+  handleOk: handleChange,
+  okText = 'Ok',
+}) => {
   const [disabled, setDisabled] = useState(true);
-  const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
-  const draggleRef = useRef<HTMLDivElement>(null!)
+  const [bounds, setBounds] = useState({
+    left: 0,
+    top: 0,
+    bottom: 0,
+    right: 0,
+  });
+  const draggleRef = useRef<HTMLDivElement>(null!);
 
   const handleOk = (e: React.MouseEvent<HTMLElement>) => {
     console.log(e);
     setOpen(false);
     handleChange();
-  }
+  };
 
   const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e)
+    console.log(e);
     setOpen(false);
-  }
+  };
 
   const onStart = (_event: DraggableEvent, uiData: DraggableData) => {
     const { clientWidth, clientHeight } = window.document.documentElement;
@@ -44,24 +56,34 @@ export const DraggableModal: React.FC<DraggableModalProps> = ({ open, setOpen, m
 
   return (
     <>
-      <Modal title={
-        <div className='w-full cursor-move'
-          onMouseOver={() => {
-            if (disabled) {
-              setDisabled(false);
-            }
-          }}
-          onMouseOut={() => {
-            setDisabled(true);
-          }}>
-          {heading}
-        </div>}
+      <Modal
+        title={
+          <div
+            className="w-full cursor-move"
+            onMouseOver={() => {
+              if (disabled) {
+                setDisabled(false);
+              }
+            }}
+            onMouseOut={() => {
+              setDisabled(true);
+            }}
+          >
+            {heading}
+          </div>
+        }
         open={open}
         okText={okText}
         onOk={handleOk}
         onCancel={handleCancel}
-        okButtonProps={{ className: 'bg-basicGreen border-none hover:!bg-opacity-50 text-white hover:!bg-basicGreen active:!bg-basicGreen focus:!bg-basicGreen' }}
-        cancelButtonProps={{ className: 'bg-transparent border-silverGray hover:!bg-transparent hover:!border-mistGray hover:!border-neutralGray active:!bg-transparent hover:!text-neutralGray' }}
+        okButtonProps={{
+          className:
+            'bg-basicGreen border-none hover:!bg-opacity-50 text-white hover:!bg-basicGreen active:!bg-basicGreen focus:!bg-basicGreen',
+        }}
+        cancelButtonProps={{
+          className:
+            'bg-transparent border-silverGray hover:!bg-transparent hover:!border-mistGray hover:!border-neutralGray active:!bg-transparent hover:!text-neutralGray',
+        }}
         modalRender={(modal) => (
           <Draggable
             disabled={disabled}
@@ -79,4 +101,4 @@ export const DraggableModal: React.FC<DraggableModalProps> = ({ open, setOpen, m
   );
 };
 
-export default DraggableModal
+export default DraggableModal;

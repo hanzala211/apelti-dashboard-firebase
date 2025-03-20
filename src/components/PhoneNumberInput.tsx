@@ -32,7 +32,7 @@ export const PhoneNumberInput = <T extends FieldValues>({
               inputProps={{
                 name: name,
                 id: name,
-                placeholder: "",
+                placeholder: '',
               }}
               autoFormat={true}
               countryCodeEditable={true}
@@ -41,7 +41,9 @@ export const PhoneNumberInput = <T extends FieldValues>({
               specialLabel=""
             />
 
-            {error && <p className="text-basicRed text-sm mt-1">{error.message}</p>}
+            {error && (
+              <p className="text-basicRed text-sm mt-1">{error.message}</p>
+            )}
           </>
         )}
       />

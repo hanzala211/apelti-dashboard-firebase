@@ -1,5 +1,5 @@
 export interface IDocument {
-  name: string,
-  added: string,
-  section: string
+  name: string;
+  added: string;
+  section: string;
 }

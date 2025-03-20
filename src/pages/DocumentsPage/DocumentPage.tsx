@@ -1,19 +1,26 @@
-import { PageHeading } from "@components";
-import { DocumentTable } from "./components/DocumentTable";
-import { APP_ACTIONS, DATE_FOMRAT, DOCUMENTS_DATA, PERMISSIONS, ROUTES } from "@constants";
-import { IDocument } from "@types";
-import { useEffect, useState } from "react";
-import { DatePicker, DatePickerProps } from "antd";
-import dayjs from "dayjs";
-import { useAuth } from "@context";
-import { Navigate } from "react-router-dom";
+import { PageHeading } from '@components';
+import { DocumentTable } from './components/DocumentTable';
+import {
+  APP_ACTIONS,
+  DATE_FOMRAT,
+  DOCUMENTS_DATA,
+  PERMISSIONS,
+  ROUTES,
+} from '@constants';
+import { IDocument } from '@types';
+import { useEffect, useState } from 'react';
+import { DatePicker, DatePickerProps } from 'antd';
+import dayjs from 'dayjs';
+import { useAuth } from '@context';
+import { Navigate } from 'react-router-dom';
 
 export const DocumentPage: React.FC = () => {
-  const { userData } = useAuth()
+  const { userData } = useAuth();
   const [searchData, setSearchData] = useState<IDocument[]>([]);
-  const [searchInput, setSearchInput] = useState<string>("");
-  const [searchDate, setSearchDate] = useState<string>("");
-  const userPermissions = PERMISSIONS[userData?.role as keyof typeof PERMISSIONS]
+  const [searchInput, setSearchInput] = useState<string>('');
+  const [searchDate, setSearchDate] = useState<string>('');
+  const userPermissions =
+    PERMISSIONS[userData?.role as keyof typeof PERMISSIONS];
 
   useEffect(() => {
     if (searchInput.length > 1 || searchDate) {
@@ -37,12 +44,15 @@ export const DocumentPage: React.FC = () => {
     setSearchData(foundSearches);
   };
 
-  const handleChange: DatePickerProps["onChange"] = (_, dateString) => {
-    const formattedDate = Array.isArray(dateString) ? dateString[0] : dateString;
+  const handleChange: DatePickerProps['onChange'] = (_, dateString) => {
+    const formattedDate = Array.isArray(dateString)
+      ? dateString[0]
+      : dateString;
     setSearchDate(formattedDate);
-  }
+  };
 
-  if (!userPermissions.includes(APP_ACTIONS.documentPage)) return <Navigate to={ROUTES.not_available} />
+  if (!userPermissions.includes(APP_ACTIONS.documentPage))
+    return <Navigate to={ROUTES.not_available} />;
 
   return (
     <section className="md:px-14 md:py-9 px-2 pt-20">
@@ -51,7 +61,9 @@ export const DocumentPage: React.FC = () => {
         <div className="flex justify-between flex-wrap gap-5 md:gap-0 items-center">
           <div className="flex gap-7 flex-wrap">
             <div className="flex gap-2 items-center">
-              <label htmlFor="name" className="text-[14px] md:text-[16px]">Name</label>
+              <label htmlFor="name" className="text-[14px] md:text-[16px]">
+                Name
+              </label>
               <input
                 type="text"
                 id="name"
@@ -61,7 +73,9 @@ export const DocumentPage: React.FC = () => {
               />
             </div>
             <div className="flex gap-2 items-center">
-              <label htmlFor="date" className="text-[14px] md:text-[16px]">Added</label>
+              <label htmlFor="date" className="text-[14px] md:text-[16px]">
+                Added
+              </label>
               <DatePicker
                 format={DATE_FOMRAT}
                 placeholder={DATE_FOMRAT}

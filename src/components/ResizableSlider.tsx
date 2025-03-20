@@ -1,7 +1,7 @@
-import { ComponentType, ReactElement, useRef, useState } from "react";
-import { COLORS, ICONS } from "@constants";
-import { useMessage } from "@context";
-import { useLocation } from "react-router-dom";
+import { ComponentType, ReactElement, useRef, useState } from 'react';
+import { COLORS, ICONS } from '@constants';
+import { useMessage } from '@context';
+import { useLocation } from 'react-router-dom';
 
 interface ResizableSliderProps {
   Left: ComponentType;
@@ -11,20 +11,26 @@ interface ResizableSliderProps {
   minRightWidth?: number;
 }
 
-export const ResizableSlider: React.FC<ResizableSliderProps> = ({ Left, Right, initialLeftWidth = window.innerWidth > 1024 ? 900 : 500, minLeftWidth = 600, minRightWidth = 200, }) => {
-  const { selectedMessage } = useMessage()
+export const ResizableSlider: React.FC<ResizableSliderProps> = ({
+  Left,
+  Right,
+  initialLeftWidth = window.innerWidth > 1024 ? 900 : 500,
+  minLeftWidth = 600,
+  minRightWidth = 200,
+}) => {
+  const { selectedMessage } = useMessage();
   const [leftWidth, setLeftWidth] = useState<number>(initialLeftWidth);
   const containerRef = useRef<HTMLDivElement>(null);
   const startXRef = useRef(0);
   const initialWidthRef = useRef(0);
-  const location = useLocation()
+  const location = useLocation();
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
     startXRef.current = e.clientX;
     initialWidthRef.current = leftWidth;
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
   };
 
   const handleMouseMove = (e: MouseEvent) => {
@@ -37,15 +43,26 @@ export const ResizableSlider: React.FC<ResizableSliderProps> = ({ Left, Right, i
   };
 
   const handleMouseUp = () => {
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
   };
 
   return (
     <div ref={containerRef} className="flex w-full h-full">
-      <div style={{
-        flexBasis: location.pathname.includes("messages") ? window.innerWidth < 768 ? selectedMessage === null ? leftWidth : 0 : leftWidth : window.innerWidth > 768 ? leftWidth : 0
-      }} className={`flex-shrink-[0.5]`}>
+      <div
+        style={{
+          flexBasis: location.pathname.includes('messages')
+            ? window.innerWidth < 768
+              ? selectedMessage === null
+                ? leftWidth
+                : 0
+              : leftWidth
+            : window.innerWidth > 768
+              ? leftWidth
+              : 0,
+        }}
+        className={`flex-shrink-[0.5]`}
+      >
         <Left />
       </div>
       <div

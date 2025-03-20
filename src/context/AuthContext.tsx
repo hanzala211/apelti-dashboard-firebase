@@ -1,36 +1,44 @@
-import { ROUTES } from "@constants";
-import { authService } from "@services";
-import { AuthContextTypes, IUser } from "@types";
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { socket } from "@helpers"
-import { Socket } from "socket.io-client";
+import { ROUTES } from '@constants';
+import { authService } from '@services';
+import { AuthContextTypes, IUser } from '@types';
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { socket } from '@helpers';
+import { Socket } from 'socket.io-client';
 
-const AuthContext = createContext<AuthContextTypes | undefined>(undefined)
+const AuthContext = createContext<AuthContextTypes | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [userData, setUserData] = useState<IUser | null>(null)
-  const [isRemember, setIsRemember] = useState<boolean>(false)
-  const [isMainLoading, setIsMainLoading] = useState<boolean>(true)
-  const [errorMessage, setErrorMessage] = useState<string>("")
-  const [isAuthLoading, setIsAuthLoading] = useState<boolean>(false)
-  const [socketClient, setSocketClient] = useState<Socket | null>(null)
-  const navigate = useNavigate()
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
+  const [userData, setUserData] = useState<IUser | null>(null);
+  const [isRemember, setIsRemember] = useState<boolean>(false);
+  const [isMainLoading, setIsMainLoading] = useState<boolean>(true);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isAuthLoading, setIsAuthLoading] = useState<boolean>(false);
+  const [socketClient, setSocketClient] = useState<Socket | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem('token');
     if (token !== null && userData === null) {
-      me()
+      me();
       const newSocket = socket(token);
-      newSocket.on("connect", () => {
-        console.log("Connected", newSocket.id);
+      newSocket.on('connect', () => {
+        console.log('Connected', newSocket.id);
         setSocketClient(newSocket);
       });
-      newSocket.on("receiveMessage", (data) => console.log(data))
+      newSocket.on('receiveMessage', (data) => console.log(data));
     } else {
-      setIsMainLoading(false)
+      setIsMainLoading(false);
     }
-  }, [])
+  }, []);
 
   // useEffect(() => {
   //   if (socketClient !== null) {
@@ -44,82 +52,115 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const signup = async (sendData: unknown) => {
     try {
-      setIsAuthLoading(true)
-      setErrorMessage("")
-      const response = await authService.signup(sendData)
-      console.log(response)
+      setIsAuthLoading(true);
+      setErrorMessage('');
+      const response = await authService.signup(sendData);
+      console.log(response);
       if (response.status === 200) {
-        setUserData(response.data.data.user)
-        localStorage.setItem("token", response.data.data.token)
-        if (response.data.data.user.role === "admin") {
-          navigate("/")
-        } else if (["approver", "clerk", "accountant", "payer"].includes(response.data.data.user.role)) {
-          navigate(`${ROUTES.messages}`)
+        setUserData(response.data.data.user);
+        localStorage.setItem('token', response.data.data.token);
+        if (response.data.data.user.role === 'admin') {
+          navigate('/');
+        } else if (
+          ['approver', 'clerk', 'accountant', 'payer'].includes(
+            response.data.data.user.role
+          )
+        ) {
+          navigate(`${ROUTES.messages}`);
         }
       }
     } catch (error) {
-      console.log(error)
-      setErrorMessage(typeof error === "object" ? (error as Error).message : String(error))
+      console.log(error);
+      setErrorMessage(
+        typeof error === 'object' ? (error as Error).message : String(error)
+      );
     } finally {
-      setIsMainLoading(false)
-      setIsAuthLoading(false)
+      setIsMainLoading(false);
+      setIsAuthLoading(false);
     }
-  }
+  };
 
   const login = async (sendData: unknown) => {
     try {
-      setIsAuthLoading(true)
-      setErrorMessage("")
-      const response = await authService.login(sendData)
-      console.log(response)
+      setIsAuthLoading(true);
+      setErrorMessage('');
+      const response = await authService.login(sendData);
+      console.log(response);
       if (response.status === 200) {
-        setUserData(response.data.data.user)
+        setUserData(response.data.data.user);
         if (isRemember) {
-          localStorage.setItem("token", response.data.data.token)
+          localStorage.setItem('token', response.data.data.token);
         } else {
-          sessionStorage.setItem("token", response.data.data.token)
+          sessionStorage.setItem('token', response.data.data.token);
         }
-        if (response.data.data.user.role === "admin") {
-          navigate("/")
-        } else if (["approver", "clerk", "accountant", "payer"].includes(response.data.data.user.role)) {
-          navigate(`${ROUTES.messages}`)
+        if (response.data.data.user.role === 'admin') {
+          navigate('/');
+        } else if (
+          ['approver', 'clerk', 'accountant', 'payer'].includes(
+            response.data.data.user.role
+          )
+        ) {
+          navigate(`${ROUTES.messages}`);
         }
       }
     } catch (error) {
-      console.error(error)
-      setErrorMessage(typeof error === "object" ? (error as Error).message : String(error))
+      console.error(error);
+      setErrorMessage(
+        typeof error === 'object' ? (error as Error).message : String(error)
+      );
     } finally {
-      setIsMainLoading(false)
-      setIsAuthLoading(false)
+      setIsMainLoading(false);
+      setIsAuthLoading(false);
     }
-  }
+  };
 
   const me = async () => {
     try {
-      setErrorMessage("")
-      setIsAuthLoading(true)
-      const response = await authService.me()
-      console.log(response)
+      setErrorMessage('');
+      setIsAuthLoading(true);
+      const response = await authService.me();
+      console.log(response);
       if (response.status === 200) {
-        setUserData(response.data.data)
+        setUserData(response.data.data);
       }
     } catch (error) {
-      console.log(error)
-      localStorage.removeItem("token")
-      setErrorMessage(typeof error === "object" ? (error as Error).message : String(error))
+      console.log(error);
+      localStorage.removeItem('token');
+      setErrorMessage(
+        typeof error === 'object' ? (error as Error).message : String(error)
+      );
     } finally {
-      setIsMainLoading(false)
-      setIsAuthLoading(false)
+      setIsMainLoading(false);
+      setIsAuthLoading(false);
     }
-  }
+  };
 
-  return <AuthContext.Provider value={{ userData, setUserData, isRemember, setIsRemember, signup, login, isMainLoading, setIsMainLoading, errorMessage, isAuthLoading, setErrorMessage, socketClient }}>{children}</AuthContext.Provider>
-}
+  return (
+    <AuthContext.Provider
+      value={{
+        userData,
+        setUserData,
+        isRemember,
+        setIsRemember,
+        signup,
+        login,
+        isMainLoading,
+        setIsMainLoading,
+        errorMessage,
+        isAuthLoading,
+        setErrorMessage,
+        socketClient,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
 export const useAuth = (): AuthContextTypes => {
-  const context = useContext(AuthContext)
+  const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("use useAuth inside Auth Provider")
+    throw new Error('use useAuth inside Auth Provider');
   }
-  return context
-}
+  return context;
+};
