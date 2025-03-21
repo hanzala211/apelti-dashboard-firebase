@@ -1,4 +1,5 @@
-import { IMessage, IUser } from '@types';
+import { UseMutationResult } from '@tanstack/react-query';
+import { IMessage, Invoice, IUser } from '@types';
 import { RefObject } from 'react';
 import { Socket } from 'socket.io-client';
 
@@ -17,6 +18,8 @@ export interface InvoiceContextTypes {
   fileInputRef: RefObject<HTMLInputElement | null>;
   isInvoiceModelOpen: boolean;
   setIsInvoiceModelOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  extractDataMutation: UseMutationResult<void, Error, void, unknown>,
+  extractedData: Invoice | null
 }
 
 export interface AuthContextTypes {

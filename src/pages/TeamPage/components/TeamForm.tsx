@@ -88,8 +88,8 @@ export const TeamForm: React.FC<TeamFormProps> = ({
           type="submit"
           disabled={isAddingMember}
           className={`w-full ${!isAddingMember
-              ? 'hover:bg-graphGreen hover:opacity-90'
-              : 'cursor-not-allowed opacity-50'
+            ? 'hover:bg-blue-800 hover:opacity-90'
+            : 'cursor-not-allowed opacity-50'
             } py-3 px-4 bg-basicGreen text-white font-medium rounded-md shadow  transition-all duration-200`}
         >
           {editingUser === null ? 'Add User' : 'Edit User'}

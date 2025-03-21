@@ -1,5 +1,5 @@
 export const COLORS = {
-  basicGreen: '#00B69B',
+  basicGreen: '#0581FF',
   grayTxt: '#666',
   graphBlack: '#333333',
   graphGreen: '#34C6BD',

@@ -34,10 +34,10 @@ export const Table = <T,>({ headings, data, keys }: TableProps<T>) => {
                   {key === 'status' ? (
                     <span
                       className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${item[key] === 'Paid'
-                          ? 'bg-temporaryGreen text-basicGreen'
-                          : item[key] === 'Unpaid'
-                            ? 'bg-temporaryRed text-basicRed'
-                            : 'bg-gray-200 text-gray-800'
+                        ? 'bg-temporaryGreen text-graphGreen'
+                        : item[key] === 'Unpaid'
+                          ? 'bg-temporaryRed text-basicRed'
+                          : 'bg-gray-200 text-gray-800'
                         }`}
                     >
                       {item[key] as string}

@@ -1,6 +1,9 @@
 import { handleFileChange } from '@helpers';
-import { InvoiceContextTypes } from '@types';
-import { createContext, ReactNode, useContext, useRef, useState } from 'react';
+import { invoiceServices } from '@services';
+import { useMutation } from '@tanstack/react-query';
+import { Invoice, InvoiceContextTypes } from '@types';
+import { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
+
 
 const InvoiceContext = createContext<InvoiceContextTypes | undefined>(
   undefined
@@ -14,7 +17,18 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
     value: string;
   } | null>(null);
   const [isInvoiceModelOpen, setIsInvoiceModelOpen] = useState<boolean>(false);
+  const [extractedData, setExtractedData] = useState<Invoice | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const extractDataMutation = useMutation({
+    mutationFn: () => extractData(),
+  })
+
+  useEffect(() => {
+    if (selectedImage?.value) {
+      console.log("extracting")
+      extractDataMutation.mutate()
+    }
+  }, [selectedImage?.value])
 
   const handleFile = () => {
     fileInputRef.current?.click();
@@ -24,6 +38,27 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
     const foundValue = handleFileChange(event);
     if (foundValue !== undefined) setSelectedImage(foundValue);
   };
+
+  const extractData = async () => {
+    try {
+      if (!selectedImage?.value) return;
+      const formData = new FormData();
+
+      const response = await fetch(selectedImage.value);
+      if (!response.ok) throw new Error("Failed to fetch image");
+      const blob = await response.blob();
+      const fileName = selectedImage?.label || "uploaded_file";
+      formData.append("file", blob, fileName);
+      const extractedData = await invoiceServices.extractData(formData);
+      console.log("Extracted Data:", extractedData);
+      setExtractedData(extractedData.data.data)
+
+    } catch (error) {
+      console.error("Error extracting data:", error);
+    }
+  };
+
+
   return (
     <InvoiceContext.Provider
       value={{
@@ -34,6 +69,8 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
         fileInputRef,
         isInvoiceModelOpen,
         setIsInvoiceModelOpen,
+        extractDataMutation,
+        extractedData
       }}
     >
       {children}

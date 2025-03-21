@@ -19,6 +19,7 @@ export const InvoiceLeftPanel: React.FC = () => {
           if (window.innerWidth < 1024) {
             svg.classList.add('w-44');
             svg.classList.add('h-44');
+            svg.classList.add("text-basicGreen")
           }
         }}
       />
@@ -27,7 +28,7 @@ export const InvoiceLeftPanel: React.FC = () => {
       </h1>
       <button
         onClick={handleFile}
-        className="text-darkBlue font-semibold before:w-36 before:-translate-x-1/2 before:left-1/2 before:absolute relative before:h-1 before:bg-darkBlue before:bottom-0"
+        className="text-darkBlue font-semibold before:w-36 before:-translate-x-1/2 before:left-1/2 before:absolute relative before:h-1 before:bg-darkBlue before:-bottom-1"
       >
         Browse Folders
       </button>
@@ -40,8 +41,8 @@ export const InvoiceLeftPanel: React.FC = () => {
     </div>
   ) : (
     <div className="w-full md:block bg-mistGray hidden h-full">
-      <div className="bg-basicWhite border-b flex justify-between border-basicSilver py-4 px-3 mt-0.5">
-        <p>{selectedImage.label}</p>
+      <div className="bg-basicWhite border-b flex justify-between items-center border-basicSilver py-4 px-3 mt-0.5">
+        <p className='m-0'>{selectedImage.label}</p>
         <button onClick={() => setSelectedImage(null)}>
           <ReactSVG src={ICONS.close} />
         </button>
