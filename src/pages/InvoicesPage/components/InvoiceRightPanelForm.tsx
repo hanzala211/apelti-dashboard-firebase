@@ -8,6 +8,7 @@ import { ReactSVG } from 'react-svg';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import { formatDate } from '@helpers';
 
 export const InvoiceRightPanelForm: React.FC = () => {
   const {
@@ -37,8 +38,13 @@ export const InvoiceRightPanelForm: React.FC = () => {
     if (extractedData !== null) {
       setValue('supplierName', extractedData.businessName);
       setValue('invoiceNumber', extractedData.invoiceNumber);
-      setValue('paymentTerm', extractedData.paymentTerms);
+      if (extractedData.paymentTerms.length > 0) {
+        setValue('paymentTerm', formatDate(extractedData.paymentTerms));
+      }
       setValue('amount', extractedData.total);
+      if (extractedData.date.length > 0) {
+        setValue("invoiceDate", formatDate(extractedData.date))
+      }
 
       if (extractedData.items) {
         setValue(
@@ -77,15 +83,15 @@ export const InvoiceRightPanelForm: React.FC = () => {
         <div className="w-full border-[1px] rounded-md border-basicBlack p-5 flex justify-center items-center">
           <h1
             className={`text-[22px] ${extractDataMutation.isPending || extractDataMutation.isSuccess
-                ? 'text-basicGreen'
-                : ''
+              ? 'text-basicGreen'
+              : ''
               } m-0 text-center font-semibold`}
           >
             {extractDataMutation.isPending
               ? 'Loading Invoice'
               : !extractDataMutation.isSuccess
                 ? 'Enter Invoice Data Manually'
-                : 'The Applet AI has filled in the data from the invoice. Review and add the invoice.'}
+                : 'The Apelti AI has filled in the data from the invoice. Review and add the invoice.'}
           </h1>
         </div>
       </div>
@@ -210,7 +216,7 @@ export const InvoiceRightPanelForm: React.FC = () => {
             <Input
               register={register('amount', { valueAsNumber: true })}
               error={errors['amount']?.message}
-              type="number"
+              type="string"
               label="Amount"
             />
             <Input
