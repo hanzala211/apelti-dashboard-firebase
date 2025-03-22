@@ -148,7 +148,7 @@ export const InvoicePage: React.FC = () => {
     'Date',
     'Due Date',
     'Total',
-    'Status'
+    'Status',
   ];
 
   const keys: (keyof Invoice)[] = [
@@ -158,7 +158,7 @@ export const InvoicePage: React.FC = () => {
     'date',
     'dueDate',
     'total',
-    'status'
+    'status',
   ];
 
   if (!userPermissions.includes(APP_ACTIONS.invoicePage))

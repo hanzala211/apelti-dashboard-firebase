@@ -46,12 +46,12 @@ const InvoiceFilter: React.FC<InvoiceFilterProps> = ({
 
   const filterOptions = [
     { label: 'Invoice Number', value: 'invoiceNumber' },
-    { label: 'Supplier', value: 'supplier' },
-    { label: 'PO no.', value: 'poNumber' },
-    { label: 'Account Plan', value: 'accountPlan' },
-    { label: 'Date of Creation', value: 'dateOfCreation' },
-    { label: 'Payment Term', value: 'paymentTerm' },
-    { label: 'Amount', value: 'amount' },
+    { label: 'Business Name', value: 'businessName' },
+    { label: 'Client Name', value: 'clientName' },
+    { label: 'Date', value: 'date' },
+    { label: 'Due Date', value: 'dueDate' },
+    { label: 'Total', value: 'total' },
+    { label: 'Status', value: 'status' },
   ];
 
   return (
