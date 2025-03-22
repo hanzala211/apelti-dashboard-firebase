@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth, useInvoice } from '@context';
-import { FilterTypes, InvoiceItem } from '@types';
+import { FilterTypes, Invoice } from '@types';
 import {
   APP_ACTIONS,
   DATE_FOMRAT,
@@ -25,7 +25,7 @@ export const InvoicePage: React.FC = () => {
   const { userData } = useAuth();
   const { setIsInvoiceModelOpen } = useInvoice();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [filteredInvoices, setFilteredInvoices] = useState<InvoiceItem[]>([]);
+  const [filteredInvoices, setFilteredInvoices] = useState<Invoice[]>([]);
   const [filters, setFilters] = useState<FilterTypes[]>([
     { id: 1, field: '', condition: '', value: '' },
   ]);
@@ -62,8 +62,8 @@ export const InvoicePage: React.FC = () => {
         if (!filter.field || !filter.condition || !filter.value) continue;
 
         switch (filter.field) {
-          case 'supplier':
-          case 'accountPlan':
+          case 'businessName':
+          case 'clientName': {
             if (
               filter.condition === 'contains' &&
               !invoice[filter.field].includes(filter.value)
@@ -80,9 +80,10 @@ export const InvoicePage: React.FC = () => {
             )
               return false;
             break;
+          }
 
-          case 'dateOfCreation':
-          case 'paymentTerm': {
+          case 'date':
+          case 'dueDate': {
             const filterDate = filter.value
               ? dayjs(filter.value, DATE_FOMRAT)
               : null;
@@ -116,11 +117,11 @@ export const InvoicePage: React.FC = () => {
             }
             break;
           }
+
           case 'invoiceNumber':
-          case 'poNumber':
-          case 'amount': {
-            const filterAmount = parseInt(filter.value);
-            const invoiceAmount = parseInt(invoice[filter.field]);
+          case 'total': {
+            const filterAmount = parseFloat(filter.value);
+            const invoiceAmount = parseFloat(invoice[filter.field]);
 
             if (filter.condition === 'equal' && invoiceAmount !== filterAmount)
               return false;
@@ -141,29 +142,23 @@ export const InvoicePage: React.FC = () => {
   };
 
   const headings = [
-    'Invoice number',
-    'Uploads',
-    'Supplier',
-    'PO no.',
-    'Account Plan',
-    'Date of Creation',
-    'Invoice Date',
-    'Payment Term',
-    'Amount',
-    'Status',
+    'Invoice Number',
+    'Business Name',
+    'Client Name',
+    'Date',
+    'Due Date',
+    'Total',
+    'Status'
   ];
 
-  const keys: (keyof InvoiceItem)[] = [
+  const keys: (keyof Invoice)[] = [
     'invoiceNumber',
-    'uploads',
-    'supplier',
-    'poNumber',
-    'accountPlan',
-    'dateOfCreation',
-    'invoiceDate',
-    'paymentTerm',
-    'amount',
-    'status',
+    'businessName',
+    'clientName',
+    'date',
+    'dueDate',
+    'total',
+    'status'
   ];
 
   if (!userPermissions.includes(APP_ACTIONS.invoicePage))
