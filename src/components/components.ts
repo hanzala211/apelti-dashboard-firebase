@@ -12,3 +12,4 @@ export * from './DraggableModal';
 export * from './SettingPageHeading';
 export * from './UserProfile';
 export * from './DropDown';
+export * from './TableSkeleton';

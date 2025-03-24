@@ -22,6 +22,7 @@ export const formatDate = (dateString: string) => {
     "YYYYMM",         // 202312 (defaults to first day of the month)
     "MM-YYYY",        // 12-2023
     "MM/YYYY",        // 12/2023
+    "ddd MMM DD YYYY HH:mm:ss [GMT]ZZ [(]Coordinated Universal Time[)]"
   ];
 
   const parsedDate = dayjs(dateString, formats, true);
@@ -32,3 +33,4 @@ export const formatDate = (dateString: string) => {
 
   return parsedDate.format(DATE_FOMRAT);
 }
+

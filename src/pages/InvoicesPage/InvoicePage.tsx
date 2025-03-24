@@ -5,7 +5,6 @@ import {
   APP_ACTIONS,
   DATE_FOMRAT,
   ICONS,
-  INVOICES_DATA,
   PERMISSIONS,
   ROUTES,
 } from '@constants';
@@ -20,31 +19,38 @@ import {
   Table,
 } from '@components';
 import dayjs from 'dayjs';
+import { useQuery } from '@tanstack/react-query';
+import { formatDate } from '@helpers';
 
 export const InvoicePage: React.FC = () => {
   const { userData } = useAuth();
-  const { setIsInvoiceModelOpen } = useInvoice();
+  const { setIsInvoiceModelOpen, getInvoices } = useInvoice();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [filteredInvoices, setFilteredInvoices] = useState<Invoice[]>([]);
   const [filters, setFilters] = useState<FilterTypes[]>([
     { id: 1, field: '', condition: '', value: '' },
   ]);
+  const { data: invoices, isLoading: isInvoiceLoading } = useQuery({
+    queryKey: ['invoices'],
+    queryFn: getInvoices,
+  });
   const location = useLocation();
   const navigate = useNavigate();
   const userPermissions =
     PERMISSIONS[userData?.role as keyof typeof PERMISSIONS];
 
   useEffect(() => {
-    setFilteredInvoices(
-      location.search.includes('unpaid')
-        ? INVOICES_DATA.filter((item) => item.status === 'Unpaid')
-        : location.search.includes('return')
-          ? INVOICES_DATA.filter((item) => item.status === 'Return')
-          : location.search.includes('draft')
-            ? INVOICES_DATA.filter((item) => item.status === 'Draft')
-            : INVOICES_DATA
-    );
-  }, [location.search]);
+    if (invoices && !isInvoiceLoading)
+      setFilteredInvoices(
+        location.search.includes('unpaid')
+          ? invoices.filter((item) => item.status === 'Unpaid')
+          : location.search.includes('return')
+            ? invoices.filter((item) => item.status === 'Return')
+            : location.search.includes('draft')
+              ? invoices.filter((item) => item.status === 'Draft')
+              : invoices
+      );
+  }, [location.search, invoices]);
 
   const handleClick = () => {
     setIsInvoiceModelOpen(true);
@@ -55,8 +61,8 @@ export const InvoicePage: React.FC = () => {
   };
 
   const handleFilters = () => {
-    let filteredValues = INVOICES_DATA;
-
+    let filteredValues = invoices;
+    if (!filteredValues) return;
     filteredValues = filteredValues.filter((invoice) => {
       for (const filter of filters) {
         if (!filter.field || !filter.condition || !filter.value) continue;
@@ -146,7 +152,7 @@ export const InvoicePage: React.FC = () => {
     'Business Name',
     'Client Name',
     'Date',
-    'Due Date',
+    'Payment Terms',
     'Total',
     'Status',
   ];
@@ -163,6 +169,16 @@ export const InvoicePage: React.FC = () => {
 
   if (!userPermissions.includes(APP_ACTIONS.invoicePage))
     return <Navigate to={ROUTES.not_available} />;
+
+  const formattedInvoices = filteredInvoices.map((invoice) => ({
+    ...invoice,
+    date:
+      invoice.date && invoice.date.length > 0 ? formatDate(invoice.date) : '',
+    dueDate:
+      invoice.dueDate && invoice.dueDate.length > 0
+        ? formatDate(invoice.dueDate)
+        : '',
+  }));
 
   return (
     <section className="md:py-9 pt-20 w-screen md:max-w-[calc(100vw-256px)]">
@@ -215,7 +231,12 @@ export const InvoicePage: React.FC = () => {
         />
       </div>
 
-      <Table keys={keys} headings={headings} data={filteredInvoices} />
+      <Table
+        keys={keys}
+        headings={headings}
+        data={formattedInvoices}
+        isLoading={isInvoiceLoading}
+      />
       <InvoiceModel />
     </section>
   );

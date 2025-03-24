@@ -4,7 +4,7 @@ import { ICONS } from '@constants';
 export const Nav: React.FC = () => {
   return (
     <nav
-      className={`border-b w-full bg-mistGray flex fixed md:relative items-center md:justify-between justify-around gap-2 sm:px-14 px-8 py-4 z-10`}
+      className={`border-b w-full bg-mistGray flex fixed md:relative items-center md:justify-between justify-around gap-2 sm:px-10 px-8 py-4 z-10`}
     >
       <div className="relative">
         <input

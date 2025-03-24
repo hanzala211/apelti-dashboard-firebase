@@ -19,7 +19,8 @@ export interface InvoiceContextTypes {
   isInvoiceModelOpen: boolean;
   setIsInvoiceModelOpen: React.Dispatch<React.SetStateAction<boolean>>;
   extractDataMutation: UseMutationResult<void, Error, void, unknown>,
-  extractedData: Invoice | null
+  extractedData: Invoice | null,
+  getInvoices: () => Promise<Invoice[] | undefined>
 }
 
 export interface AuthContextTypes {

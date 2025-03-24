@@ -6,5 +6,10 @@ export const invoiceServices = {
     method: "POST",
     data,
     isAuthIncluded: true,
+  }),
+  getInvoices: () => sendRequest({
+    url: "/invoice",
+    method: "GET",
+    isAuthIncluded: true
   })
 }
