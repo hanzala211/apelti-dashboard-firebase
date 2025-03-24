@@ -23,7 +23,7 @@ export const Table = <T,>({
   }
 
   return (
-    <div className="w-full mt-5 sm:max-h-[calc(100vh-270px)] max-h-[calc(100dvh-260px)] overflow-auto">
+    <div className="w-full mt-5 sm:max-h-[calc(100vh-270px)] max-h-[calc(100dvh-240px)] overflow-auto">
       <table className="w-full text-sm text-center text-gray-700">
         <thead className="sticky top-0 z-20 bg-paleGray border-silverGray border-b">
           <tr>
@@ -49,10 +49,10 @@ export const Table = <T,>({
                   {key === 'status' ? (
                     <span
                       className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${item[key] === 'approved'
-                          ? 'bg-temporaryGreen text-graphGreen'
-                          : item[key] === 'rejected'
-                            ? 'bg-temporaryRed text-basicRed'
-                            : 'bg-gray-200 text-gray-800'
+                        ? 'bg-temporaryGreen text-graphGreen'
+                        : item[key] === 'rejected'
+                          ? 'bg-temporaryRed text-basicRed'
+                          : 'bg-gray-200 text-gray-800'
                         }`}
                     >
                       {(item[key] as string).slice(0, 1).toUpperCase() +
