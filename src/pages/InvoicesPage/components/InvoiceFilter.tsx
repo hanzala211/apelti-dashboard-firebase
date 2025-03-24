@@ -90,8 +90,8 @@ const InvoiceFilter: React.FC<InvoiceFilterProps> = ({
                 }
               >
                 <option value="">Condition</option>
-                {filter.field !== 'dateOfCreation' &&
-                  filter.field !== 'paymentTerm' &&
+                {filter.field !== 'date' &&
+                  filter.field !== 'dueDate' &&
                   filter.field !== 'amount' &&
                   filter.field !== 'poNumber' &&
                   filter.field !== 'invoiceNumber' && (
@@ -101,8 +101,8 @@ const InvoiceFilter: React.FC<InvoiceFilterProps> = ({
                       <option value="startsWith">starts with</option>
                     </>
                   )}
-                {(filter.field === 'dateOfCreation' ||
-                  filter.field === 'paymentTerm') && (
+                {(filter.field === 'date' ||
+                  filter.field === 'dueDate') && (
                     <>
                       <option value="before">before</option>
                       <option value="after">after</option>
