@@ -59,9 +59,8 @@ export const Sidebar: React.FC = () => {
           ${isOpen ? 'translate-x-0' : '-translate-x-full'
           } md:translate-x-0 md:flex`}
       >
-        <div className="flex items-center mb-3">
-          <img src={ICONS.logoSVG} alt="Logo Image" className="w-20" />
-          <span className="text-[22px] font-bold">Apelti</span>
+        <div className="flex items-center justify-center">
+          <img src={ICONS.logoSVG} alt="Logo Image" className="w-28" />
         </div>
 
         <p className="text-slateGrey text-[15px] mb-5">MENU</p>

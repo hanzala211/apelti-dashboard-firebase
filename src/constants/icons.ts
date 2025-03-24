@@ -47,4 +47,6 @@ export const ICONS = {
   overview_box: '/assets/icons/overview-box.svg',
   setting_project: '/assets/icons/setting-project.svg',
   settings_team: '/assets/icons/settings-team.svg',
+  settings_icon: '/assets/icons/settings-icon.svg',
+
 };
