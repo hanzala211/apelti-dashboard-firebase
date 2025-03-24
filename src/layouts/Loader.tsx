@@ -6,11 +6,11 @@ const Loader: React.FC = () => {
       <div
         className={`w-52 h-52 bg-no-repeat bg-center bg-contain`}
         style={{
-          backgroundImage: `url(${ICONS.logoSVG})`,
+          backgroundImage: `url(${ICONS.settings_icon})`,
         }}
       />
       <div className="relative h-1 w-[10rem] bg-silverGray overflow-hidden rounded">
-        <div className="absolute h-full w-[5rem] bg-basicBlack animate-slide"></div>
+        <div className="absolute h-full w-[5rem] bg-basicGreen animate-slide"></div>
       </div>
     </div>
   );
