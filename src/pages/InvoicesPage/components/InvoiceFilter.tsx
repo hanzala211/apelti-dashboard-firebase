@@ -49,7 +49,7 @@ const InvoiceFilter: React.FC<InvoiceFilterProps> = ({
     { label: 'Business Name', value: 'businessName' },
     { label: 'Client Name', value: 'clientName' },
     { label: 'Date', value: 'date' },
-    { label: 'Due Date', value: 'dueDate' },
+    { label: 'Payment Terms', value: 'dueDate' },
     { label: 'Total', value: 'total' },
     { label: 'Status', value: 'status' },
   ];
@@ -120,8 +120,8 @@ const InvoiceFilter: React.FC<InvoiceFilterProps> = ({
                   )}
               </select>
 
-              {filter.field !== 'dateOfCreation' &&
-                filter.field !== 'paymentTerm' ? (
+              {filter.field !== 'date' &&
+                filter.field !== 'dueDate' ? (
                 <input
                   type="text"
                   placeholder="Enter value..."

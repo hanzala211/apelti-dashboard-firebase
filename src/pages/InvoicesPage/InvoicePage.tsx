@@ -43,11 +43,11 @@ export const InvoicePage: React.FC = () => {
     if (invoices && !isInvoiceLoading)
       setFilteredInvoices(
         location.search.includes('unpaid')
-          ? invoices.filter((item) => item.status === 'Unpaid')
+          ? invoices.filter((item) => item.status === 'rejected')
           : location.search.includes('return')
-            ? invoices.filter((item) => item.status === 'Return')
+            ? invoices.filter((item) => item.status === 'return')
             : location.search.includes('draft')
-              ? invoices.filter((item) => item.status === 'Draft')
+              ? invoices.filter((item) => item.status === 'draft')
               : invoices
       );
   }, [location.search, invoices]);
