@@ -38,7 +38,7 @@ export const InvoiceRightPanelForm: React.FC = () => {
       setValue('supplierName', extractedData.businessName);
       setValue('invoiceNumber', extractedData.invoiceNumber);
       if (extractedData.paymentTerms.length > 0) {
-        setValue('paymentTerm', formatDate(extractedData.paymentTerms));
+        setValue('paymentTerm', formatDate(extractedData.dueDate));
       }
       setValue('amount', extractedData.total);
       if (extractedData.date.length > 0) {

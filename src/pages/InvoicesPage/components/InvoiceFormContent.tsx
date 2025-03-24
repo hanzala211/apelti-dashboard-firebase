@@ -1,8 +1,6 @@
 import React from 'react';
-import { Control, Controller, FieldErrors, SubmitHandler, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
-import { Input, Select } from '@components';
+import { Control, FieldErrors, SubmitHandler, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
+import { DatePickerField, Input, Select } from '@components';
 import { InvoiceFormSchema } from '@types';
 
 interface InvoiceFormContentProps {
@@ -56,45 +54,13 @@ export const InvoiceFormContent: React.FC<InvoiceFormContentProps> = ({
           <label className="text-neutralGray" htmlFor="invoiceDate">
             Invoice date
           </label>
-          <Controller
-            control={control}
-            name="invoiceDate"
-            render={({ field, fieldState: { error } }) => (
-              <>
-                <DatePicker
-                  id="invoiceDate"
-                  format="DD/MM/YYYY"
-                  placeholder="DD/MM/YYYY"
-                  className="bg-white w-full py-[4px] px-3 focus-within:outline-none border-basicBlack border-[1px]"
-                  onChange={(_, dateString) => field.onChange(dateString)}
-                  value={field.value ? dayjs(field.value, 'DD/MM/YYYY') : null}
-                />
-                {error && <p className="text-basicRed text-sm">{error.message}</p>}
-              </>
-            )}
-          />
+          <DatePickerField control={control} name='invoiceDate' />
         </div>
         <div className="flex flex-col gap-2 w-full">
           <label className="text-neutralGray" htmlFor="paymentTerm">
             Payment term
           </label>
-          <Controller
-            control={control}
-            name="paymentTerm"
-            render={({ field, fieldState: { error } }) => (
-              <>
-                <DatePicker
-                  id="paymentTerm"
-                  format="DD/MM/YYYY"
-                  placeholder="DD/MM/YYYY"
-                  className="bg-white w-full py-[4px] px-3 focus-within:outline-none border-basicBlack border-[1px]"
-                  onChange={(_, dateString) => field.onChange(dateString)}
-                  value={field.value ? dayjs(field.value, 'DD/MM/YYYY') : null}
-                />
-                {error && <p className="text-basicRed text-sm">{error.message}</p>}
-              </>
-            )}
-          />
+          <DatePickerField control={control} name='paymentTerm' />
         </div>
       </div>
       <div className="grid px-7 lg:grid-cols-[1fr_2fr] grid-cols-1 gap-5">

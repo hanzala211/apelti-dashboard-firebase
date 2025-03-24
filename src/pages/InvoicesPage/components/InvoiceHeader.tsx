@@ -4,6 +4,7 @@ interface InvoiceHeaderProps {
   extractDataMutation: {
     isPending: boolean;
     isSuccess: boolean;
+    isError: boolean
   };
 }
 
@@ -11,8 +12,8 @@ export const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ extractDataMutatio
   const message = extractDataMutation.isPending
     ? 'Loading Invoice'
     : extractDataMutation.isSuccess
-      ? 'The Apelti AI has filled in the data from the invoice. Review and add the invoice.'
-      : 'Enter Invoice Data Manually'
+      ? 'The Apelti AI has filled in the data from the invoice. Review and add the invoice.' :
+      extractDataMutation.isError ? "" : 'Enter Invoice Data Manually'
 
   return (
     <div className="w-full border-b-[1px] py-14 px-7">
