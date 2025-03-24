@@ -15,7 +15,7 @@ export const TableSkeleton: React.FC<TableSkeletonProps> = ({
       <table className="w-full text-sm text-center text-gray-700">
         <thead className="sticky top-0 z-20 bg-paleGray border-b border-silverGray">
           <tr>
-            {headings.map((heading, idx) => (
+            {headings.map((_, idx) => (
               <th
                 key={idx}
                 className="px-6 py-4 font-medium text-[14px] text-slateGrey"
