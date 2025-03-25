@@ -1,7 +1,7 @@
 import { COLORS } from '@constants';
-import { ChartState, Invoice } from '@types';
+import { ChartState } from '@types';
 
-export const INVOICES_DATA: Invoice[] = [
+export const INVOICES_DATA = [
   {
     businessName: "EdTech D.O.O",
     businessAddress: "123 Tech Street, Silicon Valley, CA 94025",
