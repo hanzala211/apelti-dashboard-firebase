@@ -19,7 +19,7 @@ export const DatePickerField = <T extends FieldValues>({ control, name }: DatePi
             id={name}
             format={DATE_FOMRAT}
             placeholder={DATE_FOMRAT}
-            className="bg-white w-full py-[4px] px-3 focus-within:outline-none border-basicBlack border-[1px]"
+            className="bg-white w-full font-semibold py-[4px] px-3 focus-within:outline-none border-basicBlack border-[1px]"
             onChange={(_, dateString: string | string[]) => field.onChange(dateString)}
             value={field.value ? dayjs(field.value, DATE_FOMRAT) : null}
           />

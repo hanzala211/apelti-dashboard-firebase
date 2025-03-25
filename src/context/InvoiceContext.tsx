@@ -1,4 +1,4 @@
-import { handleFileChange } from '@helpers';
+import { convertDateToISO, handleFileChange, toast } from '@helpers';
 import { invoiceServices } from '@services';
 import { useMutation } from '@tanstack/react-query';
 import { Invoice, InvoiceContextTypes } from '@types';
@@ -24,7 +24,10 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
   } | null>(null);
   const [isInvoiceModelOpen, setIsInvoiceModelOpen] = useState<boolean>(false);
   const [extractedData, setExtractedData] = useState<Invoice | null>(null);
+  const [formData, setFormData] = useState<Invoice | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const formInputRef = useRef<HTMLInputElement>(null);
+  const removeDataBtnRef = useRef<HTMLButtonElement>(null);
   const extractDataMutation = useMutation({
     mutationFn: () => extractData(),
   });
@@ -38,6 +41,14 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
 
   const handleFile = () => {
     fileInputRef.current?.click();
+  };
+
+  const handleFormClick = () => {
+    formInputRef.current?.click();
+  };
+
+  const handleBtnClick = () => {
+    removeDataBtnRef.current?.click();
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,7 +77,6 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
   const getInvoices = async () => {
     try {
       const response = await invoiceServices.getInvoices();
-      console.log(response)
       if (response.status === 200) {
         return response.data.data;
       }
@@ -75,6 +85,35 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
       console.log(error);
     }
   };
+
+  const updateInvoice = async (invoiceId: string, data: unknown) => {
+    try {
+      const response = await invoiceServices.updateInvoice(invoiceId, data)
+      console.log(response)
+      return response.data.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const postInvoice = async () => {
+    try {
+      const data = {
+        ...formData,
+        invoiceDate: convertDateToISO(formData?.invoiceDate || ""),
+        paymentTerms: convertDateToISO(formData?.paymentTerms || ""),
+      }
+      console.log(data)
+      const response = await invoiceServices.postInvoice(data)
+      console.log(response)
+      if (response.status === 200) {
+        return response.data.data
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error("Error", (typeof error === 'object' ? (error as Error).message : String(error)))
+    }
+  }
 
   return (
     <InvoiceContext.Provider
@@ -89,6 +128,15 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
         extractDataMutation,
         extractedData,
         getInvoices,
+        updateInvoice,
+        handleFormClick,
+        formInputRef,
+        formData,
+        setFormData,
+        setExtractedData,
+        handleBtnClick,
+        removeDataBtnRef,
+        postInvoice
       }}
     >
       {children}

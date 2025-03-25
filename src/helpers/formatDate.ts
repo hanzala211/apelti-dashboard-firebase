@@ -22,15 +22,19 @@ export const formatDate = (dateString: string) => {
     "YYYYMM",         // 202312 (defaults to first day of the month)
     "MM-YYYY",        // 12-2023
     "MM/YYYY",        // 12/2023
-    "ddd MMM DD YYYY HH:mm:ss [GMT]ZZ [(]Coordinated Universal Time[)]"
+    "ddd MMM DD YYYY HH:mm:ss [GMT]ZZ [(]Coordinated Universal Time[)]",
+    "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
   ];
 
-  const parsedDate = dayjs(dateString, formats, true);
+  const datePattern = /(\d{4}[-/]\d{2}[-/]\d{2})/;
+  const match = dateString.match(datePattern);
+  const cleanDateString = match ? match[0] : dateString;
+
+  const parsedDate = dayjs(cleanDateString, formats, true);
 
   if (!parsedDate.isValid()) {
     return "Invalid Date";
   }
 
   return parsedDate.format(DATE_FOMRAT);
-}
-
+};

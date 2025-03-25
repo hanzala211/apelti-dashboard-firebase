@@ -8,9 +8,6 @@ import {
   PERMISSIONS,
   ROUTES,
 } from '@constants';
-import InvoiceModel from './components/InvoiceModel';
-import InvoiceFilter from './components/InvoiceFilter';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import {
   Button,
   DraggableModal,
@@ -18,6 +15,9 @@ import {
   PageHeading,
   Table,
 } from '@components';
+import InvoiceModel from './components/InvoiceModel';
+import InvoiceFilter from './components/InvoiceFilter';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { useQuery } from '@tanstack/react-query';
 import { formatDate } from '@helpers';
@@ -68,8 +68,7 @@ export const InvoicePage: React.FC = () => {
         if (!filter.field || !filter.condition || !filter.value) continue;
 
         switch (filter.field) {
-          case 'businessName':
-          case 'clientName': {
+          case 'supplierName': {
             if (
               filter.condition === 'contains' &&
               !invoice[filter.field].includes(filter.value)
@@ -88,8 +87,8 @@ export const InvoicePage: React.FC = () => {
             break;
           }
 
-          case 'date':
-          case 'dueDate': {
+          case 'invoiceDate':
+          case 'paymentTerms': {
             const filterDate = filter.value
               ? dayjs(filter.value, DATE_FOMRAT)
               : null;
@@ -125,9 +124,9 @@ export const InvoicePage: React.FC = () => {
           }
 
           case 'invoiceNumber':
-          case 'total': {
+          case 'amount': {
             const filterAmount = parseFloat(filter.value);
-            const invoiceAmount = parseFloat(invoice[filter.field]);
+            const invoiceAmount = parseFloat(invoice[filter.field] as string);
 
             if (filter.condition === 'equal' && invoiceAmount !== filterAmount)
               return false;
@@ -149,21 +148,21 @@ export const InvoicePage: React.FC = () => {
 
   const headings = [
     'Invoice Number',
-    'Business Name',
-    'Client Name',
-    'Date',
-    'Payment Terms',
-    'Total',
+    'Supplier',
+    'PO no.',
+    'Invoice Date',
+    'Payment Term',
+    'Amount',
     'Status',
   ];
 
   const keys: (keyof Invoice)[] = [
     'invoiceNumber',
-    'businessName',
-    'clientName',
-    'date',
-    'dueDate',
-    'total',
+    'supplierName',
+    'poNumber',
+    'invoiceDate',
+    'paymentTerms',
+    'amount',
     'status',
   ];
 
@@ -172,11 +171,11 @@ export const InvoicePage: React.FC = () => {
 
   const formattedInvoices = filteredInvoices.map((invoice) => ({
     ...invoice,
-    date:
-      invoice.date && invoice.date.length > 0 ? formatDate(invoice.date) : '',
-    dueDate:
-      invoice.dueDate && invoice.dueDate.length > 0
-        ? formatDate(invoice.dueDate)
+    invoiceDate:
+      invoice.invoiceDate && invoice.invoiceDate.length > 0 ? formatDate(invoice.invoiceDate) : '',
+    paymentTerms:
+      invoice.paymentTerms && invoice.paymentTerms.length > 0
+        ? formatDate(invoice.paymentTerms)
         : '',
   }));
 

@@ -7,6 +7,8 @@ import { useInvoice } from '@context';
 import InvoiceHeader from './InvoiceHeader';
 import ImageUpload from './ImageUpload';
 import InvoiceFormContent from './InvoiceFormContent';
+import { CURRENCIES, TERM_OF_PAYMENT } from '@constants';
+import InvoiceRightPanelOverview from './InvoiceRightPanelOverview';
 
 export const InvoiceRightPanelForm: React.FC = () => {
   const {
@@ -17,6 +19,9 @@ export const InvoiceRightPanelForm: React.FC = () => {
     fileInputRef,
     extractDataMutation,
     extractedData,
+    setFormData,
+    formData,
+    removeDataBtnRef,
   } = useInvoice();
 
   const {
@@ -25,80 +30,123 @@ export const InvoiceRightPanelForm: React.FC = () => {
     control,
     formState: { errors },
     setValue,
+    watch,
+    reset,
   } = useForm<InvoiceFormSchema>({
     resolver: zodResolver(invoiceForm),
     defaultValues: {
       rarityInvoice: 'Once',
+      currency: CURRENCIES[0].value,
+      termsOfPayment: TERM_OF_PAYMENT[0].value,
     },
   });
   const [rows, setRows] = useState<number>(extractedData?.items?.length || 1);
 
   useEffect(() => {
     if (extractedData !== null) {
-      setValue('supplierName', extractedData.businessName);
+      setValue('supplierName', extractedData.supplierName);
       setValue('invoiceNumber', extractedData.invoiceNumber);
+      setValue('poNumber', extractedData.poNumber);
+      setValue('currency', extractedData.currency);
       if (extractedData.paymentTerms.length > 0) {
-        setValue('paymentTerm', formatDate(extractedData.dueDate));
+        setValue('paymentTerms', formatDate(extractedData.paymentTerms));
       }
-      setValue('amount', extractedData.total);
-      if (extractedData.date.length > 0) {
-        setValue('invoiceDate', formatDate(extractedData.date));
+      setValue('amount', extractedData.amount);
+      if (extractedData.invoiceDate.length > 0) {
+        setValue('invoiceDate', formatDate(extractedData.invoiceDate));
       }
       if (extractedData.items) {
         setValue(
           'invoiceItems',
           extractedData.items.map((item) => ({
             description: item.description || '',
-            unitCost: item.unitCost || '',
-            quantity: item.quantity || '',
-            total: item.total || '',
-            discount: item.discount || '',
-            taxRate: item.taxRate || '',
-            taxAmount: item.taxAmount || '',
-            _id: item._id || '',
+            account: item.account || '',
+            amount: item.amount || 0,
+            class: item.class || '',
+            department: item.department || '',
           }))
         );
+        setRows(extractedData?.items?.length);
       }
     }
   }, [extractedData, setValue]);
 
-  console.log(extractDataMutation)
-
   const onSubmit: SubmitHandler<InvoiceFormSchema> = (data) => {
     console.log(data);
+    setFormData({
+      supplierName: data.supplierName,
+      invoiceNumber: data.invoiceNumber,
+      poNumber: data.poNumber,
+      termsOfPayment: data.termsOfPayment,
+      invoiceDate: data.invoiceDate,
+      paymentTerms: data.paymentTerms,
+      amount: data.amount,
+      paymentTermDescription: data.paymentTermDescription,
+      currency: data.currency,
+      rarityInvoice: data.rarityInvoice,
+      items: data.invoiceItems,
+      comment: data.comment,
+      fileUrl: extractedData?.fileUrl || '',
+    });
   };
 
   const addRow = () => {
     setRows((prevRows) => prevRows + 1);
   };
 
-  const termOfPaymentData = [
-    { label: 'NET 30', value: 'net-30' },
-    { label: 'NET 50', value: 'net-50' },
-  ];
-
   return (
     <section className="bg-basicWhite mt-[1px] w-full h-full max-h-[calc(100dvh-6rem)] overflow-y-auto">
-      <InvoiceHeader extractDataMutation={extractDataMutation} />
-      <ImageUpload
-        selectedImage={selectedImage}
-        handleFile={handleFile}
-        fileInputRef={fileInputRef}
-        handleChange={handleChange}
-        setSelectedImage={setSelectedImage}
-      />
-      <div className="py-5">
-        <InvoiceFormContent
-          register={register}
-          errors={errors}
-          control={control}
-          handleSubmit={handleSubmit}
-          onSubmit={onSubmit}
-          rows={rows}
-          addRow={addRow}
-          termOfPaymentData={termOfPaymentData}
-        />
-      </div>
+      {!formData ? (
+        <>
+          <button
+            ref={removeDataBtnRef}
+            onClick={() => {
+              reset({
+                rarityInvoice: 'Once',
+                currency: CURRENCIES[0].value,
+                termsOfPayment: TERM_OF_PAYMENT[0].value,
+                supplierName: '',
+                invoiceNumber: '',
+                poNumber: '',
+                paymentTerms: '',
+                amount: 0,
+                invoiceDate: '',
+                paymentTermDescription: '',
+                comment: '',
+                invoiceItems: [],
+              });
+              setRows(1);
+              if (fileInputRef.current) {
+                fileInputRef.current.value = '';
+              }
+            }}
+            className="hidden"
+          ></button>
+          <InvoiceHeader extractDataMutation={extractDataMutation} />
+          <ImageUpload
+            selectedImage={selectedImage}
+            handleFile={handleFile}
+            fileInputRef={fileInputRef}
+            handleChange={handleChange}
+            setSelectedImage={setSelectedImage}
+          />
+          <div className="pt-5">
+            <InvoiceFormContent
+              register={register}
+              watch={watch}
+              errors={errors}
+              control={control}
+              handleSubmit={handleSubmit}
+              onSubmit={onSubmit}
+              rows={rows}
+              addRow={addRow}
+              termOfPaymentData={TERM_OF_PAYMENT}
+            />
+          </div>
+        </>
+      ) : (
+        <InvoiceRightPanelOverview />
+      )}
     </section>
   );
 };

@@ -19,4 +19,5 @@ export const COLORS = {
   neutralGray: '#787878',
   temporaryGreen: '#E9FBF1',
   temporaryRed: '#FFF2F2',
+  temporaryGray: '#F8F9FA',
 };

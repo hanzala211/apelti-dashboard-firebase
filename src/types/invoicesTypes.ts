@@ -1,42 +1,34 @@
 export interface InvoiceItem {
+  account: string;
+  amount: number;
   description: string;
-  unitCost: string;
-  quantity: string;
-  total: string;
-  discount?: string;
-  taxRate?: string;
-  taxAmount?: string;
-  _id: string;
+  class: string;
+  department: string;
+  _id?: string;
 }
 
 export interface Invoice {
-  businessName: string;
-  businessAddress: string;
-  businessContact: string;
-  businessTaxId: string;
-  businessBankDetails: string;
-  clientName: string;
-  clientAddress?: string;
-  clientContact?: string;
+  _id?: string;
+  supplierName: string;
+  poNumber: string;
   invoiceNumber: string;
-  date: string;
-  dueDate: string;
+  invoiceDate: string;
   currency: string;
   paymentTerms: string;
-  vatNumber?: string;
+  paymentTermDescription: string;
+  rarityInvoice: string;
+  amount: number;
   items: InvoiceItem[];
-  subtotal: string;
-  discount?: string;
-  tax: string;
-  total: string;
-  company: string;
-  status: string;
-  approvedBy?: string | null;
-  uploadedBy: string;
-  _id: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
+  fileUrl: string;
+  comment: string;
+  company?: string;
+  status?: string;
+  approvedBy?: null | string[];
+  uploadedBy?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  __v?: number;
+  termsOfPayment?: string
 }
 
 export interface FilterTypes {

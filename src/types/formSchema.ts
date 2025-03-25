@@ -8,27 +8,26 @@ export const RoleEnum = z.enum([
 ]);
 
 export const invoiceItemSchema = z.object({
-  description: z.string().optional(),
-  unitCost: z.string().optional(),
-  quantity: z.string().optional(),
-  total: z.string().optional(),
-  discount: z.string().optional(),
-  taxRate: z.string().optional(),
-  taxAmount: z.string().optional(),
-  _id: z.string().optional()
+  account: z.string().min(1, 'Account number is Required'),
+  amount: z.number().min(1, 'Amount is Required'),
+  description: z.string().min(1, 'Description is Required'),
+  class: z.string().min(1, 'Class is Required'),
+  department: z.string().min(1, 'Department is Required'),
 });
 
 export const invoiceForm = z.object({
   supplierName: z.string().min(1, 'Supplier Name is Required'),
   invoiceNumber: z.string().min(1, 'Invoice Number is Required'),
   poNumber: z.string().min(1, 'PO no. is Required'),
-  termOfPayment: z.string().min(1, 'Term of Payment is Required'),
+  termsOfPayment: z.string().min(1, 'Term of Payment is Required'),
   invoiceDate: z.string().min(1, 'Invoice Date is Required'),
-  paymentTerm: z.string().min(1, 'Payment Term is Required'),
-  amount: z.string().min(1, 'Amount is Required'),
-  invoiceDescription: z.string(),
+  paymentTerms: z.string().min(1, 'Payment Term is Required'),
+  amount: z.number().min(1, 'Amount is Required'),
+  paymentTermDescription: z.string(),
   rarityInvoice: z.string(),
-  invoiceItems: z.array(invoiceItemSchema).optional()
+  invoiceItems: z.array(invoiceItemSchema),
+  currency: z.string(),
+  comment: z.string().min(1, 'Comment is Required'),
 });
 
 export type InvoiceFormSchema = z.infer<typeof invoiceForm>;

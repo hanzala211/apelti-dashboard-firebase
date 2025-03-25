@@ -14,13 +14,25 @@ export interface InvoiceContextTypes {
     React.SetStateAction<{ label: string; value: string } | null>
   >;
   handleFile: () => void;
+  handleFormClick: () => void;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   fileInputRef: RefObject<HTMLInputElement | null>;
+  formInputRef: RefObject<HTMLInputElement | null>;
   isInvoiceModelOpen: boolean;
   setIsInvoiceModelOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  extractDataMutation: UseMutationResult<void, Error, void, unknown>,
-  extractedData: Invoice | null,
-  getInvoices: () => Promise<Invoice[] | undefined>
+  extractDataMutation: UseMutationResult<void, Error, void, unknown>;
+  extractedData: Invoice | null;
+  setExtractedData: React.Dispatch<React.SetStateAction<Invoice | null>>;
+  getInvoices: () => Promise<Invoice[] | undefined>;
+  updateInvoice: (
+    invoiceId: string,
+    data: unknown
+  ) => Promise<Invoice | undefined>;
+  formData: Invoice | null;
+  setFormData: React.Dispatch<React.SetStateAction<Invoice | null>>;
+  handleBtnClick: () => void;
+  removeDataBtnRef: RefObject<HTMLButtonElement | null>;
+  postInvoice: () => Promise<Invoice | undefined>,
 }
 
 export interface AuthContextTypes {

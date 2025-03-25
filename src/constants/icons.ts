@@ -48,5 +48,6 @@ export const ICONS = {
   setting_project: '/assets/icons/setting-project.svg',
   settings_team: '/assets/icons/settings-team.svg',
   settings_icon: '/assets/icons/settings-icon.svg',
-
+  delete_overview: '/assets/icons/delete.svg',
+  edit_overview: '/assets/icons/overviewEdit.svg',
 };
