@@ -8,4 +8,5 @@ export const APP_ACTIONS = {
   supplierPage: 'SupplierPage',
   payemntPage: 'PaymentPage',
   approvalPage: 'ApprovalPage',
+  postInvoice: "PostInvoice"
 };

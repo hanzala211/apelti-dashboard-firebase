@@ -10,7 +10,7 @@ export const COLORS = {
   basicZinc: '#ACB9C1',
   silverGray: '#BCBCBC',
   slateGrey: '#839198',
-  colorMint: '#E5F8F5',
+  colorMint: '#E6F2FF',
   basicRed: '#EC2E2E',
   basicSilver: '#C7C7C7',
   softBlue: '#CCE1FB',

@@ -22,9 +22,9 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({
     <NavLink to={link} onClick={onClick}>
       {({ isActive }) => (
         <div
-          className={`flex items-center gap-3 px-4 py-2 rounded-md cursor-pointer transition group ${isActive
-              ? 'bg-colorMint text-basicBlack'
-              : 'text-gray-400 hover:bg-colorMint'
+          className={`flex items-center gap-3 px-4 py-2 rounded-full cursor-pointer transition group ${isActive
+            ? 'bg-colorMint text-basicBlack'
+            : 'text-gray-400 hover:bg-colorMint'
             }`}
         >
           {!isIconType ? (
@@ -53,7 +53,7 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({
             />
           )}
 
-          <span className="text-sm underline">{label}</span>
+          <span className="text-sm">{label}</span>
         </div>
       )}
     </NavLink>

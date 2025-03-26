@@ -183,7 +183,7 @@ export const InvoicePage: React.FC = () => {
     <section className="md:py-9 pt-20 w-screen md:max-w-[calc(100vw-256px)]">
       <div className="md:px-14 px-2 flex justify-between items-center">
         <PageHeading label="Invoices" />
-        <Button btnText="Add Invoice" handleClick={handleClick} />
+        {userPermissions.includes(APP_ACTIONS.postInvoice) && <Button btnText="Add Invoice" handleClick={handleClick} />}
       </div>
 
       <div className="mt-5 md:px-14 px-2 flex md:gap-14 gap-4 w-fit">
