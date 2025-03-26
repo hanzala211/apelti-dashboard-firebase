@@ -25,6 +25,7 @@ export const PERMISSIONS: Record<string, string[]> = {
     APP_ACTIONS.messagesPage,
     APP_ACTIONS.teamPage,
     APP_ACTIONS.approvalPage,
+    APP_ACTIONS.invoicePage
   ],
   payer: [
     APP_ACTIONS.messagesPage,
