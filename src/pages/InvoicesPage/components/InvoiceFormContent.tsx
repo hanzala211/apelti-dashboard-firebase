@@ -7,7 +7,7 @@ import {
   UseFormRegister,
   UseFormWatch,
 } from 'react-hook-form';
-import { DatePickerField, Input, Select } from '@components';
+import { DatePickerField, ErrorMessage, Input, Select } from '@components';
 import { InvoiceFormSchema } from '@types';
 import { useInvoice } from '@context';
 import { CURRENCIES } from '@constants';
@@ -43,7 +43,7 @@ export const InvoiceFormContent: React.FC<InvoiceFormContentProps> = ({
         <Input
           register={register('supplierName')}
           type="text"
-          label="Name of Supplier"
+          label="Vendor Name"
           error={errors['supplierName']?.message}
         />
       </div>
@@ -85,7 +85,7 @@ export const InvoiceFormContent: React.FC<InvoiceFormContentProps> = ({
         <Input
           register={register('amount', { valueAsNumber: true })}
           error={errors['amount']?.message}
-          type="string"
+          type="number"
           label="Amount"
         />
         <Input
@@ -93,6 +93,20 @@ export const InvoiceFormContent: React.FC<InvoiceFormContentProps> = ({
           error={errors['paymentTermDescription']?.message}
           type="text"
           label="Invoice Description"
+        />
+      </div>
+      <div className="grid px-7 lg:grid-cols-[1fr_1fr] grid-cols-1 gap-5">
+        <Input
+          register={register('supplierId')}
+          error={errors['supplierId']?.message}
+          type="string"
+          label="Vendor ID"
+        />
+        <Input
+          register={register('fiscalNumber')}
+          error={errors['fiscalNumber']?.message}
+          type="text"
+          label="Fiscal Number"
         />
       </div>
       <div className="px-7">
@@ -134,7 +148,7 @@ export const InvoiceFormContent: React.FC<InvoiceFormContentProps> = ({
       </div>
       <div>
         <div className="w-fit px-7">
-          <h2 className="text-[18px] font-semibold before:w-48 before:-translate-x-1/2 before:left-[50%] before:absolute relative before:h-1 before:bg-darkBlue before:-bottom-[9px]">
+          <h2 className="text-[18px] font-semibold relative before:absolute before:w-full before:left-0 before:h-1 before:bg-darkBlue before:-bottom-[9px]">
             Costs ({watch('amount') > 0 && watch('amount')}{' '}
             {watch('currency') && watch('currency')})
           </h2>
@@ -157,9 +171,9 @@ export const InvoiceFormContent: React.FC<InvoiceFormContentProps> = ({
             className="grid grid-cols-5 min-w-[600px] w-full border-b py-4 px-5 sm:px-2 gap-4 place-items-center"
           >
             <Input
-              register={register(`invoiceItems.${index}.account`)}
+              register={register(`invoiceItems.${index}.glAccount`)}
               type="text"
-              error={errors.invoiceItems?.[index]?.account?.message}
+              error={errors.invoiceItems?.[index]?.glAccount?.message}
             />
             <Input
               register={register(`invoiceItems.${index}.amount`, {
@@ -210,9 +224,7 @@ export const InvoiceFormContent: React.FC<InvoiceFormContentProps> = ({
               className="rounded-none text-[20px] py-2 bg-white w-full px-3 border border-basicBlack focus:shadow-blue-300 focus-within:shadow-sm focus:outline-none focus:border-darkBlue hover:border-darkBlue transition-all duration-200 resize-none"
               rows={5}
             />
-            {errors.comment?.message && (
-              <p className="text-red-500 text-sm mt-1">{errors.comment.message}</p>
-            )}
+            <ErrorMessage error={errors.comment?.message} />
           </div>
         </div>
       </div>

@@ -48,6 +48,8 @@ export const InvoiceRightPanelForm: React.FC = () => {
       setValue('invoiceNumber', extractedData.invoiceNumber);
       setValue('poNumber', extractedData.poNumber);
       setValue('currency', extractedData.currency);
+      setValue("supplierId", extractedData.vendorId)
+      setValue("fiscalNumber", extractedData.FiscalNumber)
       if (extractedData.paymentTerms.length > 0) {
         setValue('paymentTerms', formatDate(extractedData.paymentTerms));
       }
@@ -60,7 +62,7 @@ export const InvoiceRightPanelForm: React.FC = () => {
           'invoiceItems',
           extractedData.items.map((item) => ({
             description: item.description || '',
-            account: item.account || '',
+            glAccount: item.glAccount || '',
             amount: item.amount || 0,
             class: item.class || '',
             department: item.department || '',
@@ -87,6 +89,9 @@ export const InvoiceRightPanelForm: React.FC = () => {
       items: data.invoiceItems,
       comment: data.comment,
       fileUrl: extractedData?.fileUrl || '',
+      vendorId: data.supplierId,
+      FiscalNumber: data.fiscalNumber,
+      vatNumber: extractedData?.vatNumber || ""
     });
   };
 

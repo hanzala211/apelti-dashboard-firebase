@@ -1,6 +1,7 @@
 import PhoneInput from 'react-phone-input-2';
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
 import 'react-phone-input-2/lib/style.css';
+import { ErrorMessage } from '@components';
 
 interface PhoneNumberInputProps<T extends FieldValues> {
   control: Control<T>;
@@ -40,10 +41,7 @@ export const PhoneNumberInput = <T extends FieldValues>({
               buttonClass="bg-transparent border-none outline-none focus:outline-none rounded-md focus:outline-none focus:!border-blue-500 hover:!border-blue-500 transition-all duration-200 !bg-white !py-1 !px-2 focus-within:outline-none border-basicBlack border-[1px]"
               specialLabel=""
             />
-
-            {error && (
-              <p className="text-basicRed text-sm mt-1">{error.message}</p>
-            )}
+            <ErrorMessage error={error?.message} />
           </>
         )}
       />

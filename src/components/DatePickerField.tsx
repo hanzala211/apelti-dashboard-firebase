@@ -2,6 +2,7 @@ import { DATE_FOMRAT } from "@constants";
 import dayjs from "dayjs";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import { DatePicker as AntdDatePicker } from "antd";
+import { ErrorMessage } from "@components";
 
 interface DatePickerProps<T extends FieldValues> {
   control: Control<T>;
@@ -23,7 +24,7 @@ export const DatePickerField = <T extends FieldValues>({ control, name }: DatePi
             onChange={(_, dateString: string | string[]) => field.onChange(dateString)}
             value={field.value ? dayjs(field.value, DATE_FOMRAT) : null}
           />
-          {error && <p className="text-basicRed text-sm">{error.message}</p>}
+          <ErrorMessage error={error?.message} />
         </>
       )}
     />

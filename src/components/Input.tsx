@@ -1,3 +1,4 @@
+import { ErrorMessage } from '@components';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface InvoiceInputProps {
@@ -34,7 +35,7 @@ export const Input: React.FC<InvoiceInputProps> = ({
         min={min}
         placeholder={placeholder}
       />
-      {error && <p className="text-basicRed text-sm">{error}</p>}
+      <ErrorMessage error={error} />
     </div>
   );
 };

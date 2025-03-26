@@ -1,5 +1,5 @@
 export interface InvoiceItem {
-  account: string;
+  glAccount: string;
   amount: number;
   description: string;
   class: string;
@@ -28,7 +28,10 @@ export interface Invoice {
   createdAt?: string;
   updatedAt?: string;
   __v?: number;
-  termsOfPayment?: string
+  termsOfPayment?: string,
+  vendorId: string,
+  FiscalNumber: string,
+  vatNumber: string
 }
 
 export interface FilterTypes {

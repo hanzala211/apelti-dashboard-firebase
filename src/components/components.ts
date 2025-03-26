@@ -14,3 +14,4 @@ export * from './UserProfile';
 export * from './DropDown';
 export * from './TableSkeleton';
 export * from './DatePickerField';
+export * from './ErrorMessage';

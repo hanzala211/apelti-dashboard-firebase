@@ -1,3 +1,4 @@
+import { ErrorMessage } from '@components';
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
 
 interface SelectProps<T extends FieldValues> {
@@ -36,7 +37,7 @@ export const Select = <T extends FieldValues>({
                 </option>
               ))}
             </select>
-            {error && <p className="text-basicRed text-sm">{error.message}</p>}
+            <ErrorMessage error={error?.message} />
           </>
         )}
       />

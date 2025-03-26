@@ -8,7 +8,7 @@ export const RoleEnum = z.enum([
 ]);
 
 export const invoiceItemSchema = z.object({
-  account: z.string().min(1, 'Account number is Required'),
+  glAccount: z.string().min(1, 'Account number is Required'),
   amount: z.number().min(1, 'Amount is Required'),
   description: z.string().min(1, 'Description is Required'),
   class: z.string().min(1, 'Class is Required'),
@@ -16,7 +16,7 @@ export const invoiceItemSchema = z.object({
 });
 
 export const invoiceForm = z.object({
-  supplierName: z.string().min(1, 'Supplier Name is Required'),
+  supplierName: z.string().min(1, 'Vendor Name is Required'),
   invoiceNumber: z.string().min(1, 'Invoice Number is Required'),
   poNumber: z.string().min(1, 'PO no. is Required'),
   termsOfPayment: z.string().min(1, 'Term of Payment is Required'),
@@ -28,6 +28,8 @@ export const invoiceForm = z.object({
   invoiceItems: z.array(invoiceItemSchema),
   currency: z.string(),
   comment: z.string().min(1, 'Comment is Required'),
+  supplierId: z.string().min(1, 'Vendor ID is Required'),
+  fiscalNumber: z.string().min(1, "Fiscal Number is Required")
 });
 
 export type InvoiceFormSchema = z.infer<typeof invoiceForm>;
