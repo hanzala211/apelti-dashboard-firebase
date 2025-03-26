@@ -91,7 +91,7 @@ export const InvoiceRightPanelForm: React.FC = () => {
       fileUrl: extractedData?.fileUrl || '',
       vendorId: data.supplierId,
       FiscalNumber: data.fiscalNumber,
-      vatNumber: extractedData?.vatNumber || ""
+      vatNumber: extractedData?.vatNumber || data.supplierId || ""
     });
   };
 
