@@ -10,7 +10,7 @@ interface GraphItemProps {
 export const GraphItem: React.FC<GraphItemProps> = ({ icon, label, value }) => {
   return <div className="space-y-2">
     <div className="flex items-center gap-2">
-      <span className="bg-basicGreen rounded-xl p-2 w-fit block">
+      <span className="bg-primaryColor rounded-xl p-2 w-fit block">
         <ReactSVG
           src={icon}
           beforeInjection={(svg) => {
