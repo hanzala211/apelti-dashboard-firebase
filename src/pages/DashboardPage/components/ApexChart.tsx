@@ -9,7 +9,7 @@ export const ApexChart: React.FC<{ state: ChartState }> = ({ state }) => {
           options={state.options}
           series={state.series}
           type="area"
-          height={350}
+          height={400}
         />
       </div>
     </div>
