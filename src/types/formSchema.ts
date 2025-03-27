@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 export const RoleEnum = z.enum([
   'admin',
   'clerk',
@@ -8,49 +9,50 @@ export const RoleEnum = z.enum([
 ]);
 
 export const invoiceItemSchema = z.object({
-  glAccount: z.string().min(1, 'Account number is Required'),
-  amount: z.number().min(1, 'Amount is Required'),
-  description: z.string().min(1, 'Description is Required'),
-  class: z.string().min(1, 'Class is Required'),
-  department: z.string().min(1, 'Department is Required'),
+  glAccount: z.string().min(1, 'Please provide an account number.'),
+  amount: z.number().min(1, 'Please enter an amount of at least 1.'),
+  description: z.string().min(1, 'Please provide a description.'),
+  class: z.string().min(1, 'Please specify the class.'),
+  department: z.string().min(1, 'Please specify the department.'),
 });
 
 export const invoiceForm = z.object({
-  supplierName: z.string().min(1, 'Vendor Name is Required'),
-  invoiceNumber: z.string().min(1, 'Invoice Number is Required'),
-  poNumber: z.string().min(1, 'PO no. is Required'),
-  termsOfPayment: z.string().min(1, 'Term of Payment is Required'),
-  invoiceDate: z.string().min(1, 'Invoice Date is Required'),
-  paymentTerms: z.string().min(1, 'Payment Term is Required'),
-  amount: z.number().min(1, 'Amount is Required'),
+  supplierName: z.string().min(1, 'Please enter the vendor name.'),
+  invoiceNumber: z.string().min(1, 'Please enter the invoice number.'),
+  poNumber: z.string().min(1, 'Please enter the purchase order number.'),
+  termsOfPayment: z.string().min(1, 'Please specify the terms of payment.'),
+  invoiceDate: z.string().min(1, 'Please enter the invoice date.'),
+  paymentTerms: z.string().min(1, 'Please specify the payment terms.'),
+  amount: z.number().min(1, 'Please enter an amount of at least 1.'),
   paymentTermDescription: z.string(),
   rarityInvoice: z.string(),
   invoiceItems: z.array(invoiceItemSchema),
   currency: z.string(),
-  comment: z.string().min(1, 'Comment is Required'),
-  supplierId: z.string().min(1, 'Vendor ID is Required'),
-  fiscalNumber: z.string().min(1, "Fiscal Number is Required")
+  comment: z.string().min(1, 'Please enter a comment.'),
+  supplierId: z.string().min(1, 'Please enter the vendor ID.'),
+  fiscalNumber: z.string().min(1, 'Please enter the fiscal number.'),
 });
 
 export type InvoiceFormSchema = z.infer<typeof invoiceForm>;
 
 export const loginForm = z.object({
-  email: z.string().email('Invalid Email Address'),
-  password: z.string().min(8, 'Password must be at least 8 characters long.'),
+  email: z.string().email('Please enter a valid email address.'),
+  password: z.string().min(8, 'Your password must be at least 8 characters long.'),
 });
 
 export type LoginFormSchema = z.infer<typeof loginForm>;
 
 export const signupForm = z.object({
-  firstName: z.string().min(1, 'First Name is Required'),
-  lastName: z.string().min(1, 'Last Name is Required'),
-  email: z.string().email('Invalid Email Address'),
-  password: z.string().min(8, 'Password must be at least 8 characters long.'),
-  companyName: z.string().min(1, 'Company Name is Required'),
-  numberOfEmployees: z.number().min(1, 'Number of Employes is Required'),
+  firstName: z.string().min(1, 'Please enter your first name.'),
+  lastName: z.string().min(1, 'Please enter your last name.'),
+  email: z.string().email('Please enter a valid email address.'),
+  password: z.string().min(8, 'Please ensure your password is at least 8 characters long.'),
+  companyName: z.string().min(1, 'Please enter your company name.'),
+  numberOfEmployees: z.number().min(1, 'Please enter the number of employees.'),
   businessType: z.string(),
-  phone: z.string().min(1, 'Phone Number is Required'),
+  phone: z.string().min(1, 'Please enter your phone number.'),
 });
+
 export type SignupFormSchema = z.infer<typeof signupForm>;
 
 export const addMemberForm = signupForm
@@ -59,25 +61,25 @@ export const addMemberForm = signupForm
     role: RoleEnum,
     password: z
       .string()
-      .min(8, 'Password must be at least 8 characters long.')
+      .min(8, 'Please enter a password with at least 8 characters.')
       .optional(),
   });
 
 export type AddMemberFormSchema = z.infer<typeof addMemberForm>;
 
 export const profileSchema = z.object({
-  firstName: z.string().min(1, 'First name is required').optional(),
-  lastName: z.string().min(1, 'Last name is required').optional(),
-  email: z.string().email('Invalid email').optional(),
+  firstName: z.string().min(1, 'Please enter your first name.').optional(),
+  lastName: z.string().min(1, 'Please enter your last name.').optional(),
+  email: z.string().email('Please enter a valid email address.').optional(),
   oldPassword: z
     .string()
-    .min(6, 'Old password must be at least 6 characters')
+    .min(8, 'Please enter your current password (at least 8 characters).')
     .optional(),
   newPassword: z
     .string()
-    .min(6, 'New password must be at least 6 characters')
+    .min(6, 'Please enter a new password (at least 6 characters).')
     .optional(),
-  role: z.string().min(1, 'Please select a role').optional(),
+  role: z.string().min(1, 'Please select a role.').optional(),
 });
 
 export type ProfileFormValues = z.infer<typeof profileSchema>;
