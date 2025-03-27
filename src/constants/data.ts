@@ -196,3 +196,57 @@ export const CHART_DATA: ChartState = {
     },
   },
 };
+
+export const COLUMN_CHART = {
+  series: [
+    {
+      name: 'Data Series',
+      data: [300, 220, 120, 250, 400, 380, 450, 340, 220],
+    },
+  ],
+  options: {
+    chart: {
+      type: 'bar' as const,
+      // If you want to remove chart toolbar (download, zoom, etc.), set the following:
+      toolbar: {
+        show: false,
+      },
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 4,
+        columnWidth: '10%', // Adjust column width,
+      },
+    },
+    dataLabels: {
+      enabled: false, // Hide data labels on bars
+    },
+    xaxis: {
+      // For a simple numeric x-axis, you can remove categories
+      // or set your own categories for each bar:
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+      labels: {
+        style: {
+          colors: COLORS.basicWhite, // X-axis label color
+        },
+      },
+    },
+    yaxis: {
+      min: 0,
+      max: 500,
+      tickAmount: 5, // 0, 100, 200, 300, 400, 500
+      labels: {
+        style: {
+          colors: COLORS.basicWhite, // Y-axis label color
+        },
+      },
+    },
+    grid: {
+      show: false, // Hide grid lines
+    },
+    // You can customize colors if desired
+    colors: [COLORS.basicWhite],
+    // Optional: If you want to style the background in a gradient, you can do that
+    // in the parent container or by using chart.background
+  }
+}

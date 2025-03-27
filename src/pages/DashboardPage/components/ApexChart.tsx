@@ -12,7 +12,6 @@ export const ApexChart: React.FC<{ state: ChartState }> = ({ state }) => {
           height={350}
         />
       </div>
-      <div></div>
     </div>
   );
 };

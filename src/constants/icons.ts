@@ -50,4 +50,8 @@ export const ICONS = {
   settings_icon: '/assets/icons/settings-icon.svg',
   delete_overview: '/assets/icons/delete.svg',
   edit_overview: '/assets/icons/overviewEdit.svg',
+  cart: '/assets/icons/cart.svg',
+  rocket: '/assets/icons/rocket.svg',
+  wallet: '/assets/icons/wallet.svg',
+  wrench: '/assets/icons/wrench.svg',
 };

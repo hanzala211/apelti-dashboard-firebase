@@ -20,4 +20,6 @@ export const COLORS = {
   temporaryGreen: '#E9FBF1',
   temporaryRed: '#FFF2F2',
   temporaryGray: '#F8F9FA',
+  columnGraphBg: "#1f2a44",
+  columnGraphGradient: "#2e3450"
 };

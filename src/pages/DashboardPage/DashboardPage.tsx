@@ -2,10 +2,18 @@ import { useAuth } from '@context';
 import { ApexChart } from './components/ApexChart';
 import { InvoiceWidget } from './components/InvoiceWidget';
 import { PaymentItem } from './components/PaymentItem';
-import { APP_ACTIONS, CHART_DATA, PERMISSIONS, ROUTES } from '@constants';
+import {
+  APP_ACTIONS,
+  CHART_DATA,
+  ICONS,
+  PERMISSIONS,
+  ROUTES,
+} from '@constants';
 import { ChartState } from '@types';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import ColumnChart from './components/ColumnChart';
+import GraphItem from './components/GraphItem';
 
 export const DashboardPage: React.FC = () => {
   const { userData } = useAuth();
@@ -15,6 +23,7 @@ export const DashboardPage: React.FC = () => {
 
   if (!userPermissions.includes(APP_ACTIONS.dashboardPage))
     return <Navigate to={ROUTES.not_available} />;
+
   return (
     <section className="md:p-9 md:pt-4 px-2 pt-20 md:max-h-[calc(100dvh-50px)] w-full flex gap-5 flex-col sm:max-w-[98%] max-w-full mx-auto overflow-y-auto h-[100dvh]">
       <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 xl:gap-16 gap-2">
@@ -27,7 +36,7 @@ export const DashboardPage: React.FC = () => {
       <div
         className={`bg-basicWhite border-[1px] rounded-xl relative sm:px-4 -z-10`}
       >
-        <h1 className="font-semibold z-0 w-fit text-[20px] absolute top-3 left-5">
+        <h1 className="font-semibold z-0 w-fit text-[20px] absolute top-4 left-8">
           Invoices For Payment
         </h1>
         <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1">
@@ -70,17 +79,24 @@ export const DashboardPage: React.FC = () => {
         <h1 className="font-semibold w-fit text-[20px]">Workflow</h1>
       </div>
 
-      <div className="grid xl:grid-cols-3 grid-cols-1 gap-4">
-        <div className="bg-basicWhite border-[1px] p-3 w-full rounded-lg">
+      <div className="grid xl:grid-cols-2 grid-cols-1 gap-4">
+        <div className="bg-basicWhite space-y-4 border-[1px] p-5 w-full rounded-lg">
+          <ColumnChart />
+          <div>
+            <h2 className="text-[22px] font-semibold">Active Users</h2>
+            <p className="text-silverGray font-medium">
+              <span className="text-basicGreen">(+23)</span> than last week
+            </p>
+          </div>
+          <div className="grid md:grid-cols-4 grid-cols-2 gap-4 md:gap-1">
+            <GraphItem label='Users' value='32,983' icon={ICONS.wallet} />
+            <GraphItem label='Clicks' value='2,42m' icon={ICONS.rocket} />
+            <GraphItem label='Sales' value='32,983' icon={ICONS.cart} />
+            <GraphItem label='Items' value='320' icon={ICONS.wrench} />
+          </div>
+        </div>
+        <div className="bg-basicWhite border-[1px] p-5 w-full rounded-lg">
           <h1 className="font-semibold w-fit text-[20px]">Best Suppliers</h1>
-          <ApexChart state={state} />
-        </div>
-        <div className={`bg-basicWhtie border-[1px] p-3 w-full rounded-lg`}>
-          <h1 className="font-semibold w-fit text-[20px]">Workflow</h1>
-          <ApexChart state={state} />
-        </div>
-        <div className={`bg-basicWhtie border-[1px] p-3 w-full rounded-lg`}>
-          <h1 className="font-semibold w-fit text-[20px]">Workflow</h1>
           <ApexChart state={state} />
         </div>
       </div>
