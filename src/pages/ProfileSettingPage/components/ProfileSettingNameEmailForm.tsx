@@ -33,13 +33,13 @@ export const ProfileSettingNameEmailForm: React.FC<
               type="text"
               register={register('firstName')}
               error={errors.firstName?.message}
-              label="FirstName"
+              label="First Name"
             />
             <Input
               type="text"
               register={register('lastName')}
               error={errors.lastName?.message}
-              label="LastName"
+              label="Last Name"
             />
             <Input
               type="email"

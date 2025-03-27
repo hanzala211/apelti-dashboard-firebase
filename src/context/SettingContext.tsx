@@ -19,7 +19,7 @@ export const SettingProvider: React.FC<{ children: ReactNode }> = ({
       setErrorMessage('');
       const response = await settingServices.changePassword(data);
       console.log(response);
-      toast.success('Success', 'Password Changed Successfully');
+      toast.success('Update Complete', 'Your password has been successfully updated.');
       return response;
     } catch (error) {
       console.log(error);
@@ -37,7 +37,7 @@ export const SettingProvider: React.FC<{ children: ReactNode }> = ({
       );
       setUserData(response.data.data);
       console.log('Checking the update');
-      toast.success('Success', 'Data Updated Successfully');
+      toast.success('Update Complete', 'The data has been updated successfully.');
     } catch (error) {
       console.log(error);
       setErrorMessage(
