@@ -18,7 +18,7 @@ export const TeamProvider: React.FC<{ children: ReactNode }> = ({
       setErrorMessage('');
       const response = await teamServices.addMember(sendData);
       if (response.status === 200) {
-        toast.success('Success', 'User Added Successfully');
+        toast.success('Operation Successful', 'The new user has been successfully registered in the system.');
         return response.data.data;
       }
       return null;
@@ -43,16 +43,19 @@ export const TeamProvider: React.FC<{ children: ReactNode }> = ({
       return null;
     } catch (error) {
       console.log(error);
+
     }
   };
 
   const deleteMember = async (userId: string) => {
     try {
       const response = await teamServices.deleteMember(userId);
+      toast.success('Operation Successful', 'The user has been successfully deleted.');
       console.log(response);
       return null;
     } catch (error) {
       console.log(error);
+      toast.error("Error", typeof error === 'object' ? (error as Error).message : String(error))
     }
   };
 
@@ -60,12 +63,15 @@ export const TeamProvider: React.FC<{ children: ReactNode }> = ({
     try {
       const response = await teamServices.updateMember(userId, data);
       if (response.status === 200) {
-        toast.success('Success', 'User Updated Successfully');
+        toast.success('Operation Successful', 'The user has been successfully updated.');
         return response.data.data;
       }
       return null;
     } catch (error) {
       console.log(error);
+      setErrorMessage(
+        typeof error === 'object' ? (error as Error).message : String(error)
+      );
     } finally {
       setEditingUser(null);
     }
