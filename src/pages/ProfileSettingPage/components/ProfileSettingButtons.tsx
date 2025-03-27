@@ -12,7 +12,7 @@ export const ProfileSettingButtons: React.FC<{ handleCancel?: () => void }> = ({
       </button>
       <button
         type="submit"
-        className="border-basicGreen hover:bg-basicGreen border-2 px-2 py-1 hover:text-basicWhite bg-transparent transition-all duration-200 text-basicGreen rounded-lg text-[13px]"
+        className="border-primaryColor hover:bg-primaryColor border-2 px-2 py-1 hover:text-basicWhite bg-transparent transition-all duration-200 text-primaryColor rounded-lg text-[13px]"
       >
         Edit
       </button>

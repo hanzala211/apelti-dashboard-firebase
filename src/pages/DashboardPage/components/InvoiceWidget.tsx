@@ -12,7 +12,7 @@ export const InvoiceWidget: React.FC<{ label: string; amount: number }> = ({
         <h2 className={`text-silverGray font-semibold`}>{label}</h2>
         <h1 className="font-bold text-[22px]">{amount}</h1>
       </div>
-      <div className={`bg-basicGreen rounded-3xl p-4`}>
+      <div className={`bg-primaryColor rounded-3xl p-4`}>
         <LuFileScan color="white" size={24} />
       </div>
     </div>

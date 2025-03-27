@@ -19,7 +19,7 @@ export const InvoiceLeftPanel: React.FC = () => {
           if (window.innerWidth < 1024) {
             svg.classList.add('w-44');
             svg.classList.add('h-44');
-            svg.classList.add("text-basicGreen")
+            svg.classList.add("text-primaryColor")
           }
         }}
       />

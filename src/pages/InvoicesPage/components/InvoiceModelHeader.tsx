@@ -39,7 +39,7 @@ export const InvoiceModelHeader: React.FC = () => {
       <h1 className="md:text-[22px] text-[17px] font-bold">Add Invoice</h1>
       <div className="flex gap-4 items-center">
         <button
-          className={`text-basicWhite md:text-[16px] text-[14px] bg-basicGreen px-7 hover:bg-opacity-70 transition-all border-basicGreen border-[1px] duration-200 py-1.5 rounded-full ${postInvoiceMutation.isPending && 'bg-blue-700 cursor-not-allowed'
+          className={`text-basicWhite md:text-[16px] text-[14px] bg-primaryColor px-7 hover:bg-opacity-70 transition-all border-primaryColor border-[1px] duration-200 py-1.5 rounded-full ${postInvoiceMutation.isPending && 'bg-blue-700 cursor-not-allowed'
             }`}
           disabled={postInvoiceMutation.isPending}
           onClick={() => {

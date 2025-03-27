@@ -47,7 +47,7 @@ export const MessagesPage: React.FC = () => {
             >
               <button
                 onClick={handleClick}
-                className={`text-basicGreen text-[30px] absolute left-2 top-3 z-20 md:hidden ${selectedMessage === null ? 'hidden' : 'block'
+                className={`text-primaryColor text-[30px] absolute left-2 top-3 z-20 md:hidden ${selectedMessage === null ? 'hidden' : 'block'
                   }`}
               >
                 <ICONS.leftArrow />

@@ -10,7 +10,7 @@ const Loader: React.FC = () => {
         }}
       />
       <div className="relative h-1 w-[10rem] bg-silverGray overflow-hidden rounded">
-        <div className="absolute h-full w-[5rem] bg-basicGreen animate-slide"></div>
+        <div className="absolute h-full w-[5rem] bg-primaryColor animate-slide"></div>
       </div>
     </div>
   );

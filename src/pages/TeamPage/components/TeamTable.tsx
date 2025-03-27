@@ -106,7 +106,7 @@ export const TeamTable: React.FC<TeamTableProps> = ({
                 {userPermissions.includes(APP_ACTIONS.addTeam) && (
                   <>
                     <td
-                      className="px-4 py-2 text-sm text-basicGreen cursor-pointer"
+                      className="px-4 py-2 text-sm text-primaryColor cursor-pointer"
                       onClick={() => setEditingUser(item)}
                     >
                       <ICONS.userEdit size={24} />

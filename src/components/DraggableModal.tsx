@@ -78,7 +78,7 @@ export const DraggableModal: React.FC<DraggableModalProps> = ({
         onCancel={handleCancel}
         okButtonProps={{
           className:
-            'bg-basicGreen border-none hover:!bg-opacity-50 text-white hover:!bg-basicGreen active:!bg-basicGreen focus:!bg-basicGreen',
+            'bg-primaryColor border-none hover:!bg-opacity-50 text-white hover:!bg-primaryColor active:!bg-primaryColor focus:!bg-primaryColor',
         }}
         cancelButtonProps={{
           className:

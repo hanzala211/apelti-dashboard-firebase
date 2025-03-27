@@ -20,7 +20,7 @@ export const AuthLayout: React.FC = () => {
         <img
           src={ICONS.loginImage}
           alt="Login Placeholder"
-          className="h-screen bg-basicGreen md:block hidden w-[40%]"
+          className="h-screen bg-primaryColor md:block hidden w-[40%]"
         />
       </section>
     </div>

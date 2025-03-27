@@ -85,7 +85,7 @@ export const DashboardPage: React.FC = () => {
           <div>
             <h2 className="text-[22px] font-semibold">Active Users</h2>
             <p className="text-silverGray font-medium">
-              <span className="text-basicGreen">(+23)</span> than last week
+              <span className="text-primaryColor">(+23)</span> than last week
             </p>
           </div>
           <div className="grid md:grid-cols-4 grid-cols-2 gap-4 md:gap-1">

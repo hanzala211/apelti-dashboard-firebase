@@ -168,7 +168,7 @@ export const CHART_DATA: ChartState = {
         show: false,
       },
     },
-    colors: [COLORS.basicGreen],
+    colors: [COLORS.primaryColor],
     dataLabels: {
       enabled: false,
     },

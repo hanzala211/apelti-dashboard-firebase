@@ -38,8 +38,8 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({
               }}
               className={
                 isActive
-                  ? 'text-basicGreen w-5 h-5'
-                  : 'text-gray-400 group-hover:text-basicGreen w-5 h-5'
+                  ? 'text-primaryColor w-5 h-5'
+                  : 'text-gray-400 group-hover:text-primaryColor w-5 h-5'
               }
             />
           ) : (
@@ -47,8 +47,8 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({
               size={18}
               className={
                 isActive
-                  ? 'text-basicGreen'
-                  : 'text-gray-400 group-hover:text-basicGreen'
+                  ? 'text-primaryColor'
+                  : 'text-gray-400 group-hover:text-primaryColor'
               }
             />
           )}

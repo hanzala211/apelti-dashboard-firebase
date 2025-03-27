@@ -66,12 +66,12 @@ export const ResizableSlider: React.FC<ResizableSliderProps> = ({
         <Left />
       </div>
       <div
-        className="relative md:block hidden w-2 bg-basicGreen cursor-col-resize"
+        className="relative md:block hidden w-2 bg-primaryColor cursor-col-resize"
         onMouseDown={handleMouseDown}
       >
-        <div className="absolute shadow-xl shadow-silverGray py-2 top-1/2 z-10 -translate-y-1/2 bg-basicWhite border-[2px] border-basicGreen left-1/2 -translate-x-1/2 flex">
-          <ICONS.leftArrowSlider color={COLORS.basicGreen} />
-          <ICONS.rightArrowSlider color={COLORS.basicGreen} />
+        <div className="absolute shadow-xl shadow-silverGray py-2 top-1/2 z-10 -translate-y-1/2 bg-basicWhite border-[2px] border-primaryColor left-1/2 -translate-x-1/2 flex">
+          <ICONS.leftArrowSlider color={COLORS.primaryColor} />
+          <ICONS.rightArrowSlider color={COLORS.primaryColor} />
         </div>
       </div>
       {Right}

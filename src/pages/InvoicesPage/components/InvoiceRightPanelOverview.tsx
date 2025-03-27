@@ -21,12 +21,12 @@ export const InvoiceRightPanelOverview: React.FC = () => {
           <div className="flex gap-5 items-baseline">
             <button
               onClick={handleEdit}
-              className="flex gap-2 items-center font-medium md:text-[18px] text-[15px] text-basicGreen"
+              className="flex gap-2 items-center font-medium md:text-[18px] text-[15px] text-primaryColor"
             >
               <ReactSVG src={ICONS.edit_overview} />
               Edit
             </button>
-            <button className="flex gap-2 items-center font-medium md:text-[18px] text-[15px] text-basicGreen">
+            <button className="flex gap-2 items-center font-medium md:text-[18px] text-[15px] text-primaryColor">
               <ReactSVG src={ICONS.delete_overview} />
               Delete
             </button>
