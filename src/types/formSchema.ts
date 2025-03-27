@@ -77,7 +77,7 @@ export const profileSchema = z.object({
     .optional(),
   newPassword: z
     .string()
-    .min(6, 'Please enter a new password (at least 6 characters).')
+    .min(8, 'Please enter a new password (at least 8 characters).')
     .optional(),
   role: z.string().min(1, 'Please select a role.').optional(),
 });

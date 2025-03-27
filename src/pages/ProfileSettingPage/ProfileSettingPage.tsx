@@ -1,6 +1,7 @@
 import {
   DraggableModal,
   DropDown,
+  ErrorMessage,
   Input,
   Select,
   SettingPageHeading,
@@ -207,11 +208,11 @@ export const ProfileSettingPage: React.FC = () => {
           className="flex flex-col gap-4"
         >
           <div className="border-b-[1px] pt-4 pb-8 flex md:items-start items-end justify-between gap-2 w-full border-neutralGray">
-            <div className="grid xl:grid-cols-[0.5fr_2fr] grid-cols-1 gap-5">
+            <div className="grid xl:grid-cols-[0.5fr_2fr] grid-cols-1 gap-5 items-center">
               <SettingPageHeading label="Password" />
               <div className="flex gap-2 items-center">
                 {!isEditingPassword ? (
-                  <p>***********</p>
+                  <p className='m-0'>***********</p>
                 ) : (
                   <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
                     <Input
@@ -251,7 +252,7 @@ export const ProfileSettingPage: React.FC = () => {
               <SettingPageHeading label="Approval" />
               <div className="flex gap-2 items-center">
                 {!isEditingRole ? (
-                  <p className="text-neutralGray text-[14px]">
+                  <p className="text-neutralGray m-0 text-[14px]">
                     Role: {userData?.role[0].toUpperCase()}
                     {userData?.role.slice(1)}
                   </p>
@@ -275,9 +276,7 @@ export const ProfileSettingPage: React.FC = () => {
             )}
           </div>
         </form>
-        {errorMessage.length > 0 && (
-          <p className="text-basicRed text-sm">{errorMessage}</p>
-        )}
+        <ErrorMessage error={errorMessage} />
       </div>
     </section>
   );
