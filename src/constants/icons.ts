@@ -54,4 +54,5 @@ export const ICONS = {
   rocket: '/assets/icons/rocket.svg',
   wallet: '/assets/icons/wallet.svg',
   wrench: '/assets/icons/wrench.svg',
+  table_setting: '/assets/icons/table-setting.svg',
 };

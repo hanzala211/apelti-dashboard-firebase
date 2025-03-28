@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
-import { TableSkeleton } from './TableSkeleton'; // Import the skeleton component
+import { TableSkeleton } from './TableSkeleton';
+import { TableCheckbox } from './TableCheckbox';
 
 interface TableProps<T> {
   headings: string[];
@@ -7,6 +8,8 @@ interface TableProps<T> {
   keys: (keyof T)[];
   isLoading?: boolean;
   skeletonRowCount?: number;
+  selectedIndex: number | null;
+  setSelectedIndex: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 export const Table = <T,>({
@@ -15,6 +18,8 @@ export const Table = <T,>({
   keys,
   isLoading = false,
   skeletonRowCount = 5,
+  selectedIndex,
+  setSelectedIndex,
 }: TableProps<T>) => {
   if (isLoading) {
     return (
@@ -24,13 +29,14 @@ export const Table = <T,>({
 
   return (
     <div className="w-full mt-5 sm:max-h-[calc(100vh-270px)] max-h-[calc(100dvh-240px)] overflow-auto">
-      <table className="w-full text-sm text-center text-gray-700">
+      <table className="w-full text-sm text-left text-gray-700">
         <thead className="sticky top-0 z-20 bg-paleGray border-silverGray border-b">
           <tr>
+            <th></th>
             {headings.map((heading, idx) => (
               <th
                 key={idx}
-                className={`px-6 py-4 font-medium text-[14px] text-slateGrey`}
+                className="px-6 py-4 font-medium text-[14px] text-slateGrey"
               >
                 {heading}
               </th>
@@ -44,6 +50,10 @@ export const Table = <T,>({
               key={rowIndex}
               className="border-b border-silverGray last:border-0 hover:bg-gray-50"
             >
+              <TableCheckbox
+                isChecked={selectedIndex === rowIndex}
+                onChange={() => setSelectedIndex((prev) => prev === rowIndex ? null : rowIndex)}
+              />
               {keys.map((key, colIndex) => (
                 <td key={colIndex} className="px-6 py-4 text-[14px]">
                   {key === 'status' ? (

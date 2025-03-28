@@ -32,7 +32,14 @@ export interface InvoiceContextTypes {
   setFormData: React.Dispatch<React.SetStateAction<Invoice | null>>;
   handleBtnClick: () => void;
   removeDataBtnRef: RefObject<HTMLButtonElement | null>;
-  postInvoice: () => Promise<Invoice | undefined>,
+  postInvoice: (data: unknown) => Promise<Invoice | undefined>;
+  selectedInvoice: number | null;
+  setSelectedInvoice: React.Dispatch<React.SetStateAction<number | null>>;
+  selectedData: Invoice | null;
+  setSelectedData: React.Dispatch<React.SetStateAction<Invoice | null>>;
+  postInvoiceMutation: UseMutationResult<Invoice, Error, unknown, unknown>,
+  updateInvoiceMutation: UseMutationResult<Invoice, Error, unknown, unknown>,
+  deleteInvoiceMutation: UseMutationResult<void, Error, string, unknown>,
 }
 
 export interface AuthContextTypes {

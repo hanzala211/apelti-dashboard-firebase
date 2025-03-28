@@ -18,6 +18,11 @@ export const invoiceServices = {
     isAuthIncluded: true,
     data
   }),
+  deleteInvoice: (invoiceId: string) => sendRequest({
+    url: `/invoice/${invoiceId}`,
+    method: "DELETE",
+    isAuthIncluded: true,
+  }),
   postInvoice: (data: unknown) => sendRequest({
     url: `/invoice`,
     method: "POST",

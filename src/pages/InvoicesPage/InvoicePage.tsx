@@ -11,6 +11,7 @@ import {
 import {
   Button,
   DraggableModal,
+  DropDown,
   FilterBtn,
   PageHeading,
   Table,
@@ -21,10 +22,19 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { useQuery } from '@tanstack/react-query';
 import { formatDate } from '@helpers';
+import { ReactSVG } from 'react-svg';
+import { MenuProps } from 'antd';
 
 export const InvoicePage: React.FC = () => {
   const { userData } = useAuth();
-  const { setIsInvoiceModelOpen, getInvoices } = useInvoice();
+  const {
+    setIsInvoiceModelOpen,
+    getInvoices,
+    selectedInvoice,
+    setSelectedInvoice,
+    setSelectedData,
+    deleteInvoiceMutation,
+  } = useInvoice();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [filteredInvoices, setFilteredInvoices] = useState<Invoice[]>([]);
   const [filters, setFilters] = useState<FilterTypes[]>([
@@ -146,6 +156,12 @@ export const InvoicePage: React.FC = () => {
     setFilteredInvoices(filteredValues);
   };
 
+  const handleDelete = () => {
+    if (selectedInvoice !== null && invoices !== undefined) {
+      deleteInvoiceMutation.mutate(invoices[selectedInvoice]._id || "")
+    }
+  };
+
   const headings = [
     'Invoice Number',
     'Supplier',
@@ -181,6 +197,57 @@ export const InvoicePage: React.FC = () => {
         : '',
   }));
 
+  const items: MenuProps['items'] = [
+    {
+      label: (
+        <button
+          onClick={() => {
+            if (selectedInvoice !== null && invoices) {
+              setSelectedData(invoices[selectedInvoice]);
+              handleClick();
+            }
+          }}
+          className="w-32 flex gap-2 items-center text-[14px] text-primaryColor hover:text-basicBlack transition-all duration-200 font-medium text-left"
+        >
+          <ReactSVG
+            src={ICONS.edit_overview}
+            beforeInjection={(svg) => {
+              svg.querySelectorAll('path').forEach((path) => {
+                path.setAttribute('fill', 'none');
+                path.setAttribute('stroke', 'currentColor');
+              });
+              svg.style.height = '14px';
+              svg.style.width = '14px';
+            }}
+            className={`group-hover:text-primaryColor`}
+          />
+          Edit
+        </button>
+      ),
+      key: '0',
+    },
+    {
+      label: (
+        <button onClick={handleDelete} className="w-32 flex gap-2 items-center text-[14px] text-primaryColor hover:text-basicBlack transition-all duration-200 font-medium text-left">
+          <ReactSVG
+            src={ICONS.table_setting}
+            beforeInjection={(svg) => {
+              svg.querySelectorAll('path').forEach((path) => {
+                path.setAttribute('fill', 'none');
+                path.setAttribute('stroke', 'currentColor');
+              });
+              svg.style.height = '14px';
+              svg.style.width = '14px';
+            }}
+            className={`group-hover:text-primaryColor`}
+          />
+          Delete
+        </button>
+      ),
+      key: '1',
+    },
+  ];
+
   return (
     <section className="md:py-9 pt-20 w-screen md:max-w-[calc(100vw-256px)]">
       <div className="md:px-14 px-2 flex justify-between items-center">
@@ -214,14 +281,31 @@ export const InvoicePage: React.FC = () => {
       </div>
 
       <div className="flex mt-5 justify-between items-center md:px-14 px-2">
-        <div className="flex gap-2 items-center">
-          <button
-            onClick={showModal}
-            className="text-accentBlue rounded-md transition-all duration-200 flex gap-1 hover:bg-softBlue px-2 py-1 items-center md:text-[18px] text-[15px]"
-          >
-            <ICONS.plusIcon size={24} /> Add Filters
-          </button>
-        </div>
+        <button
+          onClick={showModal}
+          className="text-accentBlue rounded-md transition-all duration-200 flex gap-1 hover:bg-softBlue px-2 py-1 items-center md:text-[18px] text-[15px]"
+        >
+          <ICONS.plusIcon size={24} /> Add Filters
+        </button>
+        <DropDown
+          items={items}
+          label={
+            <button className="group transition-all duration-200">
+              <ReactSVG
+                src={ICONS.table_setting}
+                beforeInjection={(svg) => {
+                  svg.querySelectorAll('path').forEach((path) => {
+                    path.setAttribute('fill', 'none');
+                    path.setAttribute('stroke', 'currentColor');
+                  });
+                  svg.style.height = '20px';
+                  svg.style.width = '20px';
+                }}
+                className={`group-hover:text-primaryColor transition-all duration-200`}
+              />
+            </button>
+          }
+        />
         <DraggableModal
           okText="Add"
           handleOk={handleFilters}
@@ -235,6 +319,8 @@ export const InvoicePage: React.FC = () => {
       </div>
 
       <Table
+        selectedIndex={selectedInvoice}
+        setSelectedIndex={setSelectedInvoice}
         keys={keys}
         headings={headings}
         data={formattedInvoices}

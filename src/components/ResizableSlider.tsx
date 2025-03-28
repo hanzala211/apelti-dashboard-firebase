@@ -4,7 +4,7 @@ import { useMessage } from '@context';
 import { useLocation } from 'react-router-dom';
 
 interface ResizableSliderProps {
-  Left: ComponentType;
+  Left: ComponentType | null;
   Right: ReactElement;
   initialLeftWidth?: number;
   minLeftWidth?: number;
@@ -63,17 +63,19 @@ export const ResizableSlider: React.FC<ResizableSliderProps> = ({
         }}
         className={`flex-shrink-[0.5]`}
       >
-        <Left />
+        {Left && <Left />}
       </div>
-      <div
-        className="relative md:block hidden w-2 bg-primaryColor cursor-col-resize"
-        onMouseDown={handleMouseDown}
-      >
-        <div className="absolute shadow-xl shadow-silverGray py-2 top-1/2 z-10 -translate-y-1/2 bg-basicWhite border-[2px] border-primaryColor left-1/2 -translate-x-1/2 flex">
-          <ICONS.leftArrowSlider color={COLORS.primaryColor} />
-          <ICONS.rightArrowSlider color={COLORS.primaryColor} />
+      {Left && (
+        <div
+          className="relative md:block hidden w-2 bg-primaryColor cursor-col-resize"
+          onMouseDown={handleMouseDown}
+        >
+          <div className="absolute shadow-xl shadow-silverGray py-2 top-1/2 z-10 -translate-y-1/2 bg-basicWhite border-[2px] border-primaryColor left-1/2 -translate-x-1/2 flex">
+            <ICONS.leftArrowSlider color={COLORS.primaryColor} />
+            <ICONS.rightArrowSlider color={COLORS.primaryColor} />
+          </div>
         </div>
-      </div>
+      )}
       {Right}
     </div>
   );

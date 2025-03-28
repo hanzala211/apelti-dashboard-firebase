@@ -1,11 +1,9 @@
 import { COLORS, ICONS } from '@constants';
 import { useInvoice } from '@context';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { SyncLoader } from 'react-spinners';
 import { ReactSVG } from 'react-svg';
 
 export const InvoiceModelHeader: React.FC = () => {
-  const queryClient = useQueryClient();
   const {
     setIsInvoiceModelOpen,
     handleFormClick,
@@ -14,15 +12,11 @@ export const InvoiceModelHeader: React.FC = () => {
     setExtractedData,
     handleBtnClick,
     formData,
-    postInvoice,
+    postInvoiceMutation,
+    selectedData,
+    setSelectedData,
+    updateInvoiceMutation,
   } = useInvoice();
-  const postInvoiceMutation = useMutation({
-    mutationFn: postInvoice,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['invoices'] });
-      handleClose()
-    },
-  });
 
   const handleClose = () => {
     handleBtnClick();
@@ -31,12 +25,15 @@ export const InvoiceModelHeader: React.FC = () => {
       setFormData(null);
       setSelectedImage(null);
       setExtractedData(null);
+      setSelectedData(null);
     }, 500);
   };
 
   return (
     <header className="h-[7rem] px-4 shadow-lg flex justify-between items-center w-full bg-basicWhite">
-      <h1 className="md:text-[22px] text-[17px] font-bold">Add Invoice</h1>
+      <h1 className="md:text-[22px] text-[17px] font-bold">
+        {selectedData ? 'Edit Invoice' : 'Add Invoice'}
+      </h1>
       <div className="flex gap-4 items-center">
         <button
           className={`text-basicWhite md:text-[16px] text-[14px] bg-primaryColor px-7 hover:bg-opacity-70 transition-all border-primaryColor border-[1px] duration-200 py-1.5 rounded-full ${postInvoiceMutation.isPending && 'bg-blue-700 cursor-not-allowed'
@@ -45,22 +42,25 @@ export const InvoiceModelHeader: React.FC = () => {
           onClick={() => {
             if (!formData) {
               handleFormClick();
-            } else {
-              postInvoiceMutation.mutate();
             }
           }}
         >
-          {!postInvoiceMutation.isPending ? (
-            'Add'
-          ) : (
+          {updateInvoiceMutation.isPending || postInvoiceMutation.isPending ? (
             <div>
               <SyncLoader color={COLORS.temporaryGray} size={10} />
             </div>
+          ) : formData ? (
+            'Pay'
+          ) : selectedData ? (
+            'Edit'
+          ) : (
+            'Add'
           )}
         </button>
         <button
           onClick={() => {
             if (formData) {
+              setSelectedData(formData);
               setFormData(null);
             }
           }}

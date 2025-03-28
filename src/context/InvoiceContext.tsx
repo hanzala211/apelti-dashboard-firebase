@@ -1,6 +1,6 @@
-import { convertDateToISO, handleFileChange, toast } from '@helpers';
+import { formatDate, handleFileChange, toast } from '@helpers';
 import { invoiceServices } from '@services';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Invoice, InvoiceContextTypes } from '@types';
 import {
   createContext,
@@ -24,17 +24,46 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
   } | null>(null);
   const [isInvoiceModelOpen, setIsInvoiceModelOpen] = useState<boolean>(false);
   const [extractedData, setExtractedData] = useState<Invoice | null>(null);
-  const [formData, setFormData] = useState<Invoice | null>(null)
+  const [selectedData, setSelectedData] = useState<Invoice | null>(null);
+  const [formData, setFormData] = useState<Invoice | null>(null);
+  const [selectedInvoice, setSelectedInvoice] = useState<number | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formInputRef = useRef<HTMLInputElement>(null);
   const removeDataBtnRef = useRef<HTMLButtonElement>(null);
+  const queryClient = useQueryClient();
   const extractDataMutation = useMutation({
     mutationFn: () => extractData(),
   });
 
+  const postInvoiceMutation = useMutation({
+    mutationFn: (data: unknown) => postInvoice(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['invoices'] });
+      handleBtnClick();
+    },
+  });
+  const updateInvoiceMutation = useMutation({
+    mutationFn: (data: unknown) => updateInvoice(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['invoices'] });
+      handleBtnClick();
+    },
+  });
+  const deleteInvoiceMutation = useMutation({
+    mutationFn: (invoiceId: string) => deleteInvoice(invoiceId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['invoices'] });
+      setIsInvoiceModelOpen(false)
+      setTimeout(() => {
+        setFormData(null)
+        setExtractedData(null)
+        setSelectedData(null)
+      }, 500)
+    },
+  });
+
   useEffect(() => {
     if (selectedImage?.value) {
-      console.log('extracting');
       extractDataMutation.mutate();
     }
   }, [selectedImage?.value]);
@@ -86,32 +115,85 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const updateInvoice = async (invoiceId: string, data: unknown) => {
+  const updateInvoice = async (data: unknown) => {
     try {
-      const response = await invoiceServices.updateInvoice(invoiceId, data)
-      console.log(response)
-      return response.data.data
+      const invoiceId = selectedData?._id || formData?._id || "";
+      const response = await invoiceServices.updateInvoice(
+        invoiceId,
+        data
+      );
+      console.log(response);
+      setFormData({
+        supplierName: response.data.data.supplierName,
+        invoiceNumber: response.data.data.invoiceNumber,
+        poNumber: response.data.data.poNumber,
+        termsOfPayment: response.data.data.termsOfPayment,
+        invoiceDate: formatDate(response.data.data.invoiceDate),
+        paymentTerms: formatDate(response.data.data.paymentTerms),
+        amount: response.data.data.amount,
+        paymentTermDescription: response.data.data.paymentTermDescription,
+        currency: response.data.data.currency,
+        rarityInvoice: response.data.data.rarityInvoice,
+        comment: response.data.data.comment,
+        fileUrl: response.data.data.fileUrl || '',
+        FiscalNumber: response.data.data.FiscalNumber,
+        vatNumber:
+          response.data.data?.vatNumber,
+        vendorId:
+          response.data.data.vendorId || response.data.data?.vatNumber,
+        items: response.data.data?.items || [],
+        _id: response.data.data._id
+      });
+      return response.data.data;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
-  const postInvoice = async () => {
+  const postInvoice = async (data: unknown) => {
     try {
-      const data = {
-        ...formData,
-        invoiceDate: convertDateToISO(formData?.invoiceDate || ""),
-        paymentTerms: convertDateToISO(formData?.paymentTerms || ""),
-      }
-      console.log(data)
-      const response = await invoiceServices.postInvoice(data)
-      console.log(response)
+      const response = await invoiceServices.postInvoice(data);
+      console.log(response);
       if (response.status === 200) {
-        return response.data.data
+        setFormData({
+          supplierName: response.data.data.supplierName,
+          invoiceNumber: response.data.data.invoiceNumber,
+          poNumber: response.data.data.poNumber,
+          termsOfPayment: response.data.data.termsOfPayment,
+          invoiceDate: formatDate(response.data.data.invoiceDate),
+          paymentTerms: formatDate(response.data.data.paymentTerms),
+          amount: response.data.data.amount,
+          paymentTermDescription: response.data.data.paymentTermDescription,
+          currency: response.data.data.currency,
+          rarityInvoice: response.data.data.rarityInvoice,
+          comment: response.data.data.comment,
+          fileUrl: response.data.data.fileUrl || '',
+          FiscalNumber: response.data.data.FiscalNumber,
+          vatNumber: response.data.data?.vatNumber,
+          vendorId:
+            response.data.data.vendorId || response.data.data?.vatNumber,
+          items: response.data.data?.items || [],
+          _id: response.data.data._id
+        });
+        return response.data.data;
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        'Error',
+        typeof error === 'object' ? (error as Error).message : String(error)
+      );
+    }
+  };
+
+  const deleteInvoice = async (invoiceId: string) => {
+    try {
+      const response = await invoiceServices.deleteInvoice(invoiceId)
+      if (response.status === 200) {
+        toast.success('Operation Successful', 'Invoice has been successfully deleted.');
       }
     } catch (error) {
       console.log(error)
-      toast.error("Error", (typeof error === 'object' ? (error as Error).message : String(error)))
     }
   }
 
@@ -136,7 +218,14 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
         setExtractedData,
         handleBtnClick,
         removeDataBtnRef,
-        postInvoice
+        postInvoice,
+        selectedInvoice,
+        setSelectedInvoice,
+        selectedData,
+        setSelectedData,
+        postInvoiceMutation,
+        updateInvoiceMutation,
+        deleteInvoiceMutation
       }}
     >
       {children}

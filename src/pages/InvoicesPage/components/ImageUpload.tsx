@@ -3,7 +3,7 @@ import { ReactSVG } from 'react-svg';
 import { ICONS } from '@constants';
 
 interface ImageUploadProps {
-  selectedImage: { value: string; label: string } | null;
+  selectedImage: { value: string; label: string } | string | null;
   handleFile: () => void;
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -35,8 +35,8 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
             <ReactSVG src={ICONS.close} />
           </button>
           <img
-            src={selectedImage.value}
-            alt={`${selectedImage.label} Image`}
+            src={typeof selectedImage === "string" ? selectedImage : selectedImage.value}
+            alt={`${typeof selectedImage !== "string" && selectedImage.label} Image`}
             className="w-52 object-contain"
           />
         </div>

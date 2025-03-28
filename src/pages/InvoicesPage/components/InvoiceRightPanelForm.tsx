@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { invoiceForm, InvoiceFormSchema } from '@types';
+import { Invoice, invoiceForm, InvoiceFormSchema } from '@types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { formatDate } from '@helpers';
+import { convertDateToISO, formatDate } from '@helpers';
 import { useInvoice } from '@context';
 import InvoiceHeader from './InvoiceHeader';
 import ImageUpload from './ImageUpload';
@@ -17,11 +17,12 @@ export const InvoiceRightPanelForm: React.FC = () => {
     handleFile,
     setSelectedImage,
     fileInputRef,
-    extractDataMutation,
     extractedData,
-    setFormData,
     formData,
     removeDataBtnRef,
+    selectedData,
+    postInvoiceMutation,
+    updateInvoiceMutation
   } = useInvoice();
 
   const {
@@ -43,24 +44,31 @@ export const InvoiceRightPanelForm: React.FC = () => {
   const [rows, setRows] = useState<number>(extractedData?.items?.length || 1);
 
   useEffect(() => {
-    if (extractedData !== null) {
-      setValue('supplierName', extractedData.supplierName);
-      setValue('invoiceNumber', extractedData.invoiceNumber);
-      setValue('poNumber', extractedData.poNumber);
-      setValue('currency', extractedData.currency);
-      setValue('supplierId', extractedData.vendorId);
-      setValue('fiscalNumber', extractedData.FiscalNumber);
-      if (extractedData.paymentTerms.length > 0) {
-        setValue('paymentTerms', formatDate(extractedData.paymentTerms));
+    if (extractedData || selectedData) {
+      const data = extractedData || selectedData || ({} as Invoice);
+      setValue('supplierName', data.supplierName || '');
+      setValue('invoiceNumber', data.invoiceNumber || '');
+      setValue('poNumber', data.poNumber || '');
+      setValue('currency', data.currency || CURRENCIES[0].value);
+      setValue('supplierId', data.vendorId || '');
+      setValue('fiscalNumber', data.FiscalNumber || '');
+      setValue('paymentTermDescription', data.paymentTermDescription || '');
+      setValue('comment', data.comment || '');
+
+      if (data.paymentTerms?.length > 0) {
+        setValue('paymentTerms', formatDate(data.paymentTerms));
       }
-      setValue('amount', extractedData.amount);
-      if (extractedData.invoiceDate.length > 0) {
-        setValue('invoiceDate', formatDate(extractedData.invoiceDate));
+
+      setValue('amount', data.amount || 0);
+
+      if (data.invoiceDate?.length > 0) {
+        setValue('invoiceDate', formatDate(data.invoiceDate));
       }
-      if (extractedData.items) {
+
+      if (data.items?.length > 0) {
         setValue(
           'invoiceItems',
-          extractedData.items.map((item) => ({
+          data.items.map((item) => ({
             description: item.description || '',
             glAccount: item.glAccount || '',
             amount: item.amount || 0,
@@ -68,31 +76,36 @@ export const InvoiceRightPanelForm: React.FC = () => {
             department: item.department || '',
           }))
         );
-        setRows(extractedData?.items?.length);
+        setRows(data.items.length);
       }
     }
-  }, [extractedData, setValue]);
+  }, [extractedData, selectedData, setValue]);
 
   const onSubmit: SubmitHandler<InvoiceFormSchema> = (data) => {
     console.log(data);
-    setFormData({
+    const result = {
       supplierName: data.supplierName,
       invoiceNumber: data.invoiceNumber,
       poNumber: data.poNumber,
       termsOfPayment: data.termsOfPayment,
-      invoiceDate: data.invoiceDate,
-      paymentTerms: data.paymentTerms,
+      invoiceDate: convertDateToISO(data.invoiceDate),
+      paymentTerms: convertDateToISO(data.paymentTerms),
       amount: data.amount,
       paymentTermDescription: data.paymentTermDescription,
       currency: data.currency,
       rarityInvoice: data.rarityInvoice,
       items: data.invoiceItems,
       comment: data.comment,
-      fileUrl: extractedData?.fileUrl || '',
+      fileUrl: extractedData?.fileUrl || selectedData?.fileUrl || '',
       vendorId: data.supplierId,
       FiscalNumber: data.fiscalNumber,
       vatNumber: extractedData?.vatNumber || data.supplierId || '',
-    });
+    }
+    if (!selectedData) {
+      postInvoiceMutation.mutate(result);
+    } else {
+      updateInvoiceMutation.mutate(result)
+    }
   };
 
   const addRow = () => {
@@ -119,6 +132,8 @@ export const InvoiceRightPanelForm: React.FC = () => {
                 paymentTermDescription: '',
                 comment: '',
                 invoiceItems: [],
+                fiscalNumber: "",
+                supplierId: ""
               });
               setRows(1);
               if (fileInputRef.current) {
@@ -127,9 +142,11 @@ export const InvoiceRightPanelForm: React.FC = () => {
             }}
             className="hidden"
           ></button>
-          <InvoiceHeader extractDataMutation={extractDataMutation} />
+          <InvoiceHeader />
           <ImageUpload
-            selectedImage={selectedImage}
+            selectedImage={
+              !selectedData?.fileUrl ? selectedImage : selectedData.fileUrl
+            }
             handleFile={handleFile}
             fileInputRef={fileInputRef}
             handleChange={handleChange}

@@ -15,3 +15,4 @@ export * from './DropDown';
 export * from './TableSkeleton';
 export * from './DatePickerField';
 export * from './ErrorMessage';
+export * from './TableCheckbox';
