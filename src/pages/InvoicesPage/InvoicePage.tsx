@@ -287,7 +287,7 @@ export const InvoicePage: React.FC = () => {
         >
           <ICONS.plusIcon size={24} /> Add Filters
         </button>
-        <DropDown
+        {userPermissions.includes(APP_ACTIONS.postInvoice) && <DropDown
           items={items}
           label={
             <button className="group transition-all duration-200">
@@ -305,7 +305,7 @@ export const InvoicePage: React.FC = () => {
               />
             </button>
           }
-        />
+        />}
         <DraggableModal
           okText="Add"
           handleOk={handleFilters}
