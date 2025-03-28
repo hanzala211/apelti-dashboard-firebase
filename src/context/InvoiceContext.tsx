@@ -39,6 +39,7 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
     mutationFn: (data: unknown) => postInvoice(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['invoices'] });
+      setExtractedData(null)
       handleBtnClick();
     },
   });
@@ -47,6 +48,7 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['invoices'] });
       handleBtnClick();
+      setExtractedData(null)
     },
   });
   const deleteInvoiceMutation = useMutation({
@@ -54,11 +56,7 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['invoices'] });
       setIsInvoiceModelOpen(false)
-      setTimeout(() => {
-        setFormData(null)
-        setExtractedData(null)
-        setSelectedData(null)
-      }, 500)
+      handleBtnClick()
     },
   });
 
@@ -77,6 +75,13 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const handleBtnClick = () => {
+    setTimeout(() => {
+      extractDataMutation.reset();
+      setFormData(null);
+      setSelectedImage(null);
+      setExtractedData(null);
+      setSelectedData(null);
+    }, 500)
     removeDataBtnRef.current?.click();
   };
 

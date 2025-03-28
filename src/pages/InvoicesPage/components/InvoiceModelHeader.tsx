@@ -8,8 +8,6 @@ export const InvoiceModelHeader: React.FC = () => {
     setIsInvoiceModelOpen,
     handleFormClick,
     setFormData,
-    setSelectedImage,
-    setExtractedData,
     handleBtnClick,
     formData,
     postInvoiceMutation,
@@ -21,12 +19,6 @@ export const InvoiceModelHeader: React.FC = () => {
   const handleClose = () => {
     handleBtnClick();
     setIsInvoiceModelOpen(false);
-    setTimeout(() => {
-      setFormData(null);
-      setSelectedImage(null);
-      setExtractedData(null);
-      setSelectedData(null);
-    }, 500);
   };
 
   return (

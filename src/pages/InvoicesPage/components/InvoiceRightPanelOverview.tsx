@@ -18,13 +18,13 @@ export const InvoiceRightPanelOverview: React.FC = () => {
 
   return (
     <div className="w-full h-full bg-temporaryGray">
-      <div className="px-4 py-7 flex justify-between border-b-[1px] border-silverGray items-baseline">
+      <div className="md:px-4 px-2 py-7 flex justify-between border-b-[1px] border-silverGray items-baseline">
         <div>
           <h1 className="font-semibold md:text-[20px] text-[16px]">
             {formData?.supplierName}
           </h1>
         </div>
-        <div className="space-y-2">
+        <div className="flex flex-col gap-2 items-center md:items-start">
           <div className="flex gap-5 items-baseline">
             <button
               onClick={handleEdit}
@@ -33,9 +33,11 @@ export const InvoiceRightPanelOverview: React.FC = () => {
               <ReactSVG src={ICONS.edit_overview} />
               Edit
             </button>
-            {deleteInvoiceMutation.isPending ? <div>
-              <SyncLoader color={COLORS.primaryColor} size={10} />
-            </div> :
+            {deleteInvoiceMutation.isPending ? (
+              <div>
+                <SyncLoader color={COLORS.primaryColor} size={10} />
+              </div>
+            ) : (
               <button
                 onClick={handleDelete}
                 className="flex gap-2 items-center font-medium md:text-[18px] text-[15px] text-primaryColor"
@@ -43,11 +45,11 @@ export const InvoiceRightPanelOverview: React.FC = () => {
                 <ReactSVG src={ICONS.delete_overview} />
                 Delete
               </button>
-            }
+            )}
           </div>
           <div className="flex gap-2 items-baseline">
             <h2 className="font-semibold md:text-[17px] text-[14px]">
-              Amount of the Supplier{' '}
+              Amount of the Vendor
             </h2>
             <p className="font-medium">
               {formData?.currency} {formData?.amount}
@@ -55,7 +57,7 @@ export const InvoiceRightPanelOverview: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="px-4 py-7 flex border-b-[1px] border-silverGray gap-4 flex-col">
+      <div className="md:px-4 px-2 py-7 flex border-b-[1px] border-silverGray gap-4 flex-col">
         <div>
           <h1 className="font-semibold md:text-[20px] text-[16px]">
             Payment Details
@@ -82,7 +84,7 @@ export const InvoiceRightPanelOverview: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="px-4 py-7 flex border-b-[1px] border-silverGray gap-4 flex-col">
+      <div className="md:px-4 px-2 py-7 flex border-b-[1px] border-silverGray gap-4 flex-col">
         <div>
           <h1 className="font-semibold md:text-[20px] text-[16px]">
             Invoice Details
@@ -150,7 +152,7 @@ export const InvoiceRightPanelOverview: React.FC = () => {
         </div>
         <div className="w-full h-[1px] bg-black"></div>
       </div>
-      <div className="w-full overflow-x-auto px-4 sm:px-0">
+      <div className="w-full overflow-x-auto md:px-4 px-2 sm:px-0">
         <div className="grid grid-cols-5 min-w-[600px] w-full px-5 sm:px-2 gap-4 place-items-center border border-slateGrey">
           {['Account', 'Amount', 'Department', 'Class', 'Description'].map(
             (header) => (
