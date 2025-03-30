@@ -40,14 +40,12 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['invoices'] });
       setExtractedData(null)
-      handleBtnClick();
     },
   });
   const updateInvoiceMutation = useMutation({
     mutationFn: (data: unknown) => updateInvoice(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['invoices'] });
-      handleBtnClick();
       setExtractedData(null)
     },
   });
