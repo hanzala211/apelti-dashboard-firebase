@@ -81,17 +81,17 @@ export const InvoicePage: React.FC = () => {
           case 'supplierName': {
             if (
               filter.condition === 'contains' &&
-              !invoice[filter.field].includes(filter.value)
+              !invoice[filter.field].toLowerCase().includes(filter.value.toLowerCase())
             )
               return false;
             if (
               filter.condition === 'equals' &&
-              invoice[filter.field] !== filter.value
+              invoice[filter.field].toLowerCase() !== filter.value.toLowerCase()
             )
               return false;
             if (
               filter.condition === 'startsWith' &&
-              !invoice[filter.field].startsWith(filter.value)
+              !invoice[filter.field].toLowerCase().startsWith(filter.value.toLowerCase())
             )
               return false;
             break;
@@ -134,7 +134,8 @@ export const InvoicePage: React.FC = () => {
           }
 
           case 'invoiceNumber':
-          case 'amount': {
+          case 'amount':
+          case 'poNumber': {
             const filterAmount = parseFloat(filter.value);
             const invoiceAmount = parseFloat(invoice[filter.field] as string);
 
@@ -158,7 +159,7 @@ export const InvoicePage: React.FC = () => {
 
   const handleDelete = () => {
     if (selectedInvoice !== null && invoices !== undefined) {
-      deleteInvoiceMutation.mutate(invoices[selectedInvoice]._id || "")
+      deleteInvoiceMutation.mutate(invoices[selectedInvoice]._id || '');
     }
   };
 
@@ -228,7 +229,10 @@ export const InvoicePage: React.FC = () => {
     },
     {
       label: (
-        <button onClick={handleDelete} className="w-32 flex gap-2 items-center text-[14px] text-primaryColor hover:text-basicBlack transition-all duration-200 font-medium text-left">
+        <button
+          onClick={handleDelete}
+          className="w-32 flex gap-2 items-center text-[14px] text-primaryColor hover:text-basicBlack transition-all duration-200 font-medium text-left"
+        >
           <ReactSVG
             src={ICONS.table_setting}
             beforeInjection={(svg) => {
@@ -287,25 +291,27 @@ export const InvoicePage: React.FC = () => {
         >
           <ICONS.plusIcon size={24} /> Add Filters
         </button>
-        {userPermissions.includes(APP_ACTIONS.postInvoice) && <DropDown
-          items={items}
-          label={
-            <button className="group transition-all duration-200">
-              <ReactSVG
-                src={ICONS.table_setting}
-                beforeInjection={(svg) => {
-                  svg.querySelectorAll('path').forEach((path) => {
-                    path.setAttribute('fill', 'none');
-                    path.setAttribute('stroke', 'currentColor');
-                  });
-                  svg.style.height = '20px';
-                  svg.style.width = '20px';
-                }}
-                className={`group-hover:text-primaryColor transition-all duration-200`}
-              />
-            </button>
-          }
-        />}
+        {userPermissions.includes(APP_ACTIONS.postInvoice) && (
+          <DropDown
+            items={items}
+            label={
+              <button className="group transition-all duration-200">
+                <ReactSVG
+                  src={ICONS.table_setting}
+                  beforeInjection={(svg) => {
+                    svg.querySelectorAll('path').forEach((path) => {
+                      path.setAttribute('fill', 'none');
+                      path.setAttribute('stroke', 'currentColor');
+                    });
+                    svg.style.height = '20px';
+                    svg.style.width = '20px';
+                  }}
+                  className={`group-hover:text-primaryColor transition-all duration-200`}
+                />
+              </button>
+            }
+          />
+        )}
         <DraggableModal
           okText="Add"
           handleOk={handleFilters}

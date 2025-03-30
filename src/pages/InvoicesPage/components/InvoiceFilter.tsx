@@ -46,12 +46,11 @@ const InvoiceFilter: React.FC<InvoiceFilterProps> = ({
 
   const filterOptions = [
     { label: 'Invoice Number', value: 'invoiceNumber' },
-    { label: 'Business Name', value: 'businessName' },
-    { label: 'Client Name', value: 'clientName' },
-    { label: 'Date', value: 'date' },
-    { label: 'Payment Terms', value: 'dueDate' },
-    { label: 'Total', value: 'total' },
-    { label: 'Status', value: 'status' },
+    { label: 'Supplier', value: 'supplierName' },
+    { label: 'PO no.', value: 'poNumber' },
+    { label: 'Invoice Date', value: 'invoiceDate' },
+    { label: 'Payment Terms', value: 'paymentTerms' },
+    { label: 'Amount', value: 'amount' },
   ];
 
   return (
@@ -90,28 +89,28 @@ const InvoiceFilter: React.FC<InvoiceFilterProps> = ({
                 }
               >
                 <option value="">Condition</option>
-                {filter.field !== 'date' &&
-                  filter.field !== 'dueDate' &&
-                  filter.field !== 'amount' &&
-                  filter.field !== 'poNumber' &&
-                  filter.field !== 'invoiceNumber' && (
+                {filter.field !== filterOptions[3].value &&
+                  filter.field !== filterOptions[4].value &&
+                  filter.field !== filterOptions[5].value &&
+                  filter.field !== filterOptions[2].value &&
+                  filter.field !== filterOptions[0].value && (
                     <>
                       <option value="contains">contains</option>
                       <option value="equals">equals</option>
                       <option value="startsWith">starts with</option>
                     </>
                   )}
-                {(filter.field === 'date' ||
-                  filter.field === 'dueDate') && (
+                {(filter.field === filterOptions[3].value ||
+                  filter.field === filterOptions[4].value) && (
                     <>
                       <option value="before">before</option>
                       <option value="after">after</option>
                       <option value="on">on</option>
                     </>
                   )}
-                {(filter.field === 'amount' ||
-                  filter.field === 'poNumber' ||
-                  filter.field === 'invoiceNumber') && (
+                {(filter.field === filterOptions[5].value ||
+                  filter.field === filterOptions[2].value ||
+                  filter.field === filterOptions[0].value) && (
                     <>
                       <option value="equal">is equal to</option>
                       <option value="greater">greater than</option>
@@ -120,8 +119,8 @@ const InvoiceFilter: React.FC<InvoiceFilterProps> = ({
                   )}
               </select>
 
-              {filter.field !== 'date' &&
-                filter.field !== 'dueDate' ? (
+              {filter.field !== filterOptions[3].value &&
+                filter.field !== filterOptions[4].value ? (
                 <input
                   type="text"
                   placeholder="Enter value..."
