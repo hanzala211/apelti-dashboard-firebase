@@ -49,7 +49,7 @@ export const useFirebaseAuth = () => {
       const companyRef = doc(db, 'company', addCompany.id);
       await addDocumentWithId('users', createUser.user.uid, {
         createdAt: Timestamp.now(),
-        _id: createUser.user.uid,
+        _id: userRef,
         company: companyRef,
         ...removedData,
       });
@@ -99,6 +99,7 @@ export const useFirebaseAuth = () => {
     try {
       const googleCredential = new GoogleAuthProvider()
       const response = await signInWithPopup(auth, googleCredential);
+      console.log(response)
       const userExists = await getDocument('users', response.user.uid);
       if (!userExists) {
         console.log('New user:', response.user);
@@ -115,9 +116,11 @@ export const useFirebaseAuth = () => {
   const updateUserData = async (userData: DocumentData, companyData: DocumentData) => {
     try {
       const userRef = doc(db, "users", userData._id)
-      const companyDoc = await addDocument("company", { ...companyData, company: userRef })
+      console.log(userRef)
+      const companyDoc = await addDocument("company", { ...companyData, admin: userRef, })
       const companyRef = doc(db, "company", companyDoc.id)
       await addDocumentWithId("users", userData._id, {
+        _id: userRef,
         company: companyRef,
         ...userData
       })

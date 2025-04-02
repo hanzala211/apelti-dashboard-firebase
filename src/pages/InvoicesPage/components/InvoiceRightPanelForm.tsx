@@ -3,14 +3,16 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Invoice, invoiceForm, InvoiceFormSchema } from '@types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { convertDateToISO, formatDate } from '@helpers';
-import { useInvoice } from '@context';
+import { useAuth, useInvoice } from '@context';
 import InvoiceHeader from './InvoiceHeader';
 import ImageUpload from './ImageUpload';
 import InvoiceFormContent from './InvoiceFormContent';
 import { CURRENCIES, TERM_OF_PAYMENT } from '@constants';
 import InvoiceRightPanelOverview from './InvoiceRightPanelOverview';
+import { DocumentData } from '@firebaseApp';
 
 export const InvoiceRightPanelForm: React.FC = () => {
+  const { userData } = useAuth();
   const {
     selectedImage,
     handleChange,
@@ -22,7 +24,7 @@ export const InvoiceRightPanelForm: React.FC = () => {
     removeDataBtnRef,
     selectedData,
     postInvoiceMutation,
-    updateInvoiceMutation
+    updateInvoiceMutation,
   } = useInvoice();
 
   const {
@@ -83,7 +85,7 @@ export const InvoiceRightPanelForm: React.FC = () => {
 
   const onSubmit: SubmitHandler<InvoiceFormSchema> = (data) => {
     console.log(data);
-    const result = {
+    const result: DocumentData = {
       supplierName: data.supplierName,
       invoiceNumber: data.invoiceNumber,
       poNumber: data.poNumber,
@@ -98,13 +100,15 @@ export const InvoiceRightPanelForm: React.FC = () => {
       comment: data.comment,
       fileUrl: extractedData?.fileUrl || selectedData?.fileUrl || '',
       vendorId: data.supplierId,
-      FiscalNumber: data.fiscalNumber,
+      fiscalNumber: data.fiscalNumber,
       vatNumber: extractedData?.vatNumber || data.supplierId || '',
-    }
+      invoiceBy: userData?._id,
+      company: userData?.company,
+    };
     if (!selectedData) {
       postInvoiceMutation.mutate(result);
     } else {
-      updateInvoiceMutation.mutate(result)
+      updateInvoiceMutation.mutate(result);
     }
   };
 
@@ -132,8 +136,8 @@ export const InvoiceRightPanelForm: React.FC = () => {
                 paymentTermDescription: '',
                 comment: '',
                 invoiceItems: [],
-                fiscalNumber: "",
-                supplierId: ""
+                fiscalNumber: '',
+                supplierId: '',
               });
               setRows(1);
               if (fileInputRef.current) {

@@ -20,13 +20,16 @@ import InvoiceModel from './components/InvoiceModel';
 import InvoiceFilter from './components/InvoiceFilter';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { formatDate } from '@helpers';
 import { ReactSVG } from 'react-svg';
 import { MenuProps } from 'antd';
+import { DocumentData } from '@firebaseApp';
+import { useInvoicesHook } from '@hooks';
 
 export const InvoicePage: React.FC = () => {
   const { userData } = useAuth();
+  const { getInvoice } = useInvoicesHook()
   const {
     setIsInvoiceModelOpen,
     getInvoices,
@@ -43,7 +46,9 @@ export const InvoicePage: React.FC = () => {
   const { data: invoices, isLoading: isInvoiceLoading } = useQuery({
     queryKey: ['invoices'],
     queryFn: getInvoices,
+    staleTime: Infinity,
   });
+  const queryClient = useQueryClient()
   const location = useLocation();
   const navigate = useNavigate();
   const userPermissions =
@@ -61,6 +66,22 @@ export const InvoicePage: React.FC = () => {
               : invoices
       );
   }, [location.search, invoices]);
+
+  useEffect(() => {
+    if (!userData?.company) return;
+
+    const unsubscribePromise = getInvoice((_data: DocumentData) => {
+      queryClient.invalidateQueries({ queryKey: ['invoices'] });
+    }, userData.company);
+
+    return () => {
+      unsubscribePromise.then((unsubscribe) => {
+        if (typeof unsubscribe === 'function') {
+          unsubscribe();
+        }
+      });
+    };
+  }, [userData?.company, queryClient]);
 
   const handleClick = () => {
     setIsInvoiceModelOpen(true);
@@ -81,7 +102,9 @@ export const InvoicePage: React.FC = () => {
           case 'supplierName': {
             if (
               filter.condition === 'contains' &&
-              !invoice[filter.field].toLowerCase().includes(filter.value.toLowerCase())
+              !invoice[filter.field]
+                .toLowerCase()
+                .includes(filter.value.toLowerCase())
             )
               return false;
             if (
@@ -91,7 +114,9 @@ export const InvoicePage: React.FC = () => {
               return false;
             if (
               filter.condition === 'startsWith' &&
-              !invoice[filter.field].toLowerCase().startsWith(filter.value.toLowerCase())
+              !invoice[filter.field]
+                .toLowerCase()
+                .startsWith(filter.value.toLowerCase())
             )
               return false;
             break;

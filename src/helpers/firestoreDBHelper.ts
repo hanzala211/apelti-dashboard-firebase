@@ -43,23 +43,29 @@ export const getDocument = async (
   }
 };
 
-export const getDocumentWithFilter = async (collectionName: string, field: string, operator: WhereFilterOp, value: string) => {
-  const q = query(collection(db, collectionName), where(field, operator, value))
-  const docSnap = await getDocs(q)
+export const getDocumentWithFilter = async (
+  collectionName: string,
+  field: string,
+  operator: WhereFilterOp,
+  value: string
+) => {
+  const q = query(
+    collection(db, collectionName),
+    where(field, operator, value)
+  );
+  const docSnap = await getDocs(q);
   if (docSnap.empty) {
     return null;
   }
 
-  return docSnap.docs.map(doc => doc.data());
-}
+  return docSnap.docs.map((doc) => doc.data());
+};
 
-export const getAllDocumentsOFCollection = async (
-  collectionName: string,
-) => {
+export const getAllDocumentsOFCollection = async (collectionName: string) => {
   const docSnap = await getDocs(collection(db, collectionName));
   if (!docSnap.empty) {
-    const items = docSnap.docs.map((item) => item.data())
-    return items
+    const items = docSnap.docs.map((item) => item.data());
+    return items;
   } else {
     return null;
   }
@@ -88,20 +94,18 @@ export const getRealTimeDataWithFilter = async (
   onUpdate: (data: DocumentData) => void,
   field: string,
   operator: WhereFilterOp,
-  value: string
+  value: unknown
 ) => {
   const q = query(
     collection(db, collectionName),
     where(field, operator, value)
   );
   const unsubscribe = onSnapshot(q, (querySnapShot) => {
-    if (!querySnapShot.empty) {
-      const data = querySnapShot.docs.map((item) => ({
-        _id: item.id,
-        ...item.data(),
-      }));
-      onUpdate(data);
-    }
+    const data = querySnapShot.docs.map((item) => ({
+      _id: item.id,
+      ...item.data(),
+    }));
+    onUpdate(data);
   });
   return unsubscribe;
 };

@@ -32,12 +32,11 @@ export interface InvoiceContextTypes {
   setFormData: React.Dispatch<React.SetStateAction<Invoice | null>>;
   handleBtnClick: () => void;
   removeDataBtnRef: RefObject<HTMLButtonElement | null>;
-  postInvoice: (data: unknown) => Promise<Invoice | undefined>;
   selectedInvoice: number | null;
   setSelectedInvoice: React.Dispatch<React.SetStateAction<number | null>>;
   selectedData: Invoice | null;
   setSelectedData: React.Dispatch<React.SetStateAction<Invoice | null>>;
-  postInvoiceMutation: UseMutationResult<Invoice, Error, unknown, unknown>;
+  postInvoiceMutation: UseMutationResult<string | undefined, Error, DocumentData, unknown>;
   updateInvoiceMutation: UseMutationResult<Invoice, Error, unknown, unknown>;
   deleteInvoiceMutation: UseMutationResult<void, Error, string, unknown>;
 }
@@ -55,8 +54,8 @@ export interface AuthContextTypes {
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
   isAuthLoading: boolean;
   loginGoogle: () => void;
-  updateData: (companyData: DocumentData, phone: string) => void,
-  newGoogleAcc: DocumentData | null
+  updateData: (companyData: DocumentData, phone: string) => void;
+  newGoogleAcc: DocumentData | null;
 }
 
 export interface TeamContextTypes {

@@ -3,9 +3,11 @@ import { useLocation } from 'react-router-dom';
 import { SidebarItem } from './SidebarItem';
 import { APP_ACTIONS, ICONS, PERMISSIONS, ROUTES } from '@constants';
 import { useAuth } from '@context';
+import { useFirebaseAuth } from '@hooks';
 
 export const Sidebar: React.FC = () => {
   const { setUserData, setIsMainLoading, userData } = useAuth();
+  const { logout } = useFirebaseAuth()
   const [isOpen, setIsOpen] = useState(false);
   const sideBarRef = useRef<HTMLDivElement>(null);
   const sideBarButtonRef = useRef<HTMLButtonElement>(null);
@@ -36,7 +38,7 @@ export const Sidebar: React.FC = () => {
   const handleLogout = () => {
     setIsMainLoading(true);
     setUserData(null);
-    localStorage.removeItem('token');
+    logout()
     setTimeout(() => {
       setIsMainLoading(false);
     }, 500);
