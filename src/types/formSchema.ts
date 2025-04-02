@@ -37,7 +37,9 @@ export type InvoiceFormSchema = z.infer<typeof invoiceForm>;
 
 export const loginForm = z.object({
   email: z.string().email('Please enter a valid email address.'),
-  password: z.string().min(8, 'Your password must be at least 8 characters long.'),
+  password: z
+    .string()
+    .min(8, 'Your password must be at least 8 characters long.'),
 });
 
 export type LoginFormSchema = z.infer<typeof loginForm>;
@@ -46,7 +48,9 @@ export const signupForm = z.object({
   firstName: z.string().min(1, 'Please enter your first name.'),
   lastName: z.string().min(1, 'Please enter your last name.'),
   email: z.string().email('Please enter a valid email address.'),
-  password: z.string().min(8, 'Please ensure your password is at least 8 characters long.'),
+  password: z
+    .string()
+    .min(8, 'Please ensure your password is at least 8 characters long.'),
   companyName: z.string().min(1, 'Please enter your company name.'),
   numberOfEmployees: z.number().min(1, 'Please enter the number of employees.'),
   businessType: z.string(),
@@ -66,6 +70,15 @@ export const addMemberForm = signupForm
   });
 
 export type AddMemberFormSchema = z.infer<typeof addMemberForm>;
+
+export const googleLoginDataForm = signupForm.pick({
+  phone: true,
+  companyName: true,
+  numberOfEmployees: true,
+  businessType: true,
+});
+
+export type GoogleLoginDataFormSchema = z.infer<typeof googleLoginDataForm>
 
 export const profileSchema = z.object({
   firstName: z.string().min(1, 'Please enter your first name.').optional(),

@@ -11,6 +11,7 @@ import { AppLayout, AuthLayout, PageNotFound, SettingsLayout } from '@layouts';
 import {
   DashboardPage,
   DocumentPage,
+  GoogleLoginDataPage,
   InvoicePage,
   LoginPage,
   MessagesPage,
@@ -36,6 +37,7 @@ const App: React.FC = () => {
                         <Route index element={<LoginPage />} />
                         <Route path={ROUTES.login} element={<LoginPage />} />
                         <Route path={ROUTES.signup} element={<SignupPage />} />
+                        <Route path={ROUTES.company_data} element={<GoogleLoginDataPage />} />
                       </Route>
 
                       <Route element={<AppLayout />} path="/">

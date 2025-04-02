@@ -9,6 +9,7 @@
 		"baseUrl": ".",
 		"paths": {
 			"@types": ["./src/types/types.ts"],
+			"@firebaseApp": ["src/firebase.ts"],
 			"@components": ["./src/components/components.ts"],
 			"@pages": ["./src/pages/pages.ts"],
 			"@constants": ["./src/constants/constants.ts"],

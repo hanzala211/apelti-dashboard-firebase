@@ -8,6 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@firebaseApp': path.resolve(__dirname, './src/firebase.ts'),
       '@components': path.resolve(__dirname, './src/components/components.ts'),
       '@constants': path.resolve(__dirname, './src/constants/constants.ts'),
       '@pages': path.resolve(__dirname, './src/pages/pages.ts'),

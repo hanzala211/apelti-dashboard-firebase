@@ -1,7 +1,7 @@
+import { DocumentData } from '@firebaseApp';
 import { UseMutationResult } from '@tanstack/react-query';
 import { IMessage, Invoice, IUser } from '@types';
 import { RefObject } from 'react';
-import { Socket } from 'socket.io-client';
 
 export interface MessageContextTypes {
   selectedMessage: IMessage | null;
@@ -37,9 +37,9 @@ export interface InvoiceContextTypes {
   setSelectedInvoice: React.Dispatch<React.SetStateAction<number | null>>;
   selectedData: Invoice | null;
   setSelectedData: React.Dispatch<React.SetStateAction<Invoice | null>>;
-  postInvoiceMutation: UseMutationResult<Invoice, Error, unknown, unknown>,
-  updateInvoiceMutation: UseMutationResult<Invoice, Error, unknown, unknown>,
-  deleteInvoiceMutation: UseMutationResult<void, Error, string, unknown>,
+  postInvoiceMutation: UseMutationResult<Invoice, Error, unknown, unknown>;
+  updateInvoiceMutation: UseMutationResult<Invoice, Error, unknown, unknown>;
+  deleteInvoiceMutation: UseMutationResult<void, Error, string, unknown>;
 }
 
 export interface AuthContextTypes {
@@ -47,14 +47,15 @@ export interface AuthContextTypes {
   setUserData: React.Dispatch<React.SetStateAction<IUser | null>>;
   isRemember: boolean;
   setIsRemember: React.Dispatch<React.SetStateAction<boolean>>;
-  signup: (sendData: unknown) => void;
-  login: (sendData: unknown) => void;
+  signup: (sendData: Record<string, unknown>) => void;
+  login: (sendData: Record<string, unknown>) => void;
   isMainLoading: boolean;
   setIsMainLoading: React.Dispatch<React.SetStateAction<boolean>>;
   errorMessage: string;
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
   isAuthLoading: boolean;
-  socketClient: Socket | null;
+  loginGoogle: () => void;
+  updateData: (companyData: DocumentData, phone: string) => void
 }
 
 export interface TeamContextTypes {

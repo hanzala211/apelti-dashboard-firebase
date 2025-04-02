@@ -1,5 +1,3 @@
-import { ROUTES } from '@constants';
-import { authService } from '@services';
 import { AuthContextTypes, IUser } from '@types';
 import {
   createContext,
@@ -8,9 +6,19 @@ import {
   useEffect,
   useState,
 } from 'react';
+
+import { useFirebaseAuth } from '@hooks';
 import { useNavigate } from 'react-router-dom';
-import { socket } from '@helpers';
-import { Socket } from 'socket.io-client';
+import { ROUTES } from '@constants';
+import {
+  auth,
+  browserLocalPersistence,
+  browserSessionPersistence,
+  DocumentData,
+  setPersistence,
+  Timestamp,
+} from '@firebaseApp';
+import { handleFirebaseError } from '@helpers';
 
 const AuthContext = createContext<AuthContextTypes | undefined>(undefined);
 
@@ -22,22 +30,27 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [isMainLoading, setIsMainLoading] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isAuthLoading, setIsAuthLoading] = useState<boolean>(false);
-  const [socketClient, setSocketClient] = useState<Socket | null>(null);
+  const { createAccount, loginAccount, userAuthChange, googleLogin, updateUserData } = useFirebaseAuth();
   const navigate = useNavigate();
+  const [newGoogleAcc, setNewGoogleAcc] = useState<DocumentData | null>(null)
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token !== null && userData === null) {
-      me();
-      const newSocket = socket(token);
-      newSocket.on('connect', () => {
-        console.log('Connected', newSocket.id);
-        setSocketClient(newSocket);
-      });
-      newSocket.on('receiveMessage', (data) => console.log(data));
-    } else {
-      setIsMainLoading(false);
+    if (!newGoogleAcc && !userData) {
+      navigate(`${ROUTES.auth}/${ROUTES.login}`)
     }
+    const fetchUser = async () => {
+      try {
+        const foundUser = await userAuthChange();
+        console.log(foundUser)
+        setUserData(foundUser as IUser);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      } finally {
+        setIsMainLoading(false);
+      }
+    };
+
+    fetchUser();
   }, []);
 
   // useEffect(() => {
@@ -50,90 +63,116 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   //   }
   // }, [socketClient])
 
-  const signup = async (sendData: unknown) => {
+  const signup = async (sendData: Record<string, unknown>) => {
     try {
       setIsAuthLoading(true);
       setErrorMessage('');
-      const response = await authService.signup(sendData);
+      const userData = {
+        firstName: sendData.firstName,
+        lastName: sendData.lastName,
+        email: sendData.email,
+        password: sendData.password,
+        phone: sendData.phone,
+        role: 'admin',
+      };
+      const companyData = {
+        companyName: sendData.companyName,
+        numberOfEmployees: sendData.numberOfEmployees,
+        businessType: sendData.businessType,
+      };
+      const response = await createAccount(userData, companyData);
       console.log(response);
-      if (response.status === 200) {
-        setUserData(response.data.data.user);
-        localStorage.setItem('token', response.data.data.token);
-        if (response.data.data.user.role === 'admin') {
-          navigate('/');
-        } else if (
-          ['approver', 'clerk', 'accountant', 'payer'].includes(
-            response.data.data.user.role
-          )
-        ) {
-          navigate(`${ROUTES.messages}`);
-        }
+      if (response) {
+        setUserData(response as IUser);
+        navigate('/');
       }
     } catch (error) {
       console.log(error);
-      setErrorMessage(
-        typeof error === 'object' ? (error as Error).message : String(error)
-      );
+      setErrorMessage(handleFirebaseError(error));
     } finally {
       setIsMainLoading(false);
       setIsAuthLoading(false);
     }
   };
 
-  const login = async (sendData: unknown) => {
+  const login = async (sendData: Record<string, unknown>) => {
     try {
       setIsAuthLoading(true);
       setErrorMessage('');
-      const response = await authService.login(sendData);
+      const persistence = isRemember
+        ? browserLocalPersistence
+        : browserSessionPersistence;
+      await setPersistence(auth, persistence)
+      const response = await loginAccount(sendData);
       console.log(response);
-      if (response.status === 200) {
-        setUserData(response.data.data.user);
-        if (isRemember) {
-          localStorage.setItem('token', response.data.data.token);
-        } else {
-          sessionStorage.setItem('token', response.data.data.token);
-        }
-        if (response.data.data.user.role === 'admin') {
+      if (response) {
+        setUserData(response as IUser);
+        if (response.role === 'admin') {
           navigate('/');
-        } else if (
-          ['approver', 'clerk', 'accountant', 'payer'].includes(
-            response.data.data.user.role
-          )
-        ) {
+        } else {
           navigate(`${ROUTES.messages}`);
         }
       }
     } catch (error) {
       console.error(error);
-      setErrorMessage(
-        typeof error === 'object' ? (error as Error).message : String(error)
-      );
+      setErrorMessage(handleFirebaseError(error));
     } finally {
       setIsMainLoading(false);
       setIsAuthLoading(false);
     }
   };
 
-  const me = async () => {
+  const loginGoogle = async () => {
     try {
-      setErrorMessage('');
-      setIsAuthLoading(true);
-      const response = await authService.me();
-      console.log(response);
-      if (response.status === 200) {
-        setUserData(response.data.data);
+      setErrorMessage("")
+      const userData = await googleLogin()
+      console.log(userData)
+      if ((userData as DocumentData)._tokenResponse) {
+        setNewGoogleAcc(userData)
+        navigate(`${ROUTES.auth}/${ROUTES.company_data}`)
+      } else {
+        setUserData(userData as IUser)
+        if ((userData as DocumentData).role === 'admin') {
+          navigate('/');
+        } else {
+          navigate(`${ROUTES.messages}`);
+        }
       }
     } catch (error) {
-      console.log(error);
-      localStorage.removeItem('token');
-      setErrorMessage(
-        typeof error === 'object' ? (error as Error).message : String(error)
-      );
-    } finally {
-      setIsMainLoading(false);
-      setIsAuthLoading(false);
+      console.log(error)
+      setErrorMessage(handleFirebaseError(error));
     }
-  };
+  }
+
+  const updateData = async (companyData: DocumentData, phone: string) => {
+    try {
+      if (!newGoogleAcc) return;
+      setIsAuthLoading(true)
+      const userData = {
+        _id: newGoogleAcc.user.uid,
+        firstName: newGoogleAcc._tokenResponse.firstName,
+        lastName: newGoogleAcc._tokenResponse.lastName,
+        createdAt: Timestamp.now(),
+        phone,
+        role: "admin"
+      }
+      const updatedUser = await updateUserData(userData, companyData)
+      console.log(updatedUser)
+      if (updatedUser) {
+        setUserData(updatedUser as IUser)
+        if ((userData as DocumentData).role === 'admin') {
+          navigate('/');
+        } else {
+          navigate(`${ROUTES.messages}`);
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      setErrorMessage(handleFirebaseError(error));
+    } finally {
+      setIsAuthLoading(false)
+    }
+  }
 
   return (
     <AuthContext.Provider
@@ -149,7 +188,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         errorMessage,
         isAuthLoading,
         setErrorMessage,
-        socketClient,
+        loginGoogle,
+        updateData
       }}
     >
       {children}

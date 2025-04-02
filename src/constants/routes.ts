@@ -15,4 +15,5 @@ export const ROUTES = {
   settings: '/settings',
   not_available: '/not-available',
   profile: 'profile',
+  company_data: 'company_data',
 };

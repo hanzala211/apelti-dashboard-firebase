@@ -1,5 +1,5 @@
 import { AuthButton, CheckInput, Input } from '@components';
-import { ROUTES } from '@constants';
+import { ICONS, ROUTES } from '@constants';
 import { useAuth } from '@context';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginForm, LoginFormSchema } from '@types';
@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { MoonLoader } from 'react-spinners';
 
 export const LoginPage: React.FC = () => {
-  const { setIsRemember, login, errorMessage, isAuthLoading, setErrorMessage } =
+  const { setIsRemember, login, errorMessage, isAuthLoading, setErrorMessage, loginGoogle } =
     useAuth();
   const {
     register,
@@ -83,6 +83,7 @@ export const LoginPage: React.FC = () => {
           </Link>
         </div>
       </form>
+      <button onClick={loginGoogle} className='flex items-center justify-center gap-3 w-full border-[2px] p-2 rounded-full border-basicBlack hover:bg-colorMint transition-all duration-200 hover:text-neutralGray'><ICONS.google /> Sign In with Google</button>
     </div>
   );
 };

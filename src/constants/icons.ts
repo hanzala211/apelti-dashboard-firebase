@@ -14,6 +14,8 @@ import { CgFileDocument } from 'react-icons/cg';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { BiLogIn } from 'react-icons/bi';
 import { FaRegPenToSquare } from 'react-icons/fa6';
+import { FaGoogle } from "react-icons/fa6";
+
 
 export const ICONS = {
   documentSVG: CgFileDocument,
@@ -55,4 +57,5 @@ export const ICONS = {
   wallet: '/assets/icons/wallet.svg',
   wrench: '/assets/icons/wrench.svg',
   table_setting: '/assets/icons/table-setting.svg',
+  google: FaGoogle
 };
