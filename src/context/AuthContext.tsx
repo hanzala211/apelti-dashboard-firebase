@@ -30,21 +30,24 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [isMainLoading, setIsMainLoading] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isAuthLoading, setIsAuthLoading] = useState<boolean>(false);
-  const { createAccount, loginAccount, userAuthChange, googleLogin, updateUserData } = useFirebaseAuth();
+  const {
+    createAccount,
+    loginAccount,
+    userAuthChange,
+    googleLogin,
+    updateUserData,
+  } = useFirebaseAuth();
   const navigate = useNavigate();
-  const [newGoogleAcc, setNewGoogleAcc] = useState<DocumentData | null>(null)
+  const [newGoogleAcc, setNewGoogleAcc] = useState<DocumentData | null>(null);
 
   useEffect(() => {
-    if (!newGoogleAcc && !userData) {
-      navigate(`${ROUTES.auth}/${ROUTES.login}`)
-    }
     const fetchUser = async () => {
       try {
         const foundUser = await userAuthChange();
-        console.log(foundUser)
+        console.log(foundUser);
         setUserData(foundUser as IUser);
       } catch (error) {
-        console.error("Error fetching user:", error);
+        console.error('Error fetching user:', error);
       } finally {
         setIsMainLoading(false);
       }
@@ -102,7 +105,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       const persistence = isRemember
         ? browserLocalPersistence
         : browserSessionPersistence;
-      await setPersistence(auth, persistence)
+      await setPersistence(auth, persistence);
       const response = await loginAccount(sendData);
       console.log(response);
       if (response) {
@@ -124,14 +127,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const loginGoogle = async () => {
     try {
-      setErrorMessage("")
-      const userData = await googleLogin()
-      console.log(userData)
+      setErrorMessage('');
+      const userData = await googleLogin();
+      console.log(userData);
       if ((userData as DocumentData)._tokenResponse) {
-        setNewGoogleAcc(userData)
-        navigate(`${ROUTES.auth}/${ROUTES.company_data}`)
+        setNewGoogleAcc(userData);
+        navigate(`${ROUTES.auth}/${ROUTES.company_data}`);
       } else {
-        setUserData(userData as IUser)
+        setUserData(userData as IUser);
         if ((userData as DocumentData).role === 'admin') {
           navigate('/');
         } else {
@@ -139,27 +142,27 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         }
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setErrorMessage(handleFirebaseError(error));
     }
-  }
+  };
 
   const updateData = async (companyData: DocumentData, phone: string) => {
     try {
       if (!newGoogleAcc) return;
-      setIsAuthLoading(true)
+      setIsAuthLoading(true);
       const userData = {
         _id: newGoogleAcc.user.uid,
         firstName: newGoogleAcc._tokenResponse.firstName,
         lastName: newGoogleAcc._tokenResponse.lastName,
         createdAt: Timestamp.now(),
         phone,
-        role: "admin"
-      }
-      const updatedUser = await updateUserData(userData, companyData)
-      console.log(updatedUser)
+        role: 'admin',
+      };
+      const updatedUser = await updateUserData(userData, companyData);
+      console.log(updatedUser);
       if (updatedUser) {
-        setUserData(updatedUser as IUser)
+        setUserData(updatedUser as IUser);
         if ((userData as DocumentData).role === 'admin') {
           navigate('/');
         } else {
@@ -167,12 +170,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         }
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setErrorMessage(handleFirebaseError(error));
     } finally {
-      setIsAuthLoading(false)
+      setIsAuthLoading(false);
     }
-  }
+  };
 
   return (
     <AuthContext.Provider
@@ -189,7 +192,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         isAuthLoading,
         setErrorMessage,
         loginGoogle,
-        updateData
+        updateData,
+        newGoogleAcc,
       }}
     >
       {children}

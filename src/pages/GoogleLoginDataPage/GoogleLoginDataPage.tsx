@@ -1,12 +1,15 @@
 import { AuthButton, ErrorMessage, Input, PhoneNumberInput } from '@components';
+import { ROUTES } from '@constants';
 import { useAuth } from '@context';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { googleLoginDataForm, GoogleLoginDataFormSchema } from '@types';
+import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { MoonLoader } from 'react-spinners';
 
 export const GoogleLoginDataPage: React.FC = () => {
-  const { errorMessage, isAuthLoading, updateData } = useAuth();
+  const { errorMessage, isAuthLoading, updateData, newGoogleAcc } = useAuth();
   const {
     register,
     handleSubmit,
@@ -18,6 +21,13 @@ export const GoogleLoginDataPage: React.FC = () => {
       businessType: 'Small or midsize business',
     },
   });
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!newGoogleAcc) {
+      navigate(`${ROUTES.auth}/${ROUTES.login}`)
+    }
+  }, [newGoogleAcc])
 
   const onSubmit: SubmitHandler<GoogleLoginDataFormSchema> = (e) => {
     console.log(e);
@@ -31,7 +41,7 @@ export const GoogleLoginDataPage: React.FC = () => {
 
   return (
     <div
-      className={`w-[22rem] lg:w-[35rem] mx-auto h-screen flex flex-col gap-3 justify-center ${isAuthLoading ? 'opacity-70' : ''
+      className={`w-[22rem] relative lg:w-[35rem] mx-auto h-screen flex flex-col gap-3 justify-center ${isAuthLoading ? 'opacity-70' : ''
         } `}
     >
       {isAuthLoading && (

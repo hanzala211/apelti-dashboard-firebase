@@ -55,7 +55,8 @@ export interface AuthContextTypes {
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
   isAuthLoading: boolean;
   loginGoogle: () => void;
-  updateData: (companyData: DocumentData, phone: string) => void
+  updateData: (companyData: DocumentData, phone: string) => void,
+  newGoogleAcc: DocumentData | null
 }
 
 export interface TeamContextTypes {
