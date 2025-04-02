@@ -14,6 +14,7 @@ import {
   where,
   setDoc,
   getDocs,
+  DocumentData,
 } from '@firebaseApp';
 
 export const addDocument = async (collectionName: string, data: unknown) => {
@@ -41,6 +42,16 @@ export const getDocument = async (
     return null;
   }
 };
+
+export const getDocumentWithFilter = async (collectionName: string, field: string, operator: WhereFilterOp, value: string) => {
+  const q = query(collection(db, collectionName), where(field, operator, value))
+  const docSnap = await getDocs(q)
+  if (docSnap.empty) {
+    return null;
+  }
+
+  return docSnap.docs.map(doc => doc.data());
+}
 
 export const getAllDocumentsOFCollection = async (
   collectionName: string,
@@ -72,9 +83,9 @@ export const deleteDocument = async (
   await deleteDoc(doc(db, collectionName, documentId));
 };
 
-export const getRealTimeData = async (
+export const getRealTimeDataWithFilter = async (
   collectionName: string,
-  onUpdate: (data: unknown) => void,
+  onUpdate: (data: DocumentData) => void,
   field: string,
   operator: WhereFilterOp,
   value: string

@@ -14,8 +14,8 @@ import {
 import {
   addDocument,
   addDocumentWithId,
-  getAllDocumentsOFCollection,
   getDocument,
+  getDocumentWithFilter,
 } from '@helpers';
 
 export const useFirebaseAuth = () => {
@@ -24,11 +24,12 @@ export const useFirebaseAuth = () => {
     companyData: DocumentData
   ) => {
     try {
-      const allUsers = await getAllDocumentsOFCollection('users');
-      if (allUsers?.some((item) => item.email === userData.email)) {
+      const emailCheck = await getDocumentWithFilter("users", "email", "==", userData.email)
+      const phoneCheck = await getDocumentWithFilter("users", "phone", "==", userData.phone)
+      if (emailCheck) {
         throw 'User with this Email already Exists';
       }
-      if (allUsers?.some((item) => item.phone === userData.phone)) {
+      if (phoneCheck) {
         throw 'User with this Phone Number already Exists';
       }
       const createUser = await createUserWithEmailAndPassword(

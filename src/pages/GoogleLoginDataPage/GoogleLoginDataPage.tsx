@@ -1,4 +1,4 @@
-import { AuthButton, Input, PhoneNumberInput } from '@components';
+import { AuthButton, ErrorMessage, Input, PhoneNumberInput } from '@components';
 import { useAuth } from '@context';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { googleLoginDataForm, GoogleLoginDataFormSchema } from '@types';
@@ -87,9 +87,7 @@ export const GoogleLoginDataPage: React.FC = () => {
             </label>
           </div>
         </div>
-        {errorMessage.length > 0 && (
-          <p className="text-basicRed">{errorMessage}</p>
-        )}
+        <ErrorMessage error={errorMessage} />
         <AuthButton text="Update" />
       </form>
     </div>
