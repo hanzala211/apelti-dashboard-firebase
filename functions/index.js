@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 
 admin.initializeApp({
-	credential: admin.credential.cert(require('../firebase.json')),
+	credential: admin.credential.cert(require('../firebase.json.local')),
 });
 
 app.use(cors());
