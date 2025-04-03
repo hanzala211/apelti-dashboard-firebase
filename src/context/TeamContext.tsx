@@ -1,5 +1,7 @@
 import { useAuth } from '@context';
+import { DocumentData } from '@firebaseApp';
 import { toast } from '@helpers';
+import { useTeamHook } from '@hooks';
 import { teamServices } from '@services';
 import { IUser, TeamContextTypes } from '@types';
 import { createContext, ReactNode, useContext, useState } from 'react';
@@ -12,11 +14,14 @@ export const TeamProvider: React.FC<{ children: ReactNode }> = ({
   const { userData } = useAuth();
   const [editingUser, setEditingUser] = useState<IUser | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const { getTeamMembers } = useTeamHook()
+
 
   const addMember = async (sendData: unknown) => {
     try {
       setErrorMessage('');
       const response = await teamServices.addMember(sendData);
+      console.log(response)
       if (response.status === 200) {
         toast.success('Operation Successful', 'The new user has been successfully registered in the system.');
         return response.data.data;
@@ -32,15 +37,12 @@ export const TeamProvider: React.FC<{ children: ReactNode }> = ({
 
   const getMembers = async () => {
     try {
-      const response = await teamServices.getMember();
-      if (response.status === 200) {
-        return response.data.data.users.filter(
-          (item: IUser, index: number, self: IUser[]) =>
-            item._id !== userData?._id &&
-            self.findIndex((u) => u._id === item._id) === index
-        );
+      const response: IUser[] = await new Promise((resolve) => getTeamMembers({ adminId: userData?._id || "", onUpdate: (data: DocumentData) => resolve(data as IUser[]) }))
+      console.log(response)
+      if (response) {
+        return response
       }
-      return null;
+      return []
     } catch (error) {
       console.log(error);
 

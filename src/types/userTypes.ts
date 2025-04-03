@@ -1,3 +1,5 @@
+import { DocumentReference } from "@firebaseApp";
+
 export type Role = 'admin' | 'clerk' | 'approver' | 'accountant' | 'payer';
 
 export interface IUser {
@@ -7,7 +9,7 @@ export interface IUser {
   phone: string;
   password: string;
   role: Role;
-  company: string;
+  company: DocumentReference;
   forgotPasswordCode?: number | null;
   passwordResetCodeExpiry?: Date | null;
   _id: string;

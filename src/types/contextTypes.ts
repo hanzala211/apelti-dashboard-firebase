@@ -24,10 +24,6 @@ export interface InvoiceContextTypes {
   extractedData: Invoice | null;
   setExtractedData: React.Dispatch<React.SetStateAction<Invoice | null>>;
   getInvoices: () => Promise<Invoice[] | undefined>;
-  updateInvoice: (
-    invoiceId: string,
-    data: unknown
-  ) => Promise<Invoice | undefined>;
   formData: Invoice | null;
   setFormData: React.Dispatch<React.SetStateAction<Invoice | null>>;
   handleBtnClick: () => void;
@@ -36,8 +32,13 @@ export interface InvoiceContextTypes {
   setSelectedInvoice: React.Dispatch<React.SetStateAction<number | null>>;
   selectedData: Invoice | null;
   setSelectedData: React.Dispatch<React.SetStateAction<Invoice | null>>;
-  postInvoiceMutation: UseMutationResult<string | undefined, Error, DocumentData, unknown>;
-  updateInvoiceMutation: UseMutationResult<Invoice, Error, unknown, unknown>;
+  postInvoiceMutation: UseMutationResult<
+    string | undefined,
+    Error,
+    DocumentData,
+    unknown
+  >;
+  updateInvoiceMutation: UseMutationResult<void, Error, DocumentData, unknown>;
   deleteInvoiceMutation: UseMutationResult<void, Error, string, unknown>;
 }
 
@@ -65,7 +66,7 @@ export interface TeamContextTypes {
   setEditingUser: React.Dispatch<React.SetStateAction<IUser | null>>;
   updateUser: (userId: string, data: unknown) => Promise<IUser | null>;
   errorMessage: string;
-  getMembers: () => Promise<IUser[] | null>;
+  getMembers: () => Promise<IUser[] | undefined>;
 }
 
 export interface SettingContextTypes {

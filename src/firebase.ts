@@ -17,6 +17,7 @@ import {
 	FieldValue,
 	WhereFilterOp,
 	DocumentData,
+	DocumentReference
 } from 'firebase/firestore';
 import {
 	getAuth,
@@ -72,4 +73,4 @@ export {
 	GoogleAuthProvider
 };
 
-export type { WhereFilterOp, FieldValue, DocumentData };
+export type { WhereFilterOp, FieldValue, DocumentData, DocumentReference };

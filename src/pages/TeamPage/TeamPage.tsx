@@ -9,12 +9,15 @@ import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { TeamTable } from './components/TeamTable';
+import { useTeamHook } from '@hooks';
 
 export const TeamPage: React.FC = () => {
   const { userData } = useAuth();
+  const { getTeamMembers } = useTeamHook()
   const { addMember, deleteMember, editingUser, updateUser, getMembers } =
     useTeam();
   const queryClient = useQueryClient();
+
   const {
     register,
     control,
@@ -27,12 +30,14 @@ export const TeamPage: React.FC = () => {
       role: 'clerk',
     },
   });
+
   const { data: teamMembers, isLoading: isTeamLoading } = useQuery<
-    IUser[] | null
+    IUser[] | null | undefined
   >({
     queryKey: ['teamMembers'],
     queryFn: () => getMembers(),
   });
+
   const addUserMutation = useMutation({
     mutationFn: (sendData: unknown) => addMember(sendData),
     onSuccess() {
@@ -42,6 +47,7 @@ export const TeamPage: React.FC = () => {
       reset();
     },
   });
+
   const updateUserMutation = useMutation({
     mutationFn: (params: { userId: string; data: unknown }) =>
       updateUser(params.userId, params.data),
@@ -57,6 +63,7 @@ export const TeamPage: React.FC = () => {
       reset();
     },
   });
+
   const deleteUserMutation = useMutation({
     mutationFn: (params: { userId: string }) => deleteMember(params.userId),
     onSuccess: (_, params) => {
@@ -66,6 +73,7 @@ export const TeamPage: React.FC = () => {
     },
   });
 
+  console.log(teamMembers);
   const userPermissions =
     PERMISSIONS[userData?.role as keyof typeof PERMISSIONS];
 
@@ -90,8 +98,29 @@ export const TeamPage: React.FC = () => {
     }
   }, [editingUser, reset]);
 
-  const onSubmit: SubmitHandler<AddMemberFormSchema> = (data) => {
-    console.log('Form Data:', data);
+  useEffect(() => {
+    if (!userData?.company) return;
+
+    const unsubscribePromise = getTeamMembers({
+      adminId: userData._id, onUpdate: () => {
+        queryClient.invalidateQueries({ queryKey: ['teamMembers'] });
+      }
+    })
+
+    return () => {
+      unsubscribePromise.then((unsubscribe) => {
+        if (unsubscribe)
+          unsubscribe();
+      });
+    };
+  }, [userData?.company, queryClient]);
+
+  const onSubmit: SubmitHandler<AddMemberFormSchema> = (e) => {
+    console.log('Form Data:', e);
+    const data = {
+      ...e,
+      company: userData?.company.id,
+    };
     if (editingUser === null) {
       addUserMutation.mutate(data);
     } else {

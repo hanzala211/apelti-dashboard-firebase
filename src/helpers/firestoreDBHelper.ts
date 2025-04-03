@@ -47,7 +47,7 @@ export const getDocumentWithFilter = async (
   collectionName: string,
   field: string,
   operator: WhereFilterOp,
-  value: string
+  value: unknown
 ) => {
   const q = query(
     collection(db, collectionName),

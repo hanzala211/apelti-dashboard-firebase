@@ -3,9 +3,9 @@ import { sendRequest } from '@helpers';
 export const teamServices = {
   addMember: (data: unknown) =>
     sendRequest({
-      url: '/company/user',
+      url: '/user',
       data,
-      isAuthIncluded: true,
+      isAuthIncluded: false,
       method: 'POST',
     }),
   getMember: () =>

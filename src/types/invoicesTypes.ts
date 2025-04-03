@@ -30,7 +30,7 @@ export interface Invoice {
   __v?: number;
   termsOfPayment?: string,
   vendorId: string,
-  FiscalNumber: string,
+  fiscalNumber: string,
   vatNumber: string
 }
 

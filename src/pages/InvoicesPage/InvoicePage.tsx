@@ -24,12 +24,11 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { formatDate } from '@helpers';
 import { ReactSVG } from 'react-svg';
 import { MenuProps } from 'antd';
-import { DocumentData } from '@firebaseApp';
 import { useInvoicesHook } from '@hooks';
 
 export const InvoicePage: React.FC = () => {
   const { userData } = useAuth();
-  const { getInvoice } = useInvoicesHook()
+  const { getInvoiceItem } = useInvoicesHook()
   const {
     setIsInvoiceModelOpen,
     getInvoices,
@@ -70,15 +69,13 @@ export const InvoicePage: React.FC = () => {
   useEffect(() => {
     if (!userData?.company) return;
 
-    const unsubscribePromise = getInvoice((_data: DocumentData) => {
+    const unsubscribePromise = getInvoiceItem(() => {
       queryClient.invalidateQueries({ queryKey: ['invoices'] });
     }, userData.company);
 
     return () => {
       unsubscribePromise.then((unsubscribe) => {
-        if (typeof unsubscribe === 'function') {
-          unsubscribe();
-        }
+        unsubscribe();
       });
     };
   }, [userData?.company, queryClient]);

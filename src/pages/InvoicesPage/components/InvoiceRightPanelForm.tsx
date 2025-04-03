@@ -53,7 +53,7 @@ export const InvoiceRightPanelForm: React.FC = () => {
       setValue('poNumber', data.poNumber || '');
       setValue('currency', data.currency || CURRENCIES[0].value);
       setValue('supplierId', data.vendorId || '');
-      setValue('fiscalNumber', data.FiscalNumber || '');
+      setValue('fiscalNumber', data.fiscalNumber || '');
       setValue('paymentTermDescription', data.paymentTermDescription || '');
       setValue('comment', data.comment || '');
 

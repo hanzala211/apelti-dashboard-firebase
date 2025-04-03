@@ -1,9 +1,9 @@
 import { useAuth } from '@context';
 import { DocumentData } from '@firebaseApp';
-import { formatDate, handleFileChange, toast } from '@helpers';
+import { handleFileChange, toast } from '@helpers';
 import { useInvoicesHook } from '@hooks';
 import { invoiceServices } from '@services';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { Invoice, InvoiceContextTypes } from '@types';
 import {
   createContext,
@@ -31,11 +31,10 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
   const [selectedData, setSelectedData] = useState<Invoice | null>(null);
   const [formData, setFormData] = useState<Invoice | null>(null);
   const [selectedInvoice, setSelectedInvoice] = useState<number | null>(null);
-  const { createInvoice, getInvoice } = useInvoicesHook();
+  const { createInvoice, getInvoiceItem, updateInvoiceItem, deleteInvoiceItem } = useInvoicesHook();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formInputRef = useRef<HTMLInputElement>(null);
   const removeDataBtnRef = useRef<HTMLButtonElement>(null);
-  const queryClient = useQueryClient();
   const extractDataMutation = useMutation({
     mutationFn: () => extractData(),
   });
@@ -43,21 +42,18 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
   const postInvoiceMutation = useMutation({
     mutationFn: (data: DocumentData) => postInvoice(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['invoices'] });
       setExtractedData(null);
     },
   });
   const updateInvoiceMutation = useMutation({
-    mutationFn: (data: unknown) => updateInvoice(data),
+    mutationFn: (data: DocumentData) => updateInvoice(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['invoices'] });
       setExtractedData(null);
     },
   });
   const deleteInvoiceMutation = useMutation({
     mutationFn: (invoiceId: string) => deleteInvoice(invoiceId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['invoices'] });
       setIsInvoiceModelOpen(false);
       handleBtnClick();
     },
@@ -114,9 +110,9 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
   const getInvoices = async (): Promise<Invoice[]> => {
     try {
       const invoiceData: Invoice[] = await new Promise((resolve) => {
-        getInvoice((data: DocumentData) => {
+        getInvoiceItem((data: DocumentData) => {
           resolve(data as Invoice[]);
-        }, userData?.company || '');
+        }, userData?.company);
       });
       console.log(invoiceData);
       return invoiceData;
@@ -126,31 +122,11 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const updateInvoice = async (data: unknown) => {
+  const updateInvoice = async (data: DocumentData) => {
     try {
       const invoiceId = selectedData?._id || formData?._id || '';
-      const response = await invoiceServices.updateInvoice(invoiceId, data);
-      console.log(response);
-      setFormData({
-        supplierName: response.data.data.supplierName,
-        invoiceNumber: response.data.data.invoiceNumber,
-        poNumber: response.data.data.poNumber,
-        termsOfPayment: response.data.data.termsOfPayment,
-        invoiceDate: formatDate(response.data.data.invoiceDate),
-        paymentTerms: formatDate(response.data.data.paymentTerms),
-        amount: response.data.data.amount,
-        paymentTermDescription: response.data.data.paymentTermDescription,
-        currency: response.data.data.currency,
-        rarityInvoice: response.data.data.rarityInvoice,
-        comment: response.data.data.comment,
-        fileUrl: response.data.data.fileUrl || '',
-        FiscalNumber: response.data.data.FiscalNumber,
-        vatNumber: response.data.data?.vatNumber,
-        vendorId: response.data.data.vendorId || response.data.data?.vatNumber,
-        items: response.data.data?.items || [],
-        _id: response.data.data._id,
-      });
-      return response.data.data;
+      await updateInvoiceItem(data, invoiceId)
+      setFormData({ ...data, _id: invoiceId } as Invoice);
     } catch (error) {
       console.log(error);
     }
@@ -163,6 +139,7 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
       if (response) {
         console.log('getting response');
       }
+      setFormData({ ...data, _id: response } as Invoice);
       return response;
     } catch (error) {
       console.log(error);
@@ -175,13 +152,7 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
 
   const deleteInvoice = async (invoiceId: string) => {
     try {
-      const response = await invoiceServices.deleteInvoice(invoiceId);
-      if (response.status === 200) {
-        toast.success(
-          'Operation Successful',
-          'Invoice has been successfully deleted.'
-        );
-      }
+      await deleteInvoiceItem(invoiceId)
     } catch (error) {
       console.log(error);
     }
@@ -200,7 +171,6 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({
         extractDataMutation,
         extractedData,
         getInvoices,
-        updateInvoice,
         handleFormClick,
         formInputRef,
         formData,

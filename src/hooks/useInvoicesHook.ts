@@ -1,5 +1,5 @@
 import { DocumentData } from '@firebaseApp';
-import { addDocument, getRealTimeDataWithFilter } from '@helpers';
+import { addDocument, deleteDocument, getRealTimeDataWithFilter, updateDocument } from '@helpers';
 
 export const useInvoicesHook = () => {
   const createInvoice = async (invoiceData: DocumentData) => {
@@ -33,9 +33,9 @@ export const useInvoicesHook = () => {
     }
   };
 
-  const getInvoice = (
+  const getInvoiceItem = (
     onUpdate: (data: DocumentData) => void,
-    companyId: string
+    companyId?: unknown
   ) => {
     const unsubscribe = getRealTimeDataWithFilter(
       'invoices',
@@ -47,7 +47,23 @@ export const useInvoicesHook = () => {
     return unsubscribe
   };
 
+  const updateInvoiceItem = async (data: DocumentData, invoiceID: string) => {
+    try {
+      await updateDocument("invoices", invoiceID, data)
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
 
+  const deleteInvoiceItem = async (invoiceId: string) => {
+    try {
+      await deleteDocument("invoices", invoiceId)
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
 
-  return { createInvoice, getInvoice };
+  return { createInvoice, getInvoiceItem, updateInvoiceItem, deleteInvoiceItem };
 };
