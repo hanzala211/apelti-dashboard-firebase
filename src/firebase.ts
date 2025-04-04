@@ -31,7 +31,7 @@ import {
 	browserLocalPersistence,
 	browserSessionPersistence,
 } from 'firebase/auth';
-
+import { connectFunctionsEmulator, getFunctions, httpsCallable } from "firebase/functions"
 const firebaseConfig = {
 	apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
 	authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -45,8 +45,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+const functions = getFunctions(app);
+
+connectFunctionsEmulator(functions, "localhost", 5001);
 
 export {
+	httpsCallable,
 	db,
 	auth,
 	createUserWithEmailAndPassword,
@@ -70,7 +74,8 @@ export {
 	setPersistence,
 	browserLocalPersistence,
 	browserSessionPersistence,
-	GoogleAuthProvider
+	GoogleAuthProvider,
+	functions
 };
 
 export type { WhereFilterOp, FieldValue, DocumentData, DocumentReference };

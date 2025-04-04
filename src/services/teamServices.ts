@@ -1,25 +1,25 @@
+import { functions, httpsCallable } from '@firebaseApp';
 import { sendRequest } from '@helpers';
 
 export const teamServices = {
-  addMember: (data: unknown) =>
-    sendRequest({
-      url: '/user',
-      data,
-      isAuthIncluded: false,
-      method: 'POST',
-    }),
-  getMember: () =>
-    sendRequest({
-      url: '/company/users',
-      isAuthIncluded: true,
-      method: 'GET',
-    }),
-  deleteMember: (userId: string) =>
-    sendRequest({
-      url: `/user/${userId}`,
-      isAuthIncluded: false,
-      method: 'DELETE',
-    }),
+  addMember: async (data: Record<string, unknown>) => {
+    try {
+      const response = await httpsCallable(functions, "createUser")({ ...data })
+      return response
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  },
+  deleteMember: async (userId: string) => {
+    try {
+      const response = await httpsCallable(functions, "deleteUser")(userId)
+      return response
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  },
   updateMember: (userId: string, data: unknown) =>
     sendRequest({
       url: `/company/user/${userId}`,

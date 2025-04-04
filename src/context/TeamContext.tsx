@@ -17,14 +17,14 @@ export const TeamProvider: React.FC<{ children: ReactNode }> = ({
   const { getTeamMembers } = useTeamHook()
 
 
-  const addMember = async (sendData: unknown) => {
+  const addMember = async (sendData: Record<string, unknown>) => {
     try {
       setErrorMessage('');
       const response = await teamServices.addMember(sendData);
       console.log(response)
-      if (response.status === 200) {
+      if (response.data) {
         toast.success('Operation Successful', 'The new user has been successfully registered in the system.');
-        return response.data.data;
+        return response.data as IUser;
       }
       return null;
     } catch (error) {

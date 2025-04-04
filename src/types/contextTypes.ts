@@ -60,7 +60,7 @@ export interface AuthContextTypes {
 }
 
 export interface TeamContextTypes {
-  addMember: (sendData: unknown) => Promise<IUser | null>;
+  addMember: (sendData: Record<string, unknown>) => Promise<IUser | null | undefined>;
   deleteMember: (userId: string) => Promise<null | undefined>;
   editingUser: IUser | null;
   setEditingUser: React.Dispatch<React.SetStateAction<IUser | null>>;
