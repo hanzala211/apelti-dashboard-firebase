@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 
 admin.initializeApp({
-	credential: admin.credential.cert(require('../firebase.json.local')),
+	credential: admin.credential.cert(require('../firebase.json')),
 });
 
 app.use(cors());
@@ -74,6 +74,45 @@ app.post('/user', async (req, res) => {
 	} catch (error) {
 		console.log(error);
 		return res.status(500).send('Server Error');
+	}
+});
+
+app.delete('/user/:userId', async (req, res) => {
+	try {
+		const userId = req.params.userId;
+
+		await admin.auth().deleteUser(userId);
+		console.log(`User with ID ${userId} deleted from Authentication`);
+
+		const userDocRef = admin.firestore().collection('users').doc(userId);
+		const getUserDoc = await userDocRef.get();
+
+		if (!getUserDoc.exists) {
+			return res.status(404).json({ error: 'User not found in Firestore' });
+		}
+
+		const userData = getUserDoc.data();
+		const companyRef = admin
+			.firestore()
+			.collection('company')
+			.doc(userData.company.id);
+		if (!companyRef) {
+			return res.status(404).json({ error: 'Company not found' });
+		}
+		await companyRef.update({
+			users: admin.firestore.FieldValue.arrayRemove(userDocRef),
+		});
+
+		await userDocRef.delete();
+		console.log(`User document ${userId} deleted from Firestore`);
+
+		return res.status(200).json({
+			status: 'Success',
+			message: 'User Deleted Successfully',
+		});
+	} catch (error) {
+		console.error('Error deleting user:', error);
+		return res.status(500).json({ error: error.message });
 	}
 });
 

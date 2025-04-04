@@ -16,8 +16,8 @@ export const teamServices = {
     }),
   deleteMember: (userId: string) =>
     sendRequest({
-      url: `/company/user/${userId}`,
-      isAuthIncluded: true,
+      url: `/user/${userId}`,
+      isAuthIncluded: false,
       method: 'DELETE',
     }),
   updateMember: (userId: string, data: unknown) =>

@@ -86,6 +86,7 @@ export const TeamTable: React.FC<TeamTableProps> = ({
             ))
             : teamMembers &&
             teamMembers.map((item, index) => (
+              item &&
               <tr
                 key={index}
                 className="border-y border-silverGray even:bg-basicWhite odd:bg-paleGray"
@@ -113,8 +114,8 @@ export const TeamTable: React.FC<TeamTableProps> = ({
                     </td>
                     <td
                       className={`px-4 py-2 text-sm text-basicRed ${deleteUserMutation.isPending
-                          ? 'cursor-not-allowed opacity-50'
-                          : ''
+                        ? 'cursor-not-allowed opacity-50'
+                        : ''
                         }`}
                       onClick={() => {
                         if (!deleteUserMutation.isPending)

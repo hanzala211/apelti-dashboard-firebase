@@ -73,7 +73,6 @@ export const TeamPage: React.FC = () => {
     },
   });
 
-  console.log(teamMembers);
   const userPermissions =
     PERMISSIONS[userData?.role as keyof typeof PERMISSIONS];
 
