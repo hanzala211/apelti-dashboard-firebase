@@ -153,6 +153,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setIsAuthLoading(true);
       const userData = {
         _id: newGoogleAcc.user.uid,
+        email: newGoogleAcc.user.email,
         firstName: newGoogleAcc._tokenResponse.firstName,
         lastName: newGoogleAcc._tokenResponse.lastName,
         createdAt: Timestamp.now(),

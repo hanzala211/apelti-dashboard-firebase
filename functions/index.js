@@ -145,3 +145,51 @@ module.exports.deleteUser = onRequest((request, response) => {
 		}
 	});
 });
+
+module.exports.updateUser = onRequest((request, response) => {
+	corsMiddleware(request, response, async () => {
+		if (request.method !== 'POST') {
+			return response.status(405).send('Only POST requests are accepted');
+		}
+
+		try {
+			const data = request.body?.data;
+
+			if (!data || !data.userId || !data.email) {
+				return response.status(400).json({
+					status: 'Error',
+					message: 'Missing required user fields',
+				});
+			}
+
+			console.log(data.email);
+
+			const { userId, ...userData } = data;
+
+			await admin.auth().updateUser(userId, {
+				email: userData.email,
+				emailVerified: true,
+				displayName: `${userData.firstName} ${userData.lastName}`,
+				disabled: false,
+			});
+
+			await admin.firestore().collection('users').doc(userId).update({
+				email: userData.email,
+				firstName: userData.firstName,
+				lastName: userData.lastName,
+				role: userData.role,
+				phone: userData.phone,
+			});
+
+			return response.json({
+				status: 'Updated',
+				data: 'User Updated Successfully',
+			});
+		} catch (error) {
+			console.error('Error updating user:', error);
+			return response
+				.status(500)
+				.json({ status: 'Error', message: error.message });
+		}
+	});
+});

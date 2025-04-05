@@ -1,5 +1,4 @@
 import { functions, httpsCallable } from '@firebaseApp';
-import { sendRequest } from '@helpers';
 
 export const teamServices = {
   addMember: async (data: Record<string, unknown>) => {
@@ -20,11 +19,13 @@ export const teamServices = {
       throw error
     }
   },
-  updateMember: (userId: string, data: unknown) =>
-    sendRequest({
-      url: `/company/user/${userId}`,
-      isAuthIncluded: true,
-      data,
-      method: 'PUT',
-    }),
+  updateMember: async (userId: string, data: unknown) => {
+    try {
+      const response = await httpsCallable(functions, "updateUser")({ ...data as Record<string, unknown>, userId })
+      return response
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
 };
